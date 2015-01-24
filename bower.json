@@ -1,0 +1,28 @@
+{
+  "name": "speakur-discussion",
+  "version": "0.0.1",
+  "authors": [
+    "Preston Landers <planders@utexas.edu>"
+  ],
+  "description": "Provides a discussion forum for any article or other web resource.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "forum",
+	"discussion"
+  ],
+  "main": "speakur-discussion.html",
+  "license": "MIT",
+  "homepage": "https://github.com/Preston-Landers/speakur-discussion/",
+  "ignore": [
+    "/.*",
+    "/tests/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.5.2"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^2.0.5"
+  }
+}
