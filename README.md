@@ -1,5 +1,9 @@
-seed-element
-============
+speakur-discussion
+==================
+
+Provides a real-time discussion forum for any web resource. Simple to use; no server required.
+
+NOTE: The rest of this document has been auto-generated. I need to update it.
 
 See the [component page](http://polymerlabs.github.io/seed-element) for more information.
 
@@ -18,7 +22,7 @@ python -m SimpleHTTPServer
 Or other method using NodeJS:
 
 ```sh
-http-server ./
+http-server -p 8000 ./
 ```
 
 This starts a web server on port 8000, so you can test your new element by navigating a browser to `localhost:8000/test/index.html`.

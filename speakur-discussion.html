@@ -1,6 +1,7 @@
 <!--
     @license
-    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+    Copyright (c) 2015 Preston Landers <planders@utexas.edu>. All rights reserved.
+    Additional portions Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
     This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
     The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
     The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
@@ -10,88 +11,145 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <!--
-Element providing solution to no problem in particular.
+This is a Web Component-based custom HTML element that provides a
+user friendly discussion forum for any web resource without requiring
+a dedicated server.
 
 ##### Example
 
-    <speakur-discussion></speakur-discussion>
+    <speakur-discussion
+        xtitle="12 Crazy Tricks That Cable Companies Hate!"
+        theme="dark"
+        moderator="example_moderator_1">
+    </speakur-discussion>
+
+##### Requirements
+
+To embed a Speakur discussion within a web page, you must do three things:
+
+1) Enable W3C Web Components via the Polymer script webcomponents.js
+
+    <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+
+2) Use HTML Imports to bring in the `<speakur-discussion>` element
+
+    <link rel="import" href="bower_components/speakur-discussion/speakur-discussion.html">
+
+3) Place the `<speakur-discussion>` element somewhere in the page as shown above.
+
+TODO: link to detailed instructions on using bower_components
 
 @element speakur-discussion
-@blurb Element providing solution to no problem in particular.
+@blurb Provides an embeddable real-time discussion forum for a web resource.
 @status alpha
-@homepage http://polymerlabs.github.io/speakur-discussion
+@homepage https://github.com/Preston-Landers/speakur-discussion
 -->
-<polymer-element name="speakur-discussion" attributes="notitle author">
+<polymer-element name="speakur-discussion" attributes="theme href moderators xtitle">
 
-  <template>
+    <template>
 
-    <link rel="stylesheet" href="speakur-discussion.css">
+        <link rel="stylesheet" href="speakur-discussion.css">
+        <h1>{{xtitle}}</h1>
+        <content></content>
+        <P>
+            Theme: {{theme}}
+        </P>
 
-    <h1>Hello from speakur-discussion</h1>
-    <content></content>
+        <P>
+            Href: {{href}}
+        </P>
 
-  </template>
+        <P>
+            Moderators: {{moderators}}
+        </P>
 
-  <script>
+    </template>
 
-    Polymer({
-      /**
-       * The `author` attribute sets an initial author
-       *
-       * @attribute author
-       * @type string
-       * @default 'Dimitri Glazkov'
-       */
-      author: 'Dimitri Glazkov',
+    <script>
 
-      /**
-       * `fancy` is a property that does something fancy.
-       *
-       * @property fancy
-       * @type bool
-       * @default false
-       */
-      fancy: false,
+        Polymer({
+            /**
+             * The `xtitle` attribute determines the title of the discussion. Defaults to the containing
+             * page's title.
+             *
+             * Note that I can't name this title due to it being a built in HTML attribute apparently...?
+             *
+             * @attribute xtitle
+             * @type string
+             * @default window.document.title
+             */
+            xtitle: window.document.title,
 
-      ready: function() {
-        // Ready is a lifecycle callback.
-        // You can do setup work in here.
-        // More info: http://www.polymer-project.org/docs/polymer/polymer.html#lifecyclemethods
-      },
+            /**
+             * The `href` attribute determines the "target" of the discussion. Defaults to the containing page's location.
+             *
+             * @attribute href
+             * @type string
+             * @default window.location
+             */
+            href: window.location,
 
-      /**
-       * The `sayHello` method will return a greeting.
-       *
-       * @method sayHello
-       * @param {String} greeting Pass in a specific greeting.
-       * @return {String} Returns a string greeting.
-       */
-      sayHello: function(greeting) {
-        var response = greeting || 'Hello World!';
-        return 'speakur-discussion says, ' + response;
-      },
+            /**
+             * The `theme` attribute determines the style or look and feel of the discussion box.
+             *
+             * @attribute theme
+             * @type string
+             * @default (a default theme)
+             */
+            theme: 'default',
 
-      /**
-       * The `speakur-discussion-lasers-success` event is fired whenever we
-       * call fireLasers.
-       *
-       * @event speakur-discussion-lasers-success
-       * @param {Object} detail
-       *   @param {string} detail.sound An amazing sound.
-       */
+            /**
+             * The `moderators` attribute determines the users who are allowed to moderate this forum. The users are
+             * represented as Firebase User IDs, comma separated.
+             *
+             * (TODO: non functional!)
+             *
+             * @attribute moderators
+             * @type string
+             * @default (None)
+             */
+            moderators: '',
 
-      /**
-       * The `fireLasers` method will fire the lasers. At least
-       * it will dispatch an event that claims lasers were fired :)
-       *
-       * @method fireLasers
-       */
-      fireLasers: function() {
-        this.fire('speakur-discussion-lasers-success', { sound: 'Pew pew pew!' });
-      }
+            ready: function () {
+                // Ready is a lifecycle callback.
+                // You can do setup work in here.
+                // More info: http://www.polymer-project.org/docs/polymer/polymer.html#lifecyclemethods
+                // this.title = 'ok?';
+            },
 
-    });
+            /**
+             * The `sayHello` method will return a greeting.
+             *
+             * @method sayHello
+             * @param {String} greeting Pass in a specific greeting.
+             * @return {String} Returns a string greeting.
+             */
+            sayHello: function (greeting) {
+                var response = greeting || 'Hello World!';
+                return 'speakur-discussion says, ' + response;
+            },
 
-  </script>
+            /**
+             * The `speakur-discussion-lasers-success` event is fired whenever we
+             * call fireLasers.
+             *
+             * @event speakur-discussion-lasers-success
+             * @param {Object} detail
+             *   @param {string} detail.sound An amazing sound.
+             */
+
+            /**
+             * The `fireLasers` method will fire the lasers. At least
+             * it will dispatch an event that claims lasers were fired :)
+             *
+             * @method fireLasers
+             */
+            fireLasers: function () {
+                this.fire('speakur-discussion-lasers-success', {sound: 'Pew pew pew!'});
+            }
+
+        });
+
+    </script>
 
 </polymer-element>

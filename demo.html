@@ -10,20 +10,35 @@
 <!doctype html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <title>seed-element Demo</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>speakur-discussion Demo</title>
 
-  <script src="../webcomponentsjs/webcomponents.min.js"></script>
-  <link rel="import" href="seed-element.html">
+    <script src="../webcomponentsjs/webcomponents.min.js"></script>
+    <link rel="import" href="speakur-discussion.html">
 
 </head>
 <body unresolved>
 
-  <p>An example of using <code>&lt;seed-element&gt;</code>:</p>
+<p>An example of using <code>&lt;speakur-discussion&gt;</code>:</p>
 
-  <seed-element>
-    <h2>Hello seed-element</h2>
-  </seed-element>
+<p>This page represents some web content such as an article, a blog post, or any other resource with a URL. It can be a
+    either a static resource or a place within a dynamic web app.</p>
+
+<p>Inside the page we wish to embed a discussion forum so users can post their reactions, feedback, etc. That is where
+    Speakur comes in. It provides an easily embeddable discussion forum by providing a custom HTML tag that can be
+    inserted anywhere in the page.</p>
+
+<p>
+    Here's an example of how it works:
+</p>
+
+<speakur-discussion theme="dark" xtitle="12 Crazy MS Reports That Will Blow Your Mind">
+</speakur-discussion>
+
+<p>
+    This part belongs to the containing page.
+</p>
+
 
 </body>
 </html>
