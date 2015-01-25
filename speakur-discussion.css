@@ -39,7 +39,7 @@ polyfill-next-selector {
 
 .speakur-container {
     border-color: black;
-    border-size: 3px;
+    border-width: 3px;
     border-style: solid;
     max-width: 900px;
 
@@ -57,6 +57,7 @@ polyfill-next-selector {
     padding: 0 0;
 }
 
+
 paper-icon-button /deep/ core-icon[role=img] {
     width: 18px;
     height: 18px;
@@ -65,9 +66,27 @@ paper-icon-button /deep/ core-icon[role=img] {
 }
 
 .speakur-body-container {
-    margin: 10px;
+    margin: 4px;
+    padding: 8px;
+
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
 }
 
 speakur-toolbar paper-icon-button {
     padding: 4px;
+}
+
+#helpbutton {
+    color: blue;
+}
+
+#reportbutton {
+    color: #807507;
 }

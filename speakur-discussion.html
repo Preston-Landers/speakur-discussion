@@ -12,10 +12,7 @@
 <link rel="import" href="../core-scaffold/core-scaffold.html">
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
-<!--
-<link rel="import" href="../core-menu/core-menu.html">
-<link rel="import" href="../core-item/core-item.html">
--->
+<link rel="import" href="../paper-toast/paper-toast.html">
 <link rel="import" href="../font-roboto/roboto.html">
 
 <!-- NOTE: the presence of this plugin on the page with Firefox + Ad Block Plus plugin
@@ -72,11 +69,13 @@ TODO: link to detailed instructions on using bower_components
         <firebase-login id="baseLogin" user="{{user}}" statusKnown="{{statusKnown}}" location="{{firebaseLocation}}"
                         provider="google" on-login="{{onLogin}}" on-error="{{onLoginError}}"></firebase-login>
 
+        <paper-toast text="This feature is not implemented yet." id="nyi-toast"></paper-toast>
+
         <div class="speakur-container {{ closed ? 'closed' : '' }}">
 
             <template if="{{closed}}">
                 <speakur-toolbar class="speakur-closed-bar">
-                    <paper-icon-button icon="speaker-notes" on-click="{{toggle}}" >
+                    <paper-icon-button icon="speaker-notes" on-click="{{toggle}}">
                     </paper-icon-button>
                     <paper-button flex on-click="{{toggle}}" class="speakur-toggle-button">
                         View Comments ({{numComments}})
@@ -93,15 +92,20 @@ TODO: link to detailed instructions on using bower_components
                         <paper-icon-button
                                 title="Hide"
                                 icon="remove-circle"
-                                on-click="{{toggle}}" class="speakur-toggle-button">
+                                on-click="{{toggle}}" class="speakur-toggle-button speakur-close-button">
                         </paper-icon-button>
                         <div flex class="speakur-header-titlebox">
                             {{xtitle}}
                         </div>
                         <paper-icon-button id="searchbutton"
+                                           on-click="{{search}}"
                                            icon="search"></paper-icon-button>
                         <paper-icon-button id="profilebutton"
+                                           on-click="{{login}}"
                                            icon="social:person"></paper-icon-button>
+                        <paper-icon-button id="menubutton"
+                                           on-click="{{menu}}"
+                                           icon="menu"></paper-icon-button>
                     </speakur-toolbar>
 
 
@@ -113,20 +117,19 @@ TODO: link to detailed instructions on using bower_components
                     </div>
 
                     <speakur-toolbar class="speakur-footer-bar">
-                        <paper-icon-button
-                                id="helpbutton"
-                                title="Help / About"
-                                icon="help">
-                        </paper-icon-button>
-                        <div flex>
-                            Copyright &copy; 2015 Preston Landers
+                        <div flex style="margin-left: 8px;">
+                            <!--Questionable where we want to put this, if anywhere.-->
+                            <content></content>
+
                         </div>
-
-                        <!--Questionable where we want to put this, if anywhere.-->
-                        <content></content>
-
+                        <div class="speakur-copyright">
+                            <small>
+                                Copyright &copy; 2015 Preston Landers
+                            </small>
+                        </div>
                         <paper-icon-button
                                 id="reportbutton"
+                                on-click="{{reportProblem}}"
                                 title="Report a problem."
                                 icon="report-problem">
                         </paper-icon-button>
@@ -254,8 +257,35 @@ TODO: link to detailed instructions on using bower_components
 
             toggle: function () {
                 this.closed = !this.closed;
-                console.log("Speakur discussion toggled.");
+                // console.log("Speakur discussion toggled.");
+            },
+
+            search: function () {
+                console.log("Search clicked.");
+                this.$['nyi-toast'].show();
+            },
+
+            menu: function () {
+                console.log("Menu clicked.");
+                this.$['nyi-toast'].show();
+            },
+
+            reportProblem: function () {
+                console.log("Report Problem clicked.");
+                this.$['nyi-toast'].show();
+            },
+
+            login: function () {
+                console.log("Login clicked.");
+                this.$['nyi-toast'].show();
+            },
+
+            logout: function () {
+                console.log("Logout clicked.");
+                this.$['nyi-toast'].show();
             }
+
+
 
         });
 
