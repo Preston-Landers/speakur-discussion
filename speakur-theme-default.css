@@ -1,6 +1,14 @@
 
 .speakur-container {
+/*
     border-color: #004444;
+*/
+    border-color: #a0c094;
     background-color: #008800;
     color: white;
+}
+
+speakur-toolbar /deep/ .toolbar-border {
+    background-color: #c8e8bd;
+    color: #4a5746;
 }

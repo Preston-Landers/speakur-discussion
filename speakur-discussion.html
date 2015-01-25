@@ -10,15 +10,22 @@
 -->
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../core-scaffold/core-scaffold.html">
+<link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <!--
 <link rel="import" href="../core-menu/core-menu.html">
 <link rel="import" href="../core-item/core-item.html">
 -->
+<link rel="import" href="../font-roboto/roboto.html">
 
+<!-- NOTE: the presence of this plugin on the page with Firefox + Ad Block Plus plugin
+     will cause the entire page to not load.-->
+<link rel="import" href="../core-icons/social-icons.html">
 
 <link rel="import" href="../firebase-element/firebase-element.html">
 <link rel="import" href="../firebase-element/firebase-login.html">
+
+<link rel="import" href="elements/speakur-toolbar.html">
 
 <!--
 This is a Web Component-based custom HTML element that provides a
@@ -57,55 +64,75 @@ TODO: link to detailed instructions on using bower_components
 <polymer-element name="speakur-discussion" attributes="theme href moderators xtitle firebaseLocation">
 
     <template>
+        <!-- Congratulations, you have found the secret message. -->
+
         <link rel="stylesheet" href="speakur-discussion.css"/>
         <link id="speakur-theme" rel="stylesheet" href="speakur-theme-default.css"/>
 
         <firebase-login id="baseLogin" user="{{user}}" statusKnown="{{statusKnown}}" location="{{firebaseLocation}}"
                         provider="google" on-login="{{onLogin}}" on-error="{{onLoginError}}"></firebase-login>
 
-        <!--
-                <core-header-panel flex>
-                    <core-toolbar id="mainheader">
-                        <paper-icon-button id="navicon"
-                                           icon="arrow-back"></paper-icon-button>
-                        <span flex>{{xtitle}}</span>
-                        <paper-icon-button id="searchbutton"
-                                           icon="search"></paper-icon-button>
-                    </core-toolbar>
-                    <p>Sample content.</p>
-
-                    <p>Sample content.</p>
-                </core-header-panel>
-        -->
-
-
-        <!--
-                <h1>{{xtitle}}</h1>
-                <content></content>
-                <P>
-                    Theme: {{theme}}
-                </P>
-
-                <P>
-                    Href: {{href}}
-                </P>
-
-                <P>
-                    Moderators: {{moderators}}
-                </P>
-        -->
-
         <div class="speakur-container {{ closed ? 'closed' : '' }}">
 
             <template if="{{closed}}">
-                <button on-click="{{toggle}}" class="speakur-open-button">View Comments</button>
+                <speakur-toolbar class="speakur-closed-bar">
+                    <paper-icon-button icon="speaker-notes" on-click="{{toggle}}" >
+                    </paper-icon-button>
+                    <paper-button flex on-click="{{toggle}}" class="speakur-toggle-button">
+                        View Comments ({{numComments}})
+                    </paper-button>
+                    <paper-icon-button id="closedprofilebutton"
+                                       icon="social:person"></paper-icon-button>
+                </speakur-toolbar>
+
 
             </template>
             <template if="{{!closed}}">
-                <button on-click="{{toggle}}" class="speakur-close-button">Hide</button>
-                <div>
-                    I'm open!
+                <div vertical layout class="speakur-open-layout">
+                    <speakur-toolbar class="speakur-header-bar">
+                        <paper-icon-button
+                                title="Hide"
+                                icon="remove-circle"
+                                on-click="{{toggle}}" class="speakur-toggle-button">
+                        </paper-icon-button>
+                        <div flex class="speakur-header-titlebox">
+                            {{xtitle}}
+                        </div>
+                        <paper-icon-button id="searchbutton"
+                                           icon="search"></paper-icon-button>
+                        <paper-icon-button id="profilebutton"
+                                           icon="social:person"></paper-icon-button>
+                    </speakur-toolbar>
+
+
+                    <div class="speakur-body-container">
+                        <div>Body</div>
+                        <div>
+                            I'm open!
+                        </div>
+                    </div>
+
+                    <speakur-toolbar class="speakur-footer-bar">
+                        <paper-icon-button
+                                id="helpbutton"
+                                title="Help / About"
+                                icon="help">
+                        </paper-icon-button>
+                        <div flex>
+                            Copyright &copy; 2015 Preston Landers
+                        </div>
+
+                        <!--Questionable where we want to put this, if anywhere.-->
+                        <content></content>
+
+                        <paper-icon-button
+                                id="reportbutton"
+                                title="Report a problem."
+                                icon="report-problem">
+                        </paper-icon-button>
+                    </speakur-toolbar>
                 </div>
+
             </template>
 
         </div>
@@ -168,6 +195,23 @@ TODO: link to detailed instructions on using bower_components
              */
             firebaseLocation: 'https://speakur.firebaseio.com',
 
+            /**
+             * numComments is the number of comments currently available at this location.
+             *
+             * @property numComments
+             * @type int
+             * @default number of comments at this location
+             */
+            numComments: 0,
+
+
+            /**
+             * This is true when the discussion widget is closed (collapsed).
+             *
+             * @property closed
+             * @type boolean
+             * @default true if the discussion is in the closed (collapsed) state
+             */
             closed: true,
 
             ready: function () {

@@ -11,11 +11,15 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>speakur-discussion Demo</title>
+    <title>speakur-discussion Element Demo</title>
 
     <script src="../webcomponentsjs/webcomponents.min.js"></script>
     <link rel="import" href="speakur-discussion.html">
-
+    <style>
+        body {
+            font-family: Comic Sans MS, sans-serif;
+        }
+    </style>
 </head>
 <body unresolved>
 
@@ -28,14 +32,13 @@
     Speakur comes in. It provides an easily embeddable discussion forum by providing a custom HTML tag that can be
     inserted anywhere in the page.</p>
 
-<p>
-    <div>
+<div>
     Here's an example of how it works:
-    </div>
-</p>
+</div>
 
 <div style="margin: 20px;">
-    <speakur-discussion theme="dark" xtitle="13 Crazy MS Reports That Will Blow Your Mind">
+    <speakur-discussion theme="dark">
+        Hello?
     </speakur-discussion>
 </div>
 
