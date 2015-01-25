@@ -9,6 +9,16 @@
     subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-scaffold/core-scaffold.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<!--
+<link rel="import" href="../core-menu/core-menu.html">
+<link rel="import" href="../core-item/core-item.html">
+-->
+
+
+<link rel="import" href="../firebase-element/firebase-element.html">
+<link rel="import" href="../firebase-element/firebase-login.html">
 
 <!--
 This is a Web Component-based custom HTML element that provides a
@@ -44,24 +54,61 @@ TODO: link to detailed instructions on using bower_components
 @status alpha
 @homepage https://github.com/Preston-Landers/speakur-discussion
 -->
-<polymer-element name="speakur-discussion" attributes="theme href moderators xtitle">
+<polymer-element name="speakur-discussion" attributes="theme href moderators xtitle firebaseLocation">
 
     <template>
+        <link rel="stylesheet" href="speakur-discussion.css"/>
+        <link id="speakur-theme" rel="stylesheet" href="speakur-theme-default.css"/>
 
-        <link rel="stylesheet" href="speakur-discussion.css">
-        <h1>{{xtitle}}</h1>
-        <content></content>
-        <P>
-            Theme: {{theme}}
-        </P>
+        <firebase-login id="baseLogin" user="{{user}}" statusKnown="{{statusKnown}}" location="{{firebaseLocation}}"
+                        provider="google" on-login="{{onLogin}}" on-error="{{onLoginError}}"></firebase-login>
 
-        <P>
-            Href: {{href}}
-        </P>
+        <!--
+                <core-header-panel flex>
+                    <core-toolbar id="mainheader">
+                        <paper-icon-button id="navicon"
+                                           icon="arrow-back"></paper-icon-button>
+                        <span flex>{{xtitle}}</span>
+                        <paper-icon-button id="searchbutton"
+                                           icon="search"></paper-icon-button>
+                    </core-toolbar>
+                    <p>Sample content.</p>
 
-        <P>
-            Moderators: {{moderators}}
-        </P>
+                    <p>Sample content.</p>
+                </core-header-panel>
+        -->
+
+
+        <!--
+                <h1>{{xtitle}}</h1>
+                <content></content>
+                <P>
+                    Theme: {{theme}}
+                </P>
+
+                <P>
+                    Href: {{href}}
+                </P>
+
+                <P>
+                    Moderators: {{moderators}}
+                </P>
+        -->
+
+        <div class="speakur-container {{ closed ? 'closed' : '' }}">
+
+            <template if="{{closed}}">
+                <button on-click="{{toggle}}" class="speakur-open-button">View Comments</button>
+
+            </template>
+            <template if="{{!closed}}">
+                <button on-click="{{toggle}}" class="speakur-close-button">Hide</button>
+                <div>
+                    I'm open!
+                </div>
+            </template>
+
+        </div>
 
     </template>
 
@@ -91,10 +138,11 @@ TODO: link to detailed instructions on using bower_components
 
             /**
              * The `theme` attribute determines the style or look and feel of the discussion box.
+             * Available themes are: default (TODO)
              *
              * @attribute theme
              * @type string
-             * @default (a default theme)
+             * @default 'default' (a default theme)
              */
             theme: 'default',
 
@@ -109,6 +157,18 @@ TODO: link to detailed instructions on using bower_components
              * @default (None)
              */
             moderators: '',
+
+            /**
+             * The `firebaseLocation` attribute determines the source database URL for the comments. A default
+             * database will be used if none is provided.
+             *
+             * @attribute firebaseLocation
+             * @type string
+             * @default (a suitable default is provided)
+             */
+            firebaseLocation: 'https://speakur.firebaseio.com',
+
+            closed: true,
 
             ready: function () {
                 // Ready is a lifecycle callback.
@@ -146,6 +206,11 @@ TODO: link to detailed instructions on using bower_components
              */
             fireLasers: function () {
                 this.fire('speakur-discussion-lasers-success', {sound: 'Pew pew pew!'});
+            },
+
+            toggle: function () {
+                this.closed = !this.closed;
+                console.log("Speakur discussion toggled.");
             }
 
         });

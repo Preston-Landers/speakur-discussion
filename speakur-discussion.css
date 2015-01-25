@@ -9,7 +9,13 @@
  */
 
 :host {
-  display: block;
+    display: block;
+    opacity: 1;
+    transition: opacity 300ms;
+}
+
+:host:unresolved {
+    opacity: 0;
 }
 
 /* To ensure your styling works under the Shadow DOM polyfill, see
@@ -17,4 +23,22 @@
 polyfill-next-selector { content: ':host > h2'; }
 ::content h2 {
   color: blue;
+}
+
+.speakur-container {
+    border: 3px solid black;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+
+    padding: 8px;
+}
+
+.speakur-container.closed {
+    max-width: 500px;
+}
+
+.speakur-open-button {
+    width: 100%;
 }
