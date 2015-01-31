@@ -70,6 +70,9 @@ TODO: link to detailed instructions on using bower_components
 
         <firebase-login id="baseLogin" user="{{user}}" statusKnown="{{statusKnown}}" location="{{firebaseLocation}}"
                         provider="google" on-login="{{onLogin}}" on-error="{{onLoginError}}"></firebase-login>
+        <firebase-element
+                id="dbThread" location="{{firebaseLocation + '/threads/' + threadId }}"
+                data="{{thread}}"></firebase-element>
 
         <paper-toast text="This feature is not implemented yet." id="nyi-toast"></paper-toast>
 
@@ -113,9 +116,11 @@ TODO: link to detailed instructions on using bower_components
 
                     <div class="speakur-body-container">
                         <speakur-compose
+                                threadId="{{threadId}}"
                                 firebaseLocation="{{firebaseLocation}}">
                         </speakur-compose>
                         <speakur-thread-view
+                                threadId="{{threadId}}"
                                 firebaseLocation="{{firebaseLocation}}">
                         </speakur-thread-view>
                     </div>
@@ -146,6 +151,9 @@ TODO: link to detailed instructions on using bower_components
 
     </template>
 
+    <!-- Is this style import OK? TODO: come back to this and make a proper import wrapper -->
+    <script src="../js-md5/js/md5.min.js"></script>
+
     <script>
 
         Polymer({
@@ -163,12 +171,28 @@ TODO: link to detailed instructions on using bower_components
 
             /**
              * The `href` attribute determines the "target" of the discussion. Defaults to the containing page's location.
+             * Changing the `href` will automatically switch the view to a different discussion thread.
+             *
+             * `href` is a very important concept for `Speakur-discussion`. It is the official unique name of the
+             * discussion. It defaults to the window location URL, but this is *not* necessarily the correct value.
+             * For instance, your site may have many different views (at different URLs) of an abstract data object
+             * like a 'Project' that has a canonical URL. If you want to attach the discussion to the 'Project'
+             * no matter what its current view, then set the href to the canonical URL of the project, such as:
+             * `site.example.com/projects/HappyFunProject`
+             *
+             * Note that a protocol such as http:// is not required and will be automatically removed. You should
+             * include your domain name if using a public/default firebaseLocation. The href is normalized and turned
+             * into a threadId by the following rules:
+             *   * lowercased
+             *   * protocol is removed, if any  (such as http:// or https://)
+             *   * port is NOT removed, nor are query parameters
+             *   * md5 hash is used as threadId
              *
              * @attribute href
              * @type string
-             * @default window.location
+             * @default window.location.href
              */
-            href: window.location,
+            href: window.location.href,
 
             /**
              * The `theme` attribute determines the style or look and feel of the discussion box.
@@ -194,7 +218,8 @@ TODO: link to detailed instructions on using bower_components
 
             /**
              * The `firebaseLocation` attribute determines the source database URL for the comments. A default
-             * database will be used if none is provided.
+             * database will be used if none is provided.  If using the public (default) Speakur firebase then
+             * you must incorporate your domain name in the {@link href} field.
              *
              * @attribute firebaseLocation
              * @type string
@@ -211,6 +236,15 @@ TODO: link to detailed instructions on using bower_components
              */
             numComments: 0,
 
+            /**
+             * the threadId this discussion is participating in. This is automatically derived from {@link href}
+             * and should not be set directly.
+             *
+             * @property threadId
+             * @type string
+             * @default ID of this discussion (based on href)
+             */
+            threadId: null,
 
             /**
              * This is true when the discussion widget is closed (collapsed).
@@ -221,11 +255,14 @@ TODO: link to detailed instructions on using bower_components
              */
             closed: true,
 
+            thread: null,
+
             ready: function () {
                 // Ready is a lifecycle callback.
                 // You can do setup work in here.
                 // More info: http://www.polymer-project.org/docs/polymer/polymer.html#lifecyclemethods
                 // this.title = 'ok?';
+                this.setThreadIdFromHref();
             },
 
             /**
@@ -287,9 +324,66 @@ TODO: link to detailed instructions on using bower_components
             logout: function () {
                 console.log("Logout clicked.");
                 this.$['nyi-toast'].show();
+            },
+
+            setThreadIdFromHref: function () {
+                // Normalize: everything to lower case
+                var href = this.href.toLowerCase();
+                // normalize: remove protocol.
+                href = href.replace(/^.*?:\/\//, "");
+
+                // Other possible normalizations:
+                // Remove port?
+                // Enforce domain name requirement?
+                // Remove query params?
+                // once we do this it's hard to undo as any changes to normalization will orphan threads
+
+                // digest it
+                var threadId = md5(href);
+                console.log("href " + href + " -> md5: " + threadId);
+                // set it.
+                this.threadId = threadId;
+            },
+
+            hrefChanged: function () {
+                this.setThreadIdFromHref();
+            },
+
+            threadIdChanged: function (oldValue, newValue) {
+                console.log("Thread ID was changed from " + oldValue + " to ->" + newValue);
+            },
+
+            threadChanged: function () {
+                console.log("Thread changed. ", this.$.dbThread.location, " thread ID: ", this.threadId);
+                if (this.threadId && !this.thread) {
+                    // Create a default thread description.
+                    var new_thread = {
+                        href: this.href,
+                        threadId: this.threadId,
+                        title: this.xtitle,
+                        created: new Date().getTime(),
+                        text: null,
+                        theme: this.theme,
+                        moderators: this.moderators,
+
+                        // TODO: fix owners!
+                        owner: {
+                            uid: 'anonymous',
+                            username: 'Anonymous'
+                        }
+                    };
+                    this.thread = new_thread;
+                    console.log("Created new thread for " + this.href + " -> " + this.thread);
+                } else {
+                    console.log("this.thread -> ", this.thread);
+                }
+
+            },
+
+            observe: {
+                '$.dbThread.location': 'fbLocationChanged',
+                thread: 'threadChanged'
             }
-
-
 
         });
 

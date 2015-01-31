@@ -1,15 +1,54 @@
 <link rel="import" href="../../polymer/polymer.html">
-<polymer-element name="speakur-thread-view" attributes="firebaseLocation">
+<link rel="import" href="../../firebase-element/firebase-element.html">
+
+<polymer-element name="speakur-thread-view" attributes="firebaseLocation threadId postCount">
     <template>
         <style>
         </style>
+
+        <firebase-element
+                id="dbThread" location="{{firebaseLocation + '/threads/' + threadId }}"
+                data="{{thread}}"></firebase-element>
+        <firebase-element
+                id="dbPosts" location="{{firebaseLocation + '/posts/' + threadId }}"
+                data="{{posts}}" keys="{{postIds}}"></firebase-element>
+
         <div layout vertical>
-            <div>Header.</div>
-            <div>Comments here...</div>
-            <div>More comments...</div>
+            <div>
+                <span>
+                    Discussion: {{thread.title}}
+                </span>
+                <span>
+                    <a target="_blank" href="{{thread.href}}">(link)</a>
+                </span>
+                <span>
+                    Created: {{thread.created | formatTimestamp}}
+                </span>
+            </div>
+
+            <template if="{{!postIds.length}}">
+                <div>
+                    <h2>No one has posted yet. Be the first to comment.</h2>
+                </div>
+
+            </template>
+            <template if="{{postIds.length}}" repeat="{{postId in postIds}}">
+                <div>
+                    <h3>User: {{posts[postId].author.username}}</h3>
+                    <p>{{posts[postId].text}}</p>
+                </div>
+            </template>
         </div>
     </template>
     <script>
-        Polymer({});
+        Polymer({
+            formatTimestamp: function(value) {
+                if (!value) {
+                    return "(unknown)";
+                }
+                var newDate = new Date(value);
+                return newDate.toLocaleString();
+            }
+        });
     </script>
 </polymer-element>

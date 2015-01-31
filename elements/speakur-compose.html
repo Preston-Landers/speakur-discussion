@@ -1,27 +1,58 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../../firebase-element/firebase-element.html">
+
 <!--
 <link rel="import" href="../../paper-input/paper-input.html">
 -->
 
-<polymer-element name="speakur-compose" attributes="firebaseLocation">
+<polymer-element name="speakur-compose" attributes="firebaseLocation threadId">
     <template>
         <style>
         </style>
+        <firebase-element
+                id="posts" data="{{posts}}"
+                location="{{firebaseLocation + '/posts/' + threadId }}"></firebase-element>
+        <!--
+                <firebase-element
+                        id="thread" location="{{firebaseLocation + '/threads/' + threadId }}"
+                        data="{{thread}}"></firebase-element>
+        -->
         <form>
             <div vertical layout>
-            <textarea id="comment-text"></textarea>
-            <label for="comment-text">Impart your words of wisdom</label>
-            <paper-button on-click="{{submit}}">
-                Publish Comment
-            </paper-button>
+                <label for="commentText">Leave a comment: (Thread {{threadId}})</label>
+                <textarea id="commentText"></textarea>
+                <paper-button on-click="{{submit}}">
+                    Publish Comment
+                </paper-button>
             </div>
         </form>
     </template>
     <script>
         Polymer({
-            submit: function() {
-                window.alert('No, u. ');
+            submit: function () {
+                if (!this.threadId) {
+                    console.error("Unable to submit post; no threadId given");
+                    return false;
+                }
+                if (this.$.commentText.value.length) {
+
+                    var post = this.$.posts.push({
+                        threadId: this.threadId,
+                        text: this.$.commentText.value,
+                        author: {
+                            uid: 'anonymous',
+                            username: 'Anonymous'
+                        },
+                        timestamp: new Date().getTime()
+                    });
+                    var post_id = post.key();
+                    console.log("Created post: " + post_id);
+
+                    this.$.commentText.value = '';
+                } else {
+                    console.error('Please write something.');
+                }
             }
         });
     </script>
