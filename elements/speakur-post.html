@@ -1,5 +1,6 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../firebase-element/firebase-element.html">
+<link rel="import" href="speakur-card.html">
 
 <polymer-element name="speakur-post" attributes="firebaseLocation threadId postId">
     <template>
@@ -8,15 +9,16 @@
         <firebase-element
                 id="base" data="{{post}}"
                 location="{{firebaseLocation}}/posts/{{threadId}}/{{postId}}"></firebase-element>
-        <div>
-            <h3>
+        <speakur-card>
+            <div class="header">
                 <button on-click="{{deletePost}}">Delete</button>
                 User: {{post.author.username}}
                 <small>{{post.timestamp | formatTimestamp}}</small>
-            </h3>
-            <p>{{post.text}}</p>
-
-        </div>
+            </div>
+            <div class="body">
+                {{post.text}}
+            </div>
+        </speakur-card>
     </template>
     <script>
         Polymer({

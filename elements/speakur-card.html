@@ -1,0 +1,30 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-shadow/paper-shadow.html">
+
+<polymer-element name="speakur-card" attributes="">
+    <template>
+        <style>
+            .speakur-card {
+                padding: 8px;
+                margin-top: 6px;
+                margin-bottom: 6px;
+            }
+        </style>
+        <paper-shadow class="speakur-card" z="1">
+            <div vertical layout>
+                <div>
+                    <content select=".header"></content>
+                </div>
+                <div>
+                    <content select=".body"></content>
+                </div>
+                <div>
+                    <content select=".footer"></content>
+                </div>
+            </div>
+        </paper-shadow>
+    </template>
+    <script>
+        Polymer({});
+    </script>
+</polymer-element>

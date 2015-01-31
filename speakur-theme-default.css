@@ -20,6 +20,7 @@ speakur-toolbar /deep/ .toolbar-border {
 
 .speakur-body-container {
     border-color: #cbefc4;
-    background-color: #6f8e69;
-    color: whitesmoke;
+    /*background-color: #6f8e69;*/
+    background-color: white;
+    color: black;
 }

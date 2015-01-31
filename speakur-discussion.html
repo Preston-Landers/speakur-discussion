@@ -60,7 +60,7 @@ TODO: link to detailed instructions on using bower_components
 @status alpha
 @homepage https://github.com/Preston-Landers/speakur-discussion
 -->
-<polymer-element name="speakur-discussion" attributes="theme href moderators xtitle firebaseLocation">
+<polymer-element name="speakur-discussion" attributes="theme href moderators xtitle firebaseLocation initiallyOpen">
 
     <template>
         <!-- Congratulations, you have found the secret message. -->
@@ -210,6 +210,15 @@ TODO: link to detailed instructions on using bower_components
             theme: 'default',
 
             /**
+             * Determines whether the comment box is open (expanded) by default.
+             *
+             * @attribute initiallyOpen
+             * @type boolean
+             * @default false
+             */
+            initiallyOpen: false,
+
+            /**
              * The `moderators` attribute determines the users who are allowed to moderate this forum. The users are
              * represented as Firebase User IDs, comma separated.
              *
@@ -259,6 +268,10 @@ TODO: link to detailed instructions on using bower_components
                 // More info: http://www.polymer-project.org/docs/polymer/polymer.html#lifecyclemethods
                 // this.title = 'ok?';
                 this.setThreadIdFromHref();
+
+                if (this.initiallyOpen) {
+                    this.toggle();
+                }
             },
 
             /**

@@ -2,25 +2,28 @@
 <link rel="import" href="../../paper-button/paper-button.html">
 <link rel="import" href="../../firebase-element/firebase-element.html">
 
-<!--
-<link rel="import" href="../../paper-input/paper-input.html">
--->
-
 <polymer-element name="speakur-compose" attributes="firebaseLocation threadId">
     <template>
         <style>
         </style>
+        <link rel="stylesheet" href="../../bootstrap/dist/css/bootstrap.min.css">
         <firebase-element
                 id="posts" data="{{posts}}"
                 location="{{firebaseLocation + '/posts/' + threadId }}"></firebase-element>
         <form>
-            <div vertical layout>
-                <label for="commentText">Leave a comment:</label>
-                <textarea id="commentText"></textarea>
-                <paper-button on-click="{{submit}}">
-                    Publish Comment
-                </paper-button>
-            </div>
+                <div class="body">
+                    <div class="form-group">
+                        <label class="sr-only" for="commentText">Leave a comment:</label>
+                        <textarea
+                                rows="3"
+                                class="form-control"
+                                placeholder="Enter a comment here."
+                                id="commentText"></textarea>
+                    </div>
+                </div>
+                <div class="footer text-right">
+                    <button class="btn btn-sm btn-primary">Publish Comment</button>
+                </div>
         </form>
     </template>
     <script>
