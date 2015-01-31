@@ -185,13 +185,13 @@ TODO: link to detailed instructions on using bower_components
              * no matter what its current view, then set the href to the canonical URL of the project, such as:
              * `site.example.com/projects/HappyFunProject`
              *
-             * Note that a protocol such as http:// is not required and will be automatically removed. You should
-             * include your domain name if using a public/default firebaseLocation. The href is normalized and turned
-             * into a threadId by the following rules:
+             * Note that URLs that only differ by protocol and case sensitivity will be treated the same in terms
+             * of which threadId they map to. The href is normalized and turned into a threadId by the following rules:
+             *
              *   * lowercased
              *   * protocol is removed, if any  (such as http:// or https://)
-             *   * port is NOT removed, nor are query parameters
-             *   * md5 hash is used as threadId
+             *   * port is NOT removed by normalization, nor are query parameters
+             *   * md5 hash of normalized version is used as threadId
              *
              * @attribute href
              * @type string
@@ -376,7 +376,7 @@ TODO: link to detailed instructions on using bower_components
 
             },
 
-            threadKeysChanged: function(oldValue, newValue) {
+            threadKeysChanged: function (oldValue, newValue) {
                 console.log("Thread keys changed: ", newValue.length);
                 // this.numComments = newValue.length;
             },

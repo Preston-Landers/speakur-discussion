@@ -13,14 +13,9 @@
         <firebase-element
                 id="posts" data="{{posts}}"
                 location="{{firebaseLocation + '/posts/' + threadId }}"></firebase-element>
-        <!--
-                <firebase-element
-                        id="thread" location="{{firebaseLocation + '/threads/' + threadId }}"
-                        data="{{thread}}"></firebase-element>
-        -->
         <form>
             <div vertical layout>
-                <label for="commentText">Leave a comment: (Thread {{threadId}})</label>
+                <label for="commentText">Leave a comment:</label>
                 <textarea id="commentText"></textarea>
                 <paper-button on-click="{{submit}}">
                     Publish Comment
