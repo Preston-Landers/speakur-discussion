@@ -1,5 +1,6 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../firebase-element/firebase-element.html">
+<link rel="import" href="speakur-post.html">
 
 <polymer-element name="speakur-thread-view" attributes="firebaseLocation threadId postCount">
     <template>
@@ -33,22 +34,16 @@
 
             </template>
             <template if="{{postIds.length}}" repeat="{{postId in postIds}}">
-                <div>
-                    <h3>User: {{posts[postId].author.username}}</h3>
-                    <p>{{posts[postId].text}}</p>
-                </div>
+                <speakur-post
+                        firebaseLocation="{{firebaseLocation}}"
+                        threadId="{{threadId}}"
+                        postId="{{postId}}"
+                        ></speakur-post>
             </template>
         </div>
     </template>
     <script>
         Polymer({
-            formatTimestamp: function(value) {
-                if (!value) {
-                    return "(unknown)";
-                }
-                var newDate = new Date(value);
-                return newDate.toLocaleString();
-            }
         });
     </script>
 </polymer-element>

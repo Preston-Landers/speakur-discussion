@@ -1,0 +1,29 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../firebase-element/firebase-element.html">
+
+<polymer-element name="speakur-post" attributes="firebaseLocation threadId postId">
+    <template>
+        <style>
+        </style>
+        <firebase-element
+                id="base" data="{{post}}"
+                location="{{firebaseLocation}}/posts/{{threadId}}/{{postId}}"></firebase-element>
+        <div>
+            <h3>
+                <button on-click="{{deletePost}}">Delete</button>
+                User: {{post.author.username}}
+                <small>{{post.timestamp | formatTimestamp}}</small>
+            </h3>
+            <p>{{post.text}}</p>
+
+        </div>
+    </template>
+    <script>
+        Polymer({
+            deletePost: function (event, detail, sender) {
+                console.log("Deleting post: ", this.postId, this.post);
+                this.$.base.remove("/");
+            }
+        });
+    </script>
+</polymer-element>

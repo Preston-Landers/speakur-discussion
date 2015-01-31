@@ -73,6 +73,9 @@ TODO: link to detailed instructions on using bower_components
         <firebase-element
                 id="dbThread" location="{{firebaseLocation + '/threads/' + threadId }}"
                 data="{{thread}}"></firebase-element>
+        <firebase-element
+                id="dbPosts" location="{{firebaseLocation + '/posts/' + threadId }}"
+                data="{{posts}}" keys="{{postIds}}"></firebase-element>
 
         <paper-toast text="This feature is not implemented yet." id="nyi-toast"></paper-toast>
 
@@ -83,7 +86,7 @@ TODO: link to detailed instructions on using bower_components
                     <paper-icon-button icon="speaker-notes" on-click="{{toggle}}">
                     </paper-icon-button>
                     <paper-button flex on-click="{{toggle}}" class="speakur-toggle-button">
-                        View Comments ({{numComments}})
+                        View Comments ({{postIds.length}})
                     </paper-button>
                     <paper-icon-button id="closedprofilebutton"
                                        icon="social:person"></paper-icon-button>
@@ -116,10 +119,12 @@ TODO: link to detailed instructions on using bower_components
 
                     <div class="speakur-body-container">
                         <speakur-compose
+                                id="threadCompose"
                                 threadId="{{threadId}}"
                                 firebaseLocation="{{firebaseLocation}}">
                         </speakur-compose>
                         <speakur-thread-view
+                                id="threadView"
                                 threadId="{{threadId}}"
                                 firebaseLocation="{{firebaseLocation}}">
                         </speakur-thread-view>
@@ -226,15 +231,6 @@ TODO: link to detailed instructions on using bower_components
              * @default (a suitable default is provided)
              */
             firebaseLocation: 'https://speakur.firebaseio.com',
-
-            /**
-             * numComments is the number of comments currently available at this location.
-             *
-             * @property numComments
-             * @type int
-             * @default number of comments at this location
-             */
-            numComments: 0,
 
             /**
              * the threadId this discussion is participating in. This is automatically derived from {@link href}
@@ -380,12 +376,27 @@ TODO: link to detailed instructions on using bower_components
 
             },
 
+            threadKeysChanged: function(oldValue, newValue) {
+                console.log("Thread keys changed: ", newValue.length);
+                // this.numComments = newValue.length;
+            },
+
             observe: {
                 '$.dbThread.location': 'fbLocationChanged',
-                thread: 'threadChanged'
+                thread: 'threadChanged',
+                '$.threadView.postIds': 'threadKeysChanged'
+
             }
 
         });
+
+        PolymerExpressions.prototype.formatTimestamp = function (value) {
+            if (!value) {
+                return "(unknown)";
+            }
+            var newDate = new Date(value);
+            return newDate.toLocaleString();
+        };
 
     </script>
 
