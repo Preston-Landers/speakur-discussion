@@ -23,6 +23,8 @@
 <link rel="import" href="../firebase-element/firebase-login.html">
 
 <link rel="import" href="elements/speakur-toolbar.html">
+<link rel="import" href="elements/speakur-compose.html">
+<link rel="import" href="elements/speakur-thread-view.html">
 
 <!--
 This is a Web Component-based custom HTML element that provides a
@@ -110,10 +112,12 @@ TODO: link to detailed instructions on using bower_components
 
 
                     <div class="speakur-body-container">
-                        <div>Body</div>
-                        <div>
-                            I'm open!
-                        </div>
+                        <speakur-compose
+                                firebaseLocation="{{firebaseLocation}}">
+                        </speakur-compose>
+                        <speakur-thread-view
+                                firebaseLocation="{{firebaseLocation}}">
+                        </speakur-thread-view>
                     </div>
 
                     <speakur-toolbar class="speakur-footer-bar">

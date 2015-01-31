@@ -1,0 +1,28 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-button/paper-button.html">
+<!--
+<link rel="import" href="../../paper-input/paper-input.html">
+-->
+
+<polymer-element name="speakur-compose" attributes="firebaseLocation">
+    <template>
+        <style>
+        </style>
+        <form>
+            <div vertical layout>
+            <textarea id="comment-text"></textarea>
+            <label for="comment-text">Impart your words of wisdom</label>
+            <paper-button on-click="{{submit}}">
+                Publish Comment
+            </paper-button>
+            </div>
+        </form>
+    </template>
+    <script>
+        Polymer({
+            submit: function() {
+                window.alert('No, u. ');
+            }
+        });
+    </script>
+</polymer-element>

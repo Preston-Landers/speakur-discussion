@@ -1,8 +1,8 @@
+/*
+ * This file should be primarily colors and visual style tweaks, not major 'structural' CSS
+ */
 
 .speakur-container {
-/*
-    border-color: #004444;
-*/
     border-color: #a0c094;
     background-color: #008800;
     color: white;
