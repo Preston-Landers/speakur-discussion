@@ -1,0 +1,111 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../pvc-globals/pvc-globals.html">
+<link rel="import" href="../../firebase-element/firebase-element.html">
+<polymer-element name="speakur-profile" attributes="firebaseLocation uid profile">
+    <template>
+        <!--
+          This location expression is really ugly ... there has to be a way to fix this.
+          Really this is just to avoid attempting to access just "/profile/" before the site or UID are defined.
+          I'm probably misunderstand something here.
+        -->
+        <firebase-element id="base" location="{{firebaseLocation}}/profile/{{uid}}"
+                          data="{{profile}}"></firebase-element>
+        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
+    </template>
+    <script>
+        (function () {
+
+            Polymer({
+                ready: function () {
+                },
+
+                observe: {
+                    '$.base.data': 'checkProfile'
+                },
+
+/*
+                profileChange: function() {
+                    this.checkProfile(this.user);
+                },
+*/
+
+                checkProfile: function () {
+                    var user = this.user;
+                    if (!user) {
+                        return;
+                    }
+                    console.log("Checking user profile of: ", user.uid, " at location ", this.$.base.location);
+                    if (!this.profile) {
+                        console.log("Creating profile for " + user.uid);
+                        this.profile = this.createProfile(user);
+                    } else {
+                        console.log("Profile already exists: ", this.profile);
+                    }
+                    console.log("firebase profile: ", this.profile);
+                    this.globals.profile = this.profile;
+
+                },
+
+                setEmailAddress: function (profile, email) {
+                    if (email) {
+                        profile['email'] = email;
+                        profile['md5_hash'] = md5(email);
+                    }
+                },
+
+                // create a new generic user profile from an authentication user
+                createProfile: function (user) {
+                    var prof = {
+                        uid: user.uid,
+                        provider: user.provider,
+                        username: '',
+                        email: '',
+                        picture_link: '',
+                        about_link: '',
+                        about: '',
+                        locale: 'en',
+                        fullname: '',
+                        md5_hash: '',
+                        timezone: -5
+                    };
+                    var xprof, displayName, email;
+
+                    if (user.google) {
+                        xprof = user.google.cachedUserProfile;
+                        displayName = user.google.displayName;
+                        email = user.google.email;
+                        prof['username'] = displayName;
+                        prof['fullname'] = displayName;
+                        if (xprof) {
+                            // doesn't provide TZ... could get from browser?
+                            prof['picture_link'] = xprof.picture;
+                            prof['about_link'] = xprof.link;
+                            prof['locale'] = xprof.locale;
+                        }
+                    } else if (user.facebook) {
+                        xprof = user.facebook.cachedUserProfile;
+                        displayName = user.facebook.displayName;
+                        email = user.facebook.email;
+                        prof['username'] = displayName;
+                        prof['fullname'] = displayName;
+                        if (xprof) {
+                            prof['timezone'] = xprof.timezone;
+                            prof['picture_link'] = xprof.picture.data.url;
+                            prof['about_link'] = xprof.link;
+                            prof['locale'] = xprof.locale;
+                        }
+                    }
+
+                    if (email) {
+                        this.setEmailAddress(prof, email);
+                    } else {
+                        console.log("Warning: user " + user.uid + " hasn't provided an email address.");
+                    }
+
+                    return prof;
+                }
+
+            });
+        })();
+    </script>
+</polymer-element>

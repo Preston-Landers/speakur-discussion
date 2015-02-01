@@ -1,0 +1,119 @@
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../paper-button/paper-button.html">
+<link rel="import" href="../../../core-icon/core-icon.html">
+
+<!-- NOTE: the presence of this plugin on the page with Firefox + Ad Block Plus plugin
+     will cause the entire page to not load.-->
+<link rel="import" href="../../../core-icons/social-icons.html">
+
+
+<polymer-element name="speakur-dialog-login" attributes="baseLogin">
+    <template>
+        <style>
+            :host {
+                /*
+                                max-width: 800px;
+                                font-family: "RobotoDraft", "Calibri", Helvetica, Arial, sans-serif;
+                                font-size: 14px;
+                */
+                color: black;
+                background-color: white;
+            }
+
+            .login-button {
+                width: 250px;
+                height: 40px;
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+
+            .login-button-facebook {
+                background-image: url("../../images/facebook-login-button.png");
+            }
+
+            .login-button-google {
+                background-image: url("../../images/google-sign-in-button.png");
+            }
+        </style>
+        <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.min.css">
+
+        <div class="loginContainer">
+
+            <div id="loginDialog" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Sign in to Speakur</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Please sign in to Speakur with one of the following identities. In the future
+                                you will be able to create an account unique to Speakur but for now you must
+                                use one of the following identity services. You can only be signed in with one
+                                service at a time.</p>
+
+                            <div layout horizontal>
+                                <div
+                                        class="login-button login-button-facebook"
+                                        title="Sign in with Facebook"
+                                        on-click="{{loginFacebook}}"
+                                        >
+
+                                </div>
+                                <div
+                                        class="login-button login-button-google"
+                                        title="Sign in with Google"
+                                        on-click="{{loginGoogle}}"
+                                        >
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+        </div>
+    </template>
+    <script src="../../../jquery/dist/jquery.min.js"></script>
+    <script src="../../../bootstrap/dist/js/bootstrap.min.js"></script>
+    <script>
+        (function () {
+            Polymer({
+                toggle: function () {
+                    // this.$["loginDialog"].toggle();
+                    jQuery(this.$.loginDialog).modal('toggle');
+                },
+                loginGoogle: function () {
+                    console.log('LOGIN with Google!');
+                    this.baseLogin.provider = 'google';
+                    this.toggle();
+                    this.baseLogin.login({
+                        remember: "default",
+                        scope: "email"
+                    });
+                },
+
+                loginFacebook: function () {
+                    console.log('LOGIN with Facebook!');
+                    this.baseLogin.provider = 'facebook';
+                    this.toggle();
+                    this.baseLogin.login({
+                        remember: "default",
+                        scope: "email"
+                    });
+                }
+
+                // TODO: reflect 'opened' as a property?  Or provide a closeIfOpen method?
+
+            });
+        })();
+    </script>
+</polymer-element>

@@ -1,0 +1,38 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../core-menu/core-menu.html">
+<link rel="import" href="../../paper-item/paper-item.html">
+<link rel="import" href="../../paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+
+<polymer-element name="speakur-login-button" attributes="user statusKnown">
+    <template>
+        <style>
+        </style>
+
+        <paper-menu-button halign="right">
+            <template if="{{user}}">{{user.username}}</template>
+            <paper-icon-button icon="social:person"></paper-icon-button>
+            <paper-dropdown class="dropdown" transition="">
+                <core-menu class="menu">
+                    <paper-item on-click="{{login}}" hidden?="{{!statusKnown || user}}">Sign In</paper-item>
+                    <paper-item on-click="{{logout}}" hidden?="{{!statusKnown || !user}}">Sign Out</paper-item>
+                </core-menu>
+            </paper-dropdown>
+
+        </paper-menu-button>
+
+    </template>
+    <script>
+        Polymer({
+            login: function() {
+                this.fire('loginButtonPressed');
+            },
+
+            logout: function() {
+                this.fire('logoutButtonPressed');
+            }
+        });
+    </script>
+</polymer-element>
+
