@@ -5,11 +5,6 @@
 
 <link rel="import" href="speakur-post.html">
 
-<!--
-<link rel="import" href="../../mark-down/mark-down-editor.html">
--->
-
-
 <polymer-element name="speakur-compose" attributes="firebaseLocation threadId">
     <template>
         <style>
@@ -91,7 +86,7 @@
                 }
             },
 
-            cancel: function() {
+            cancel: function () {
                 if (!this.newText.length) {
                     console.error("Nothing in the compose box.");
                     return false;

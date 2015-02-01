@@ -197,7 +197,7 @@ TODO: link to detailed instructions on using bower_components
              * of which threadId they map to. The href is normalized and turned into a threadId by the following rules:
              *
              *   * lowercased
-             *   * protocol is removed, if any  (such as http:// or https://)
+             *   * protocol is removed, if any  (such as `http://` or `https://`)
              *   * port is NOT removed by normalization, nor are query parameters
              *   * md5 hash of normalized version is used as threadId
              *
@@ -213,7 +213,7 @@ TODO: link to detailed instructions on using bower_components
              *
              * @attribute theme
              * @type string
-             * @default 'default' (a default theme)
+             * @default {a default theme}
              */
             theme: 'default',
 
@@ -241,7 +241,7 @@ TODO: link to detailed instructions on using bower_components
             /**
              * The `firebaseLocation` attribute determines the source database URL for the comments. A default
              * database will be used if none is provided.  If using the public (default) Speakur firebase then
-             * you must incorporate your domain name in the {@link href} field.
+             * you must incorporate your domain name in the `href` field.
              *
              * @attribute firebaseLocation
              * @type string
@@ -250,17 +250,16 @@ TODO: link to detailed instructions on using bower_components
             firebaseLocation: 'https://speakur.firebaseio.com',
 
             /**
-             * the threadId this discussion is participating in. This is automatically derived from {@link href}
-             * and should not be set directly.
+             * the threadId this discussion is participating in. This is automatically derived from
+             * `href` and should not be set directly.
              *
              * @property threadId
              * @type string
-             * @default ID of this discussion (based on href)
              */
             threadId: null,
 
             /**
-             * the amount of time in MS to animate the opening/closing of the discussion widget.
+             * the amount of time in MS to animate the opening or closing of the discussion widget.
              *
              * @property openAnimMS
              * @type int
@@ -278,11 +277,12 @@ TODO: link to detailed instructions on using bower_components
             maxWidth: 1100,
 
             /**
-             * This is true when the discussion widget is closed (collapsed).
+             * This is true when the discussion widget is closed (collapsed). Use the
+             * `toggle` method to change the state.
              *
              * @property closed
              * @type boolean
-             * @default true if the discussion is in the closed (collapsed) state
+             * @default true
              */
             closed: true,
 
@@ -470,8 +470,8 @@ TODO: link to detailed instructions on using bower_components
 
         });
 
-        // TODO: what if there's some other component on the page that defines a formatTimestamp global filter?
         PolymerExpressions.prototype.formatTimestamp = function (value) {
+            // TODO: what if there's some other component on the page that defines a formatTimestamp global filter?
             if (!value) {
                 return "(unknown)";
             }
