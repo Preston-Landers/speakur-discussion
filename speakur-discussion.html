@@ -14,6 +14,7 @@
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-toast/paper-toast.html">
 <link rel="import" href="../font-roboto/roboto.html">
+<link rel="import" href="../core-collapse/core-collapse.html">
 
 <!-- NOTE: the presence of this plugin on the page with Firefox + Ad Block Plus plugin
      will cause the entire page to not load.-->
@@ -79,25 +80,25 @@ TODO: link to detailed instructions on using bower_components
 
         <paper-toast text="This feature is not implemented yet." id="nyi-toast"></paper-toast>
 
-        <div class="speakur-container {{ closed ? 'closed' : '' }}">
+        <div id="speakur-container" class="speakur-container {{ closed ? 'closed' : '' }}">
 
-            <template if="{{closed}}">
-                <speakur-toolbar class="speakur-closed-bar">
-                    <paper-icon-button icon="speaker-notes" on-click="{{toggle}}">
-                    </paper-icon-button>
-                    <paper-button flex on-click="{{toggle}}" class="speakur-toggle-button">
-                        View Comments ({{postIds.length}})
-                    </paper-button>
-                    <paper-icon-button id="closedprofilebutton"
-                                       icon="social:person"></paper-icon-button>
-                </speakur-toolbar>
-
-
-            </template>
-            <template if="{{!closed}}">
-                <div vertical layout class="speakur-open-layout">
-                    <speakur-toolbar class="speakur-header-bar">
+            <div vertical layout class="speakur-layout">
+                <speakur-toolbar class="speakur-header-bar {{ closed ? 'speakur-header-bar-closed' : '' }}">
+                    <template if="{{ closed }}">
                         <paper-icon-button
+                                if="{{ closed }}"
+                                icon="speaker-notes"
+                                on-click="{{toggle}}">
+                        </paper-icon-button>
+                        <paper-button flex on-click="{{toggle}}" class="speakur-toggle-button">
+                            View Comments ({{postIds.length}})
+                        </paper-button>
+                        <paper-icon-button id="closedprofilebutton"
+                                           icon="social:person"></paper-icon-button>
+                    </template>
+                    <template if="{{ !closed }}">
+                        <paper-icon-button
+                                if="{{ !closed }}"
                                 title="Hide"
                                 icon="remove-circle"
                                 on-click="{{toggle}}" class="speakur-toggle-button speakur-close-button">
@@ -114,7 +115,12 @@ TODO: link to detailed instructions on using bower_components
                         <paper-icon-button id="menubutton"
                                            on-click="{{menu}}"
                                            icon="menu"></paper-icon-button>
-                    </speakur-toolbar>
+
+                    </template>
+
+                </speakur-toolbar>
+
+                <core-collapse id="mainCollapse">
 
 
                     <div class="speakur-body-container">
@@ -148,9 +154,9 @@ TODO: link to detailed instructions on using bower_components
                                 icon="report-problem">
                         </paper-icon-button>
                     </speakur-toolbar>
-                </div>
+                </core-collapse>
+            </div>
 
-            </template>
 
         </div>
 
@@ -321,8 +327,31 @@ TODO: link to detailed instructions on using bower_components
             },
 
             toggle: function () {
-                this.closed = !this.closed;
+                // toggle w/ animation the inner content
+                var animDuration = 600; // ms
+                this.$.mainCollapse.duration = animDuration * 0.001;  // convert to seconds
+                this.$.mainCollapse.toggle();
+
+                // animate the overall container width as well.
+                var container = this.$['speakur-container'];
+                var direction = this.closed ? 'normal' : 'reverse';
+                var player = container.animate([
+                            {'max-width': '400px'},
+                            {'max-width': '1200px'}
+                        ],
+                        {
+                            fill: 'both',
+                            duration: animDuration,
+                            direction: direction
+                        });
+
                 // console.log("Speakur discussion toggled.");
+            },
+
+            // called when the above toggle is finished.
+            openStatusChanged: function (event, value) {
+                // console.log("opened -> ", event, value);
+                this.closed = !this.closed;
             },
 
             search: function () {
@@ -413,7 +442,10 @@ TODO: link to detailed instructions on using bower_components
                 '$.dbThread.location': 'fbLocationChanged',
                 thread: 'threadChanged',
                 '$.threadView.postIds': 'threadKeysChanged'
+            },
 
+            eventDelegates: {
+                'core-collapse-open': 'openStatusChanged'
             }
 
         });

@@ -41,16 +41,13 @@ polyfill-next-selector {
     border-color: black;
     border-width: 3px;
     border-style: solid;
-    max-width: 1100px;
+
+    max-width: 400px;
+    min-width: 200px;
 
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
-}
-
-.speakur-container.closed {
-    max-width: 400px;
-    min-width: 200px;
 }
 
 .speakur-toggle-button /deep/ .button-content {
