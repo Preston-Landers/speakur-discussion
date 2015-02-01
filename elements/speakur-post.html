@@ -1,5 +1,7 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../firebase-element/firebase-element.html">
+<link rel="import" href="../../mark-down/mark-down.html">
+
 <link rel="import" href="speakur-card.html">
 
 <polymer-element name="speakur-post" attributes="firebaseLocation threadId postId">
@@ -16,7 +18,8 @@
                 <small>{{post.timestamp | formatTimestamp}}</small>
             </div>
             <div class="body">
-                {{post.text}}
+                <mark-down text="{{post.text}}">
+                </mark-down>
             </div>
         </speakur-card>
     </template>

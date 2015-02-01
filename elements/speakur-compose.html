@@ -11,19 +11,19 @@
                 id="posts" data="{{posts}}"
                 location="{{firebaseLocation + '/posts/' + threadId }}"></firebase-element>
         <form>
-                <div class="body">
-                    <div class="form-group">
-                        <label class="sr-only" for="commentText">Leave a comment:</label>
+            <div class="body">
+                <div class="form-group">
+                    <label class="sr-only" for="commentText">Leave a comment:</label>
                         <textarea
                                 rows="3"
                                 class="form-control"
                                 placeholder="Enter a comment here."
                                 id="commentText"></textarea>
-                    </div>
                 </div>
-                <div class="footer text-right">
-                    <button class="btn btn-sm btn-primary">Publish Comment</button>
-                </div>
+            </div>
+            <div class="footer text-right">
+                <div on-click="{{submit}}" class="btn btn-sm btn-primary">Publish Comment</div>
+            </div>
         </form>
     </template>
     <script>
