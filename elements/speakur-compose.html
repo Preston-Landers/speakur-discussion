@@ -13,6 +13,9 @@
 <polymer-element name="speakur-compose" attributes="firebaseLocation threadId">
     <template>
         <style>
+            .cancel-btn {
+                margin-right: 10px;
+            }
         </style>
         <link rel="stylesheet" href="../../bootstrap/dist/css/bootstrap.min.css">
         <firebase-element
@@ -40,10 +43,22 @@
                 </div>
             </div>
             <div class="footer text-right">
+                <template if="{{newText.length}}">
+                    <div
+                            on-click="{{cancel}}"
+                            title="Cancel (Clear Text)"
+                            class="btn btn-sm btn-danger cancel-btn">
+                        Cancel
+                    </div>
+                </template>
                 <div on-click="{{submit}}" title="Publish Comment" class="btn btn-sm btn-primary">Publish Comment</div>
             </div>
             <div>
-                <speakur-post previewText="{{newText}}" previewMode="{{true}}"></speakur-post>
+                <speakur-post
+                        id="preview"
+                        previewText="{{newText}}"
+                        previewMode="{{true}}">
+                </speakur-post>
             </div>
         </form>
     </template>
@@ -74,6 +89,14 @@
                 } else {
                     console.error('Please write something.');
                 }
+            },
+
+            cancel: function() {
+                if (!this.newText.length) {
+                    console.error("Nothing in the compose box.");
+                    return false;
+                }
+                this.newText = '';
             }
         });
     </script>
