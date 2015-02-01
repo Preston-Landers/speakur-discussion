@@ -56,11 +56,11 @@
                     console.error("Unable to submit post; no threadId given");
                     return false;
                 }
-                if (this.$.commentText.value.length) {
+                if (this.newText.length) {
 
                     var post = this.$.posts.push({
                         threadId: this.threadId,
-                        text: this.$.commentText.value,
+                        text: this.newText,
                         author: {
                             uid: 'anonymous',
                             username: 'Anonymous'
@@ -70,7 +70,7 @@
                     var post_id = post.key();
                     console.log("Created post: " + post_id);
 
-                    this.$.commentText.value = '';
+                    this.newText = '';
                 } else {
                     console.error('Please write something.');
                 }
