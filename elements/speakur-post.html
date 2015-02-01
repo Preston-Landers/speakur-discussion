@@ -9,54 +9,67 @@
 
 <link rel="import" href="speakur-card.html">
 
-<polymer-element name="speakur-post" attributes="firebaseLocation threadId postId">
+<polymer-element name="speakur-post" attributes="firebaseLocation threadId postId previewMode previewText">
     <template>
         <link rel="stylesheet" href="../../highlightjs/styles/default.css">
         <style>
         </style>
-        <firebase-element
-                id="base" data="{{post}}"
-                location="{{firebaseLocation}}/posts/{{threadId}}/{{postId}}"></firebase-element>
-        <speakur-card>
-            <div class="header">
-                <button on-click="{{deletePost}}">Delete</button>
-                User: {{post.author.username}}
-                <small>{{post.timestamp | formatTimestamp}}</small>
-            </div>
-            <div class="body" on-marked-js-highlight="{{hilight}}">
-<!--
-                {{post.text | stripTags }}
--->
-<!--
-                <mark-down text="{{post.text}}">
-                </mark-down>
--->
-                <marked-element
-                        text="{{post.text}}">
-                </marked-element>
-            </div>
-        </speakur-card>
+        <template if="{{!previewMode}}">
+            <firebase-element
+                    id="base" data="{{post}}"
+                    location="{{firebaseLocation}}/posts/{{threadId}}/{{postId}}"></firebase-element>
+
+        </template>
+        <template if="{{!previewMode || (previewMode && previewText)}}">
+            <speakur-card>
+                <div class="header">
+                    <template if="{{previewMode}}">
+                        Preview
+                    </template>
+                    <template if="{{!previewMode}}">
+                        <button on-click="{{deletePost}}">Delete</button>
+                        User: {{post.author.username}}
+                        <small>{{post.timestamp | formatTimestamp}}</small>
+                    </template>
+                </div>
+                <div class="body" on-marked-js-highlight="{{hilight}}">
+                    <!--
+                                    {{post.text | stripTags }}
+                    -->
+                    <!--
+                                    <mark-down text="{{post.text}}">
+                                    </mark-down>
+                    -->
+                    <marked-element
+                            text="{{previewMode ? ( previewText ? previewText : '' ) : post.text}}">
+                    </marked-element>
+                </div>
+            </speakur-card>
+        </template>
     </template>
     <script>
         Polymer({
+            previewMode: false,
+            previewText: null,
+
             deletePost: function (event, detail, sender) {
                 console.log("Deleting post: ", this.postId, this.post);
                 this.$.base.remove("/");
             },
-/*
-            safeTags: function(value) {
-                if (!value) { return value; }
-                console.log("Foo", value);
-                return strip_tags(value, null);
-            }
-*/
+            /*
+                        safeTags: function(value) {
+                            if (!value) { return value; }
+                            console.log("Foo", value);
+                            return strip_tags(value, null);
+                        }
+            */
 
-            ready: function() {
+            ready: function () {
             },
 
-            hilight: function(event, detail, sender) {
+            hilight: function (event, detail, sender) {
                 detail.code = hljs.highlightAuto(detail.code).value;
-            },
+            }
         });
     </script>
 </polymer-element>

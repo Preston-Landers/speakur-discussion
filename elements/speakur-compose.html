@@ -1,6 +1,14 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../paper-button/paper-button.html">
 <link rel="import" href="../../firebase-element/firebase-element.html">
+<link rel="import" href="../../marked-element/marked-element.html">
+
+<link rel="import" href="speakur-post.html">
+
+<!--
+<link rel="import" href="../../mark-down/mark-down-editor.html">
+-->
+
 
 <polymer-element name="speakur-compose" attributes="firebaseLocation threadId">
     <template>
@@ -15,19 +23,34 @@
                 <div class="form-group">
                     <label class="sr-only" for="commentText">Leave a comment:</label>
                         <textarea
+                                value="{{newText}}"
                                 rows="3"
                                 class="form-control"
-                                placeholder="Enter a comment here."
+                                placeholder="Leave a comment here."
                                 id="commentText"></textarea>
+                    <!--
+                                        <mark-down-editor
+                                                    rows="3"
+                                                    class="form-control"
+                                                    placeholder="Enter a comment here."
+                                                    id="commentText">
+
+                                            </mark-down-editor>
+                    -->
                 </div>
             </div>
             <div class="footer text-right">
-                <div on-click="{{submit}}" class="btn btn-sm btn-primary">Publish Comment</div>
+                <div on-click="{{submit}}" title="Publish Comment" class="btn btn-sm btn-primary">Publish Comment</div>
+            </div>
+            <div>
+                <speakur-post previewText="{{newText}}" previewMode="{{true}}"></speakur-post>
             </div>
         </form>
     </template>
     <script>
         Polymer({
+            newText: '',
+
             submit: function () {
                 if (!this.threadId) {
                     console.error("Unable to submit post; no threadId given");
