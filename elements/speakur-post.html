@@ -1,11 +1,17 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../firebase-element/firebase-element.html">
+<!--
 <link rel="import" href="../../mark-down/mark-down.html">
+-->
+<link rel="import" href="../../marked-element/marked-element.html">
+<link rel="import" href="../../highlightjs-element/highlightjs-element.html">
+
 
 <link rel="import" href="speakur-card.html">
 
 <polymer-element name="speakur-post" attributes="firebaseLocation threadId postId">
     <template>
+        <link rel="stylesheet" href="../../highlightjs/styles/default.css">
         <style>
         </style>
         <firebase-element
@@ -17,9 +23,17 @@
                 User: {{post.author.username}}
                 <small>{{post.timestamp | formatTimestamp}}</small>
             </div>
-            <div class="body">
+            <div class="body" on-marked-js-highlight="{{hilight}}">
+<!--
+                {{post.text | stripTags }}
+-->
+<!--
                 <mark-down text="{{post.text}}">
                 </mark-down>
+-->
+                <marked-element
+                        text="{{post.text}}">
+                </marked-element>
             </div>
         </speakur-card>
     </template>
@@ -28,7 +42,21 @@
             deletePost: function (event, detail, sender) {
                 console.log("Deleting post: ", this.postId, this.post);
                 this.$.base.remove("/");
+            },
+/*
+            safeTags: function(value) {
+                if (!value) { return value; }
+                console.log("Foo", value);
+                return strip_tags(value, null);
             }
+*/
+
+            ready: function() {
+            },
+
+            hilight: function(event, detail, sender) {
+                detail.code = hljs.highlightAuto(detail.code).value;
+            },
         });
     </script>
 </polymer-element>

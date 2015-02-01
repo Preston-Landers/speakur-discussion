@@ -267,6 +267,21 @@ TODO: link to detailed instructions on using bower_components
                 // You can do setup work in here.
                 // More info: http://www.polymer-project.org/docs/polymer/polymer.html#lifecyclemethods
                 // this.title = 'ok?';
+
+                // This is probably global to the page, isn't it??
+                marked.setOptions({
+                    gfm: true,   // github flavored markdown?
+                    tables: true,
+                    breaks: false,  // ?
+                    pedantic: false,
+                    sanitize: true,
+                    smartLists: true,
+                    silent: false,
+                    // highlight: true, // null
+                    smartypants: true  // auto smart quotes, ellipses, etc?
+                });
+
+
                 this.setThreadIdFromHref();
 
                 if (this.initiallyOpen) {
@@ -403,6 +418,7 @@ TODO: link to detailed instructions on using bower_components
 
         });
 
+        // TODO: what if there's some other component on the page that defines a formatTimestamp global filter?
         PolymerExpressions.prototype.formatTimestamp = function (value) {
             if (!value) {
                 return "(unknown)";
