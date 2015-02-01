@@ -61,7 +61,9 @@ TODO: link to detailed instructions on using bower_components
 @status alpha
 @homepage https://github.com/Preston-Landers/speakur-discussion
 -->
-<polymer-element name="speakur-discussion" attributes="theme href moderators xtitle firebaseLocation initiallyOpen">
+<polymer-element
+        name="speakur-discussion"
+        attributes="theme href moderators xtitle firebaseLocation initiallyOpen openAnimMS maxWidth">
 
     <template>
         <!-- Congratulations, you have found the secret message. -->
@@ -258,6 +260,24 @@ TODO: link to detailed instructions on using bower_components
             threadId: null,
 
             /**
+             * the amount of time in MS to animate the opening/closing of the discussion widget.
+             *
+             * @property openAnimMS
+             * @type int
+             * @default 400
+             */
+            openAnimMS: 400,
+
+            /**
+             * maximum width in pixels the comment area will occupy when open
+             *
+             * @property maxWidth
+             * @type int
+             * @default 1100
+             */
+            maxWidth: 1100,
+
+            /**
              * This is true when the discussion widget is closed (collapsed).
              *
              * @property closed
@@ -328,7 +348,7 @@ TODO: link to detailed instructions on using bower_components
 
             toggle: function () {
                 // toggle w/ animation the inner content
-                var animDuration = 600; // ms
+                var animDuration = this.openAnimMS; // ms
                 this.$.mainCollapse.duration = animDuration * 0.001;  // convert to seconds
                 this.$.mainCollapse.toggle();
 
@@ -337,7 +357,7 @@ TODO: link to detailed instructions on using bower_components
                 var direction = this.closed ? 'normal' : 'reverse';
                 var player = container.animate([
                             {'max-width': '400px'},
-                            {'max-width': '1200px'}
+                            {'max-width': this.maxWidth.toString() + 'px'}
                         ],
                         {
                             fill: 'both',
