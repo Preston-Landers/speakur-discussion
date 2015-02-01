@@ -1,4 +1,6 @@
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../paper-button/paper-button.html">
 <link rel="import" href="../../firebase-element/firebase-element.html">
 <!--
 <link rel="import" href="../../mark-down/mark-down.html">
@@ -27,9 +29,32 @@
                         Preview
                     </template>
                     <template if="{{!previewMode}}">
-                        <button on-click="{{deletePost}}">Delete</button>
+<!--
+                        <paper-button
+                                id="deletebutton"
+                                on-click="{{deletePost}}"
+                                >
+                            <paper-icon-button
+                                    style="color: red; width: 12px; height: 12px;"
+                                    icon="delete"></paper-icon-button>
+                            Delete
+                        </paper-button>
+-->
+
+                        <a on-click="{{deletePost}}"
+                           title="Delete this post permanently"
+                           href="#">
+                            <core-icon
+                                    icon="delete"
+                                    style="color: red; width: 12px; height: 12px; margin-bottom:4px;">
+                            </core-icon>Delete</a>
+                        <!--
+                                                <button on-click="{{deletePost}}">Delete</button>
+                        -->
                         User: {{post.author.username}}
-                        <small>{{post.timestamp | formatTimestamp}}</small>
+                        <em>
+                            <small>{{post.timestamp | formatTimestamp}}</small>
+                        </em>
                     </template>
                 </div>
                 <div class="body" on-marked-js-highlight="{{hilight}}">
