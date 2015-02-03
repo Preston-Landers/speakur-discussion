@@ -334,7 +334,7 @@
         },
 
         observe: {
-            '$.dbThread.location': 'fbLocationChanged',
+            // '$.dbThread.location': 'fbLocationChanged',
             thread: 'threadChanged',
             '$.threadView.postIds': 'threadKeysChanged'
         },

@@ -13,9 +13,10 @@
             :host {
                 /*
                                 max-width: 800px;
-                                font-family: "RobotoDraft", "Calibri", Helvetica, Arial, sans-serif;
-                                font-size: 14px;
+                font-family: "RobotoDraft", "Calibri", Helvetica, Arial, sans-serif;
                 */
+                max-width: 800px;
+                font-size: 14px;
                 color: black;
                 background-color: white;
             }
@@ -25,6 +26,7 @@
                 height: 40px;
                 background-repeat: no-repeat;
                 background-size: contain;
+                margin: 10px;
             }
 
             .login-button-facebook {
@@ -48,10 +50,17 @@
                             <h4 class="modal-title">Sign in to Speakur</h4>
                         </div>
                         <div class="modal-body">
-                            <p>Please sign in to Speakur with one of the following identities. In the future
-                                you will be able to create an account unique to Speakur but for now you must
-                                use one of the following identity services. You can only be signed in with one
-                                service at a time.</p>
+                            <p>Please sign in with one of the following identity providers. You will be able to change
+                                the name you post under.
+                            </p>
+
+                            <p>
+                                Your email address will be shared with Speakur but no other private data will be shared.
+                            </p>
+
+                            <p>
+                                You can only be signed in with one service at a time.
+                            </p>
 
                             <div layout horizontal>
                                 <div

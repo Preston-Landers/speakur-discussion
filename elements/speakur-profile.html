@@ -19,18 +19,8 @@
                 ready: function () {
                 },
 
-                observe: {
-                    '$.base.data': 'checkProfile'
-                },
-
-/*
-                profileChange: function() {
-                    this.checkProfile(this.user);
-                },
-*/
-
-                checkProfile: function () {
-                    var user = this.user;
+                profileChanged: function () {
+                    var user = this.globals.currentUser;
                     if (!user) {
                         return;
                     }
