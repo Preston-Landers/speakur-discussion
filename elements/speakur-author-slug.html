@@ -1,0 +1,30 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<polymer-element name="speakur-author-slug" attributes="author">
+    <template>
+        <style>
+            .profile-img {
+                border-radius: 50%;
+                height: 24px;
+                width: 24px;
+                border: 2px #6c7a7f solid;  /* color! */
+
+                /* following is questionable... why do we have to do this? */
+                vertical-align: middle;
+                position: relative;
+                top: -2px;
+            }
+        </style>
+        <span>
+            <template if="{{author && author.picture_link}}">
+                <img src="{{author.picture_link}}" class="profile-img"
+                     alt = "Author Photo">
+
+            </template>
+            {{author.username ? author.username : 'Anonymous' }}
+        </span>
+    </template>
+    <script>
+        Polymer({});
+    </script>
+</polymer-element>

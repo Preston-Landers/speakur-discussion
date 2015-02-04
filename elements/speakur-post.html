@@ -4,8 +4,9 @@
 <link rel="import" href="../../firebase-element/firebase-element.html">
 <link rel="import" href="../../marked-element/marked-element.html">
 <link rel="import" href="../../highlightjs-element/highlightjs-element.html">
+<link rel="import" href="../../pvc-globals/pvc-globals.html">
 
-
+<link rel="import" href="speakur-author-slug.html">
 <link rel="import" href="speakur-card.html">
 
 <polymer-element name="speakur-post" attributes="firebaseLocation threadId postId previewMode previewText">
@@ -13,6 +14,7 @@
         <link rel="stylesheet" href="../../highlightjs/styles/default.css">
         <style>
         </style>
+        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <template if="{{!previewMode}}">
             <firebase-element
                     id="base" data="{{post}}"
@@ -37,18 +39,16 @@
                             Delete
                         </paper-button>
 -->
-
-                        <a on-click="{{deletePost}}"
-                           title="Delete this post permanently"
-                           href="#">
-                            <core-icon
+                        <template if="{{canDeletePost}}">
+                            <a on-click="{{deletePost}}"
+                               title="Delete this post permanently"
+                               href="#">
+                                <core-icon
                                     icon="delete"
                                     style="color: red; width: 12px; height: 12px; margin-bottom:4px;">
-                            </core-icon>Delete</a>
-                        <!--
-                                                <button on-click="{{deletePost}}">Delete</button>
-                        -->
-                        User: {{post.author.username}}
+                                </core-icon>Delete</a>
+                        </template>
+                        <speakur-author-slug author="{{post.author}}"></speakur-author-slug>
                         <em>
                             <small>{{post.timestamp | formatTimestamp}}</small>
                         </em>
@@ -91,6 +91,15 @@
 
             hilight: function (event, detail, sender) {
                 detail.code = hljs.highlightAuto(detail.code).value;
+            },
+
+            canDeletePost: function() {
+                if (this.post.author.uid === "anonymous" ||
+                    this.post.author.uid === "anon") {
+                    // Temporary - anyone can delete anon posts
+                    return true;
+                }
+                return this.post.author.uid === this.globals.profile.uid;
             }
         });
     </script>

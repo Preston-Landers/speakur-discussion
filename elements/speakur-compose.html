@@ -5,6 +5,7 @@
 <link rel="import" href="../../pvc-globals/pvc-globals.html">
 
 <link rel="import" href="speakur-post.html">
+<link rel="import" href="speakur-author-slug.html">
 
 <polymer-element name="speakur-compose" attributes="firebaseLocation threadId">
     <template>
@@ -54,12 +55,15 @@
                     <div horizontal layout end-justified center>
                         <div class="posting-as">
                             Posting as:
+                            <speakur-author-slug author="{{globals.profile}}"></speakur-author-slug>
+<!--
                             <template if="{{globals.profile && globals.profile.picture_link}}">
                                 <img src="{{globals.profile.picture_link}}"
                                      style="width: 24px; height: 24px;"
                                      >
                             </template>
                             {{globals.profile ? globals.profile.username : 'Anonymous' }}
+-->
                         </div>
                         <div
                                 on-click="{{cancel}}"
