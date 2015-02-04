@@ -52,18 +52,16 @@
             </div>
             <div class="footer">
                 <template if="{{newText.length}}">
-                    <div horizontal layout end-justified center>
-                        <div class="posting-as">
-                            Posting as:
+                    <div horizontal layout center>
+                        <div style="margin-left: 12px;" on-click="{{editingHelp}}">
+                            Editing Help
+                        </div>
+                        <div flex></div>
+                        <div horizontal layout end-justified center  class="posting-as">
+                            <span>
+                                Posting as:
+                            </span>
                             <speakur-author-slug author="{{globals.profile}}"></speakur-author-slug>
-<!--
-                            <template if="{{globals.profile && globals.profile.picture_link}}">
-                                <img src="{{globals.profile.picture_link}}"
-                                     style="width: 24px; height: 24px;"
-                                     >
-                            </template>
-                            {{globals.profile ? globals.profile.username : 'Anonymous' }}
--->
                         </div>
                         <div
                                 on-click="{{cancel}}"
@@ -134,6 +132,10 @@
                     return false;
                 }
                 this.newText = '';
+            },
+
+            editingHelp: function() {
+                this.fire('not-yet-implemented');
             }
         });
     </script>

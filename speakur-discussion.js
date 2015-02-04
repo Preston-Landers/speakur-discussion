@@ -168,6 +168,10 @@
             return 'speakur-discussion says, ' + response;
         },
 
+        nyiClick: function() {
+            this.$['nyi-toast'].show();
+        },
+
         /**
          * The `speakur-discussion-lasers-success` event is fired whenever we
          * call fireLasers.
@@ -217,17 +221,17 @@
 
         search: function () {
             console.log("Search clicked.");
-            this.$['nyi-toast'].show();
+            this.nyiClick();
         },
 
         menu: function () {
             console.log("Menu clicked.");
-            this.$['nyi-toast'].show();
+            this.nyiClick();
         },
 
         reportProblem: function () {
             console.log("Report Problem clicked.");
-            this.$['nyi-toast'].show();
+            this.nyiClick();
         },
 
         setThreadIdFromHref: function () {
@@ -347,7 +351,8 @@
         eventDelegates: {
             'core-collapse-open': 'openStatusChanged',
             'loginButtonPressed': 'login',
-            'logoutButtonPressed': 'logout'
+            'logoutButtonPressed': 'logout',
+            'not-yet-implemented': 'nyiClick'
         }
 
     });

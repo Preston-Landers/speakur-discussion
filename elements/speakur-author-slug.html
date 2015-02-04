@@ -3,26 +3,36 @@
 <polymer-element name="speakur-author-slug" attributes="author">
     <template>
         <style>
+
+            :host {
+                margin-left: 6px;
+                margin-right: 6px;
+            }
+
             .profile-img {
                 border-radius: 50%;
                 height: 24px;
                 width: 24px;
-                border: 2px #6c7a7f solid;  /* color! */
+                border: 2px #6c7a7f solid; /* color! */
+            }
 
-                /* following is questionable... why do we have to do this? */
-                vertical-align: middle;
-                position: relative;
-                top: -2px;
+            .username {
+                margin-left: 4px;
             }
         </style>
-        <span>
+        <div layout horizontal center>
             <template if="{{author && author.picture_link}}">
+                <!-- TODO: binding on img src may not work on all browers?
+                 https://www.polymer-project.org/docs/polymer/databinding-compat.html  -->
                 <img src="{{author.picture_link}}" class="profile-img"
-                     alt = "Author Photo">
+                     alt="Author Photo">
 
             </template>
-            {{author.username ? author.username : 'Anonymous' }}
-        </span>
+            <span class="username">
+                {{author.username ? author.username : 'Anonymous' }}
+            </span>
+        </div>
+
     </template>
     <script>
         Polymer({});
