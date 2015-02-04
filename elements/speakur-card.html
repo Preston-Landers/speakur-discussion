@@ -23,16 +23,19 @@
         <section>
             <paper-shadow class="shadow" z="1">
                 <div class="speakur-card" vertical layout>
-                    <!--hidden?="{{!headerExists()}}"-->
-                    <div class="card card-header" hidden?="{{!showheader}}">
-                        <content id="header" select=".header"></content>
-                    </div>
+                    <template if="{{showheader}}">
+                        <div class="card card-header">
+                            <content id="header" select=".header"></content>
+                        </div>
+                    </template>
                     <div class="card card-body">
                         <content select=":not(.footer)"></content>
                     </div>
-                    <div class="card card-footer" hidden?="{{!showfooter}}">
-                        <content id="footer" select=".footer"></content>
-                    </div>
+                    <template if="{{showfooter}}">
+                        <div class="card card-footer">
+                            <content id="footer" select=".footer"></content>
+                        </div>
+                    </template>
                 </div>
             </paper-shadow>
 
