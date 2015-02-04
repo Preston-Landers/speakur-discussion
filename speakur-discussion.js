@@ -130,6 +130,11 @@
             // More info: http://www.polymer-project.org/docs/polymer/polymer.html#lifecyclemethods
             // this.title = 'ok?';
 
+            this.globals.anon_author = {
+                uid: 'anon',
+                username: 'Anonymous'
+            };
+
             // This is probably global to the page, isn't it??
             marked.setOptions({
                 gfm: true,   // github flavored markdown?

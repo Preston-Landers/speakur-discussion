@@ -10,7 +10,7 @@
     "web-components",
     "polymer",
     "forum",
-	"discussion"
+    "discussion"
   ],
   "main": "speakur-discussion.html",
   "license": "MIT",
@@ -28,7 +28,8 @@
     "pvc-globals": "Divshot/pvc-globals",
     "marked-element": "Polymer/marked-element#^0.5.4",
     "highlightjs-element": "Polymer/highlightjs-element#^0.5.4",
-    "js-md5": "blueimp/JavaScript-MD5#~1.1.0"
+    "js-md5": "blueimp/JavaScript-MD5#~1.1.0",
+    "lodash-import": "~0.0.2"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^2.1.3"

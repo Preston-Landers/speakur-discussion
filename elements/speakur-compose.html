@@ -2,6 +2,7 @@
 <link rel="import" href="../../paper-button/paper-button.html">
 <link rel="import" href="../../firebase-element/firebase-element.html">
 <link rel="import" href="../../marked-element/marked-element.html">
+<link rel="import" href="../../pvc-globals/pvc-globals.html">
 
 <link rel="import" href="speakur-post.html">
 
@@ -11,11 +12,22 @@
             .cancel-btn {
                 margin-right: 10px;
             }
+
+            .preview-div {
+                margin-top: 12px;
+            }
+
+            .posting-as {
+                margin-right: 16px;
+                font-size: 90%;
+            }
         </style>
         <link rel="stylesheet" href="../../bootstrap/dist/css/bootstrap.min.css">
         <firebase-element
                 id="posts" data="{{posts}}"
                 location="{{firebaseLocation + '/posts/' + threadId }}"></firebase-element>
+        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
+
         <form>
             <div class="body">
                 <div class="form-group">
@@ -37,23 +49,36 @@
                     -->
                 </div>
             </div>
-            <div class="footer text-right">
+            <div class="footer">
                 <template if="{{newText.length}}">
-                    <div
-                            on-click="{{cancel}}"
-                            title="Cancel (Clear Text)"
-                            class="btn btn-sm btn-danger cancel-btn">
-                        Cancel
+                    <div horizontal layout end-justified center>
+                        <div class="posting-as">
+                            Posting as:
+                            <template if="{{globals.profile && globals.profile.picture_link}}">
+                                <img src="{{globals.profile.picture_link}}"
+                                     style="width: 24px; height: 24px;"
+                                     >
+                            </template>
+                            {{globals.profile ? globals.profile.username : 'Anonymous' }}
+                        </div>
+                        <div
+                                on-click="{{cancel}}"
+                                title="Cancel (Clear Text)"
+                                class="btn btn-sm btn-danger cancel-btn">
+                            Cancel
+                        </div>
+                        <div on-click="{{submit}}" title="Publish Comment" class="btn btn-sm btn-primary">Publish
+                            Comment
+                        </div>
+                    </div>
+                    <div class="preview-div">
+                        <speakur-post
+                                id="preview"
+                                previewText="{{newText}}"
+                                previewMode="{{true}}">
+                        </speakur-post>
                     </div>
                 </template>
-                <div on-click="{{submit}}" title="Publish Comment" class="btn btn-sm btn-primary">Publish Comment</div>
-            </div>
-            <div>
-                <speakur-post
-                        id="preview"
-                        previewText="{{newText}}"
-                        previewMode="{{true}}">
-                </speakur-post>
             </div>
         </form>
     </template>
@@ -66,24 +91,37 @@
                     console.error("Unable to submit post; no threadId given");
                     return false;
                 }
-                if (this.newText.length) {
-
-                    var post = this.$.posts.push({
-                        threadId: this.threadId,
-                        text: this.newText,
-                        author: {
-                            uid: 'anonymous',
-                            username: 'Anonymous'
-                        },
-                        timestamp: new Date().getTime()
-                    });
-                    var post_id = post.key();
-                    console.log("Created post: " + post_id);
-
-                    this.newText = '';
-                } else {
+                if (!this.newText.length) {
                     console.error('Please write something.');
+                    // TODO: error handling - toast?
+                    return false;
                 }
+
+                var author;
+                var replyTo = null;// TODO: replies
+                if (this.globals.profile) {
+                    author = {
+                        uid: this.globals.profile.uid,
+                        username: this.globals.profile.username,
+                        picture_link: this.globals.profile.picture_link
+                    };
+                } else {
+                    author = _.clone(this.globals.anon_author, true);
+                }
+
+                var post = this.$.posts.push({
+                    threadId: this.threadId,
+                    replyTo: replyTo,
+                    replies: [],
+                    text: this.newText,
+                    author: author,
+                    timestamp: new Date().getTime()
+                });
+                var post_id = post.key();
+                console.log("Created post: " + post_id);
+
+                this.newText = '';
+
             },
 
             cancel: function () {

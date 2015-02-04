@@ -24,11 +24,12 @@
                     if (!user) {
                         return;
                     }
-                    console.log("Checking user profile of: ", user.uid, " at location ", this.$.base.location);
+                    // console.log("Checking user profile of: ", user.uid, " at location ", this.$.base.location);
                     if (!this.profile) {
                         console.log("Creating profile for " + user.uid);
                         this.profile = this.createProfile(user);
-                    } else {
+                    }
+                    else {
                         console.log("Profile already exists: ", this.profile);
                     }
                     console.log("firebase profile: ", this.profile);
@@ -45,6 +46,7 @@
 
                 // create a new generic user profile from an authentication user
                 createProfile: function (user) {
+
                     var prof = {
                         uid: user.uid,
                         provider: user.provider,
