@@ -8,37 +8,43 @@
 
 <link rel="import" href="speakur-author-slug.html">
 <link rel="import" href="speakur-card.html">
+<link rel="import" href="speakur-post-footer.html">
 
-<polymer-element name="speakur-post" attributes="firebaseLocation threadId postId previewMode previewText">
+<polymer-element name="speakur-post" attributes="firebaseLocation threadId postId previewing previewText">
     <template>
         <link rel="stylesheet" href="../../highlightjs/styles/default.css">
         <style>
+            /* give less padding to the body of the card within. maybe just change the card itself */
+            speakur-card /deep/ .card-body {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
         </style>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
-        <template if="{{!previewMode}}">
+        <template if="{{!previewing}}">
             <firebase-element
-                    id="base" data="{{post}}"
-                    location="{{firebaseLocation}}/posts/{{threadId}}/{{postId}}"></firebase-element>
+                id="base" data="{{post}}"
+                location="{{firebaseLocation}}/posts/{{threadId}}/{{postId}}"></firebase-element>
 
         </template>
-        <template if="{{!previewMode || (previewMode && previewText)}}">
+        <template if="{{!previewing || previewText}}">
             <speakur-card>
                 <div layout horizontal center class="header">
-                    <template if="{{previewMode}}">
+                    <template if="{{previewing}}">
                         Preview
                     </template>
-                    <template if="{{!previewMode}}">
-<!--
-                        <paper-button
-                                id="deletebutton"
-                                on-click="{{deletePost}}"
-                                >
-                            <paper-icon-button
-                                    style="color: red; width: 12px; height: 12px;"
-                                    icon="delete"></paper-icon-button>
-                            Delete
-                        </paper-button>
--->
+                    <template if="{{!previewing}}">
+                        <!--
+                                                <paper-button
+                                                        id="deletebutton"
+                                                        on-click="{{deletePost}}"
+                                                        >
+                                                    <paper-icon-button
+                                                            style="color: red; width: 12px; height: 12px;"
+                                                            icon="delete"></paper-icon-button>
+                                                    Delete
+                                                </paper-button>
+                        -->
                         <template if="{{canDeletePost}}">
                             <a on-click="{{deletePost}}"
                                title="Delete this post permanently"
@@ -46,7 +52,8 @@
                                 <core-icon
                                     icon="delete"
                                     style="color: red; width: 12px; height: 12px; margin-bottom:4px;">
-                                </core-icon>Delete</a>
+                                </core-icon>
+                                Delete</a>
                         </template>
                         <speakur-author-slug author="{{post.author}}"></speakur-author-slug>
                         <em>
@@ -63,15 +70,18 @@
                                     </mark-down>
                     -->
                     <marked-element
-                            text="{{previewMode ? ( previewText ? previewText : '' ) : post.text}}">
+                        text="{{previewing ? ( previewText ? previewText : '' ) : post.text}}">
                     </marked-element>
                 </div>
+                <template if="{{!previewing}}">
+                    <speakur-post-footer class="footer" post="{{post}}"></speakur-post-footer>
+                </template>
             </speakur-card>
         </template>
     </template>
     <script>
         Polymer({
-            previewMode: false,
+            previewing: false,
             previewText: null,
 
             deletePost: function (event, detail, sender) {
@@ -93,14 +103,43 @@
                 detail.code = hljs.highlightAuto(detail.code).value;
             },
 
-            canDeletePost: function() {
+            canDeletePost: function () {
                 if (this.post.author.uid === "anonymous" ||
                     this.post.author.uid === "anon") {
                     // Temporary - anyone can delete anon posts
                     return true;
                 }
                 return this.post.author.uid === this.globals.profile.uid;
+            },
+
+            replyToPost: function() {
+                this.fire('not-yet-implemented');
+            },
+
+            editPost: function() {
+                this.fire('not-yet-implemented');
+            },
+
+            reportPost: function() {
+                this.fire('not-yet-implemented');
+            },
+
+            voteUp: function () {
+                this.fire('not-yet-implemented');
+            },
+
+            voteDown: function () {
+                this.fire('not-yet-implemented');
+            },
+
+            eventDelegates: {
+                'reply-to-post': 'replyToPost',
+                'edit-post': 'editPost',
+                'report-post': 'reportPost',
+                'vote-up': 'voteUp',
+                'vote-down': 'voteDown'
             }
+
         });
     </script>
 </polymer-element>

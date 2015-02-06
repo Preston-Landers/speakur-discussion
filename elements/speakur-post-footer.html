@@ -1,0 +1,103 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../core-icon/core-icon.html">
+
+<polymer-element name="speakur-post-footer" attributes="post">
+    <template>
+        <style>
+            .speakur-post-toolbar>div {
+                margin-right: 10px;
+            }
+            .vote-block {
+                margin-right: 8px;
+            }
+            .vote {
+                width: 16px;
+                height: 14px;
+            }
+            .vote-down {
+                margin-right: 6px;
+                color: #800004;
+            }
+            .vote-up {
+                margin-left: 6px;
+                color: #000ec1;
+            }
+            .not-voted {
+                opacity: 0.2;
+            }
+        </style>
+        <div horizontal center layout class="speakur-post-toolbar">
+            <span class="vote-block">
+                <template if="{{netVotes !== 0}}">
+                    {{netVotes}}
+                </template>
+                <core-icon
+                    title="Good contribution"
+                    id="voteUp"
+                    class="vote vote-up not-voted"
+                    on-click="{{voteUp}}"
+                    icon="thumb-up"></core-icon>
+                &vert;
+                <core-icon
+                    title="It stinks!"
+                    id="voteDown"
+                    class="vote vote-down not-voted"
+                    on-click="{{voteDown}}"
+                    icon="thumb-down"></core-icon>
+            </span>
+            <div title="Reply to comment" on-click="{{replyToPost}}">
+                Reply
+            </div>
+            <div on-click="{{editPost}}">
+                Edit
+            </div>
+            <div title="Permanently delete this comment." on-click="{{deletePost}}">
+                Delete
+            </div>
+            <div title="Report spam, harassment or illegal content." on-click="{{reportPost}}">
+                Report
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            getNetVotes: function (post) {
+                if (!post) { return 0; }
+                // if we have auto-own-upvote, should we reflect a 1 vote post as 'neutral' ? instead of 0
+                if (! Object.keys(post).length) {
+                    return 0;
+                }
+                var upvotes = post.upvotes || 0;
+                var downvotes = post.downvotes || 0;
+                return upvotes - downvotes;
+            },
+            computed: {
+              netVotes: "getNetVotes(post)"
+            },
+            replyToPost: function() {
+                this.fire('reply-to-post');
+            },
+            editPost: function() {
+                this.fire('edit-post');
+            },
+            reportPost: function() {
+                this.fire('report-post');
+            },
+            voteUp: function() {
+                this.fire('vote-up');
+
+                // Up/Down vote should be separate toggles.
+
+                jQuery(this.$.voteUp).removeClass("not-voted");
+                // var $vdown = jQuery(this.$.voteDown);
+                // if ($vdown.hasClass('not-voted'))
+                // jQuery(this.$.voteDown).addClass("not-voted");
+            },
+            voteDown: function () {
+                this.fire('vote-down');
+                jQuery(this.$.voteDown).removeClass("not-voted");
+                //jQuery(this.$.voteUp).addClass("not-voted");
+            }
+        });
+    </script>
+</polymer-element>

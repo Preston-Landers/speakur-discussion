@@ -77,7 +77,7 @@
                         <speakur-post
                                 id="preview"
                                 previewText="{{newText}}"
-                                previewMode="{{true}}">
+                                previewing="{{true}}">
                         </speakur-post>
                     </div>
                 </template>
@@ -111,10 +111,13 @@
                     author = _.clone(this.globals.anon_author, true);
                 }
 
+                // insert own upvote?
                 var post = this.$.posts.push({
                     threadId: this.threadId,
                     replyTo: replyTo,
                     replies: [],
+                    upvotes: 0,
+                    downvotes: 0,
                     text: this.newText,
                     author: author,
                     timestamp: new Date().getTime()
