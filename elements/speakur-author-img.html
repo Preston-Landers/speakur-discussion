@@ -6,21 +6,25 @@
                 border-radius: 48%;
                 height: 24px;
                 width: 24px;
-                border: 2px rgba(108, 122, 127, 0.7) solid; /* color! */
+                border: 2px rgba(108, 122, 127, 0.3) solid; /* color! */
             }
 
         </style>
 
-        <template if="{{author}}">
+        <div>
             <!-- TODO: binding on img src may not work on all browers?
-             https://www.polymer-project.org/docs/polymer/databinding-compat.html  -->
+     https://www.polymer-project.org/docs/polymer/databinding-compat.html  -->
             <img
                 src="{{picture_link}}"
                 style="width: {{width}}px; height: {{height}}px;"
                 class="profile-img"
                 alt="Profile Picture">
+        </div>
+        <!--
+                <template if="{{author}">
 
-        </template>
+                </template>
+        -->
 
     </template>
     <script>
@@ -32,7 +36,7 @@
                 'picture_link': "getPictureLink(author)"
             },
             getPictureLink: function (author) {
-                if (!author || ! author.picture_link) {
+                if (!author || !author.picture_link) {
                     // Anonymous picture
                     return 'images/alien3.png';
                 }

@@ -357,13 +357,19 @@
 
     });
 
-    PolymerExpressions.prototype.formatTimestamp = function (value) {
-        // TODO: what if there's some other component on the page that defines a formatTimestamp global filter?
+    PolymerExpressions.prototype.formatTimestampFromAgo = function (value) {
+        // TODO: what if there's some other component on the page that defines a global filter of same name?
         if (!value) {
             return "(unknown)";
         }
-        var newDate = new Date(value);
-        return newDate.toLocaleString();
+        return moment(value).fromNow();
+    };
+
+    PolymerExpressions.prototype.formatTimestamp = function (value) {
+        if (!value) {
+            return "(unknown)";
+        }
+        return moment(value).format("dddd, MMMM Do YYYY, h:mm:ss a Z");
     };
 
 // wrap document so it plays nice with other libraries

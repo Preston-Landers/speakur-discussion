@@ -23,6 +23,13 @@
             .post-author-img {
                 padding: 10px 10px 10px 0px;
             }
+
+            speakur-card > .header /deep/ .username {
+                margin-right: 12px;
+                font-weight: bold;
+                text-shadow: 1px 1px rgba(20, 20, 22, 0.78);
+            }
+
         </style>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <template if="{{!previewing}}">
@@ -34,7 +41,10 @@
         <template if="{{!previewing || previewText}}">
             <div layout horizontal>
                 <div class="post-author-img">
-                    <speakur-author-img width="32" height="32" author="{{post.author}}"></speakur-author-img>
+                    <speakur-author-img
+                        width="32" height="32"
+                        author="{{previewing ? globals.profile : post.author}}">
+                    </speakur-author-img>
                 </div>
                 <div flex>
                     <speakur-card>
@@ -55,8 +65,8 @@
                                                         </paper-button>
                                 -->
                                 <speakur-author-slug showPicture="false" author="{{post.author}}"></speakur-author-slug>
-                                <em>
-                                    <small>{{post.timestamp | formatTimestamp}}</small>
+                                <em title="{{post.timestamp | formatTimestamp}}">
+                                    <small>{{post.timestamp | formatTimestampFromAgo}}</small>
                                 </em>
                             </template>
                         </div>
