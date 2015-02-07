@@ -124,6 +124,15 @@
 
         thread: null,
 
+        // you can reference globals.updateTick in an expression to have something
+        // that will change on a regular schedule (currently every 20 seconds)
+        globalTick: function () {
+            this.globals.updateTick = new Date();
+            this.job('global-tick', function () {
+                this.fire('global-tick');
+            }, 20000);
+        },
+
         ready: function () {
             // Ready is a lifecycle callback.
             // You can do setup work in here.
@@ -134,6 +143,10 @@
                 uid: 'anon',
                 username: 'Anonymous'
             };
+
+            // Start the 'global tick' which is updated every X seconds
+            // to be used in expressions like globals.updateTick to give them an 'expiration time'
+            this.fire('global-tick');
 
             // This is probably global to the page, isn't it??
             marked.setOptions({
@@ -352,7 +365,8 @@
             'core-collapse-open': 'openStatusChanged',
             'loginButtonPressed': 'login',
             'logoutButtonPressed': 'logout',
-            'not-yet-implemented': 'nyiClick'
+            'not-yet-implemented': 'nyiClick',
+            'global-tick': 'globalTick'
         }
 
     });
