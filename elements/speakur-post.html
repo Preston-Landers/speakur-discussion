@@ -6,6 +6,7 @@
 <link rel="import" href="../../highlightjs-element/highlightjs-element.html">
 <link rel="import" href="../../pvc-globals/pvc-globals.html">
 
+<link rel="import" href="speakur-author-img.html">
 <link rel="import" href="speakur-author-slug.html">
 <link rel="import" href="speakur-card.html">
 <link rel="import" href="speakur-post-footer.html">
@@ -19,6 +20,9 @@
                 padding-top: 0;
                 padding-bottom: 0;
             }
+            .post-author-img {
+                padding: 10px 10px 10px 0px;
+            }
         </style>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <template if="{{!previewing}}">
@@ -28,55 +32,54 @@
 
         </template>
         <template if="{{!previewing || previewText}}">
-            <speakur-card>
-                <div layout horizontal center class="header">
-                    <template if="{{previewing}}">
-                        Preview
-                    </template>
-                    <template if="{{!previewing}}">
-                        <!--
-                                                <paper-button
-                                                        id="deletebutton"
-                                                        on-click="{{deletePost}}"
-                                                        >
-                                                    <paper-icon-button
-                                                            style="color: red; width: 12px; height: 12px;"
-                                                            icon="delete"></paper-icon-button>
-                                                    Delete
-                                                </paper-button>
-                        -->
-                        <template if="{{canDeletePost}}">
-                            <a on-click="{{deletePost}}"
-                               title="Delete this post permanently"
-                               href="#">
-                                <core-icon
-                                    icon="delete"
-                                    style="color: red; width: 12px; height: 12px; margin-bottom:4px;">
-                                </core-icon>
-                                Delete</a>
+            <div layout horizontal>
+                <div class="post-author-img">
+                    <speakur-author-img width="32" height="32" author="{{post.author}}"></speakur-author-img>
+                </div>
+                <div flex>
+                    <speakur-card>
+                        <div layout horizontal center class="header">
+                            <template if="{{previewing}}">
+                                Preview
+                            </template>
+                            <template if="{{!previewing}}">
+                                <!--
+                                                        <paper-button
+                                                                id="deletebutton"
+                                                                on-click="{{deletePost}}"
+                                                                >
+                                                            <paper-icon-button
+                                                                    style="color: red; width: 12px; height: 12px;"
+                                                                    icon="delete"></paper-icon-button>
+                                                            Delete
+                                                        </paper-button>
+                                -->
+                                <speakur-author-slug showPicture="false" author="{{post.author}}"></speakur-author-slug>
+                                <em>
+                                    <small>{{post.timestamp | formatTimestamp}}</small>
+                                </em>
+                            </template>
+                        </div>
+                        <div class="body" on-marked-js-highlight="{{hilight}}">
+                            <!--
+                                            {{post.text | stripTags }}
+                            -->
+                            <!--
+                                            <mark-down text="{{post.text}}">
+                                            </mark-down>
+                            -->
+                            <marked-element
+                                text="{{previewing ? ( previewText ? previewText : '' ) : post.text}}">
+                            </marked-element>
+                        </div>
+                        <template if="{{!previewing}}">
+                            <speakur-post-footer class="footer" post="{{post}}"></speakur-post-footer>
                         </template>
-                        <speakur-author-slug author="{{post.author}}"></speakur-author-slug>
-                        <em>
-                            <small>{{post.timestamp | formatTimestamp}}</small>
-                        </em>
-                    </template>
+                    </speakur-card>
+
                 </div>
-                <div class="body" on-marked-js-highlight="{{hilight}}">
-                    <!--
-                                    {{post.text | stripTags }}
-                    -->
-                    <!--
-                                    <mark-down text="{{post.text}}">
-                                    </mark-down>
-                    -->
-                    <marked-element
-                        text="{{previewing ? ( previewText ? previewText : '' ) : post.text}}">
-                    </marked-element>
-                </div>
-                <template if="{{!previewing}}">
-                    <speakur-post-footer class="footer" post="{{post}}"></speakur-post-footer>
-                </template>
-            </speakur-card>
+            </div>
+
         </template>
     </template>
     <script>
@@ -103,15 +106,6 @@
                 detail.code = hljs.highlightAuto(detail.code).value;
             },
 
-            canDeletePost: function () {
-                if (this.post.author.uid === "anonymous" ||
-                    this.post.author.uid === "anon") {
-                    // Temporary - anyone can delete anon posts
-                    return true;
-                }
-                return this.post.author.uid === this.globals.profile.uid;
-            },
-
             replyToPost: function() {
                 this.fire('not-yet-implemented');
             },
@@ -136,6 +130,7 @@
                 'reply-to-post': 'replyToPost',
                 'edit-post': 'editPost',
                 'report-post': 'reportPost',
+                'delete-post': 'deletePost',
                 'vote-up': 'voteUp',
                 'vote-down': 'voteDown'
             }

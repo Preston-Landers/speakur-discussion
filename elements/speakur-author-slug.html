@@ -1,32 +1,28 @@
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="speakur-author-img.html">
 
-<polymer-element name="speakur-author-slug" attributes="author">
+<polymer-element name="speakur-author-slug" attributes="author showPicture imgHeight imgWidth">
     <template>
         <style>
 
             :host {
-                margin-left: 6px;
-                margin-right: 6px;
+                /*margin-left: 6px;*/
+                margin-right: 8px;
             }
 
-            .profile-img {
-                border-radius: 50%;
-                height: 24px;
-                width: 24px;
-                border: 2px #6c7a7f solid; /* color! */
-            }
-
+/*
             .username {
                 margin-left: 4px;
             }
+*/
         </style>
         <div layout horizontal center>
-            <template if="{{author && author.picture_link}}">
-                <!-- TODO: binding on img src may not work on all browers?
-                 https://www.polymer-project.org/docs/polymer/databinding-compat.html  -->
-                <img src="{{author.picture_link}}" class="profile-img"
-                     alt="Author Photo">
-
+            <template if="{{showPicture}}">
+                <speakur-author-img
+                    author="{{author}}"
+                    width="{{imgWidth}}"
+                    height="{{imgHeight}}">
+                </speakur-author-img>
             </template>
             <span class="username">
                 {{author.username ? author.username : 'Anonymous' }}
@@ -35,6 +31,10 @@
 
     </template>
     <script>
-        Polymer({});
+        Polymer({
+            imgHeight: 24,
+            imgWidth: 24,
+            showPicture: false
+        });
     </script>
 </polymer-element>

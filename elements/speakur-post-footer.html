@@ -1,5 +1,6 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../core-icon/core-icon.html">
+<link rel="import" href="../../pvc-globals/pvc-globals.html">
 
 <polymer-element name="speakur-post-footer" attributes="post">
     <template>
@@ -26,6 +27,7 @@
                 opacity: 0.2;
             }
         </style>
+        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <div horizontal center layout class="speakur-post-toolbar">
             <span class="vote-block">
                 <template if="{{netVotes !== 0}}">
@@ -51,9 +53,11 @@
             <div on-click="{{editPost}}">
                 Edit
             </div>
-            <div title="Permanently delete this comment." on-click="{{deletePost}}">
-                Delete
-            </div>
+            <template if="{{canDeletePost}}">
+                <div title="Permanently delete this comment." on-click="{{deletePost}}">
+                    Delete
+                </div>
+            </template>
             <div title="Report spam, harassment or illegal content." on-click="{{reportPost}}">
                 Report
             </div>
@@ -74,6 +78,15 @@
             computed: {
               netVotes: "getNetVotes(post)"
             },
+            canDeletePost: function () {
+                if (this.post.author.uid === "anonymous" ||
+                    this.post.author.uid === "anon") {
+                    // Temporary - anyone can delete anon posts
+                    return true;
+                }
+                return this.post.author.uid === this.globals.profile.uid;
+            },
+
             replyToPost: function() {
                 this.fire('reply-to-post');
             },
@@ -83,19 +96,22 @@
             reportPost: function() {
                 this.fire('report-post');
             },
+            deletePost: function() {
+                this.fire('delete-post');
+            },
             voteUp: function() {
                 this.fire('vote-up');
 
                 // Up/Down vote should be separate toggles.
 
-                jQuery(this.$.voteUp).removeClass("not-voted");
+                jQuery(this.$.voteUp).toggleClass("not-voted");
                 // var $vdown = jQuery(this.$.voteDown);
                 // if ($vdown.hasClass('not-voted'))
                 // jQuery(this.$.voteDown).addClass("not-voted");
             },
             voteDown: function () {
                 this.fire('vote-down');
-                jQuery(this.$.voteDown).removeClass("not-voted");
+                jQuery(this.$.voteDown).toggleClass("not-voted");
                 //jQuery(this.$.voteUp).addClass("not-voted");
             }
         });

@@ -1,0 +1,43 @@
+<link rel="import" href="../../polymer/polymer.html">
+<polymer-element name="speakur-author-img" attributes="author width height showAnon">
+    <template>
+        <style>
+            .profile-img {
+                border-radius: 48%;
+                height: 24px;
+                width: 24px;
+                border: 2px rgba(108, 122, 127, 0.7) solid; /* color! */
+            }
+
+        </style>
+
+        <template if="{{author}}">
+            <!-- TODO: binding on img src may not work on all browers?
+             https://www.polymer-project.org/docs/polymer/databinding-compat.html  -->
+            <img
+                src="{{picture_link}}"
+                style="width: {{width}}px; height: {{height}}px;"
+                class="profile-img"
+                alt="Profile Picture">
+
+        </template>
+
+    </template>
+    <script>
+        Polymer({
+            showAnon: true,
+            width: 24,
+            height: 24,
+            computed: {
+                'picture_link': "getPictureLink(author)"
+            },
+            getPictureLink: function (author) {
+                if (!author || ! author.picture_link) {
+                    // Anonymous picture
+                    return 'images/alien3.png';
+                }
+                return author.picture_link;
+            }
+        });
+    </script>
+</polymer-element>
