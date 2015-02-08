@@ -49,7 +49,7 @@
 
         </template>
         <template if="{{!previewing || previewText}}">
-            <div layout horizontal hidden?="{{ hidePost(post, $.replySet.posts, $.replySet.postIds) }}">
+            <div layout horizontal>
                 <div class="post-author-img">
                     <speakur-author-img
                         width="32" height="32"
@@ -133,26 +133,12 @@
     </template>
     <script>
         Polymer({
+            threadId: null,
+            parentId: null,
+            postId: null,
             previewing: false,
             previewText: null,
             showingReply: false,
-
-            // This may not be ultimately necessary if we are automatically recursively deleting
-            // marked-deleted parents when their only child is actually deleted.
-            hidePost: function (post, replyPosts, replyPostIds) {
-                if (!post || post.deleted == undefined) {
-                    return false;
-                }
-                if (post.deleted === true) {
-                    // Note: this doesn't look recursively. All replies may be marked deleted...
-                    if (replyPosts && replyPostIds.length > 0) {
-                        console.log("Not hiding post ", post, " with ", replyPostIds.length, " replies.");
-                        return false;
-                    }
-                    return true;
-                }
-                return false;
-            },
 
             /**
              * Provide the location of the database element for an individual post.
@@ -171,6 +157,14 @@
                 return firebaseLocation + "/posts/" + parentId + "/" + postId;
             },
 
+            numRepliesToMe: function () {
+                var numReplies = 0;
+                if (this.$.replySet.posts && this.$.replySet.postIds) {
+                    numReplies = this.$.replySet.postIds.length;
+                }
+                return numReplies;
+            },
+
             /**
              * Delete a post
              */
@@ -180,10 +174,7 @@
 
                 console.log("Requesting delete post: ", detail);
 
-                var numReplies = 0;
-                if (this.$.replySet.posts && this.$.replySet.postIds) {
-                    numReplies = this.$.replySet.postIds.length;
-                }
+                var numReplies = this.numRepliesToMe();
 
                 var deleted_by_uid = null;
                 if (this.globals.profile) {
@@ -204,10 +195,13 @@
                     };
                 } else {
                     console.log("Post has no replies; deleting.");
+                    var post_copy = _.clone(this.post);
                     this.$.base.remove("/");
 
                     // TODO: check if parent has no more replies and is marked deleted,
                     // then actually delete it!
+                    this.fire('post-deleted', post_copy);
+
                 }
 
             },
@@ -270,6 +264,32 @@
                 e.stopPropagation();
             },
 
+            childPostDeleted: function (e, detail, sender) {
+                // a post under me was deleted by the current user.
+                // See if we should delete this post - only
+                // if it's marked for deletion already and has no other replies.
+
+                if (this.postId == detail.replyTo) {
+                    console.log("Me: ", this.postId, " child post deleted: ", detail);
+
+                    // am I marked deleted?
+                    if (this.post.deleted) {
+                        var numReplies = this.numRepliesToMe();
+                        // a reply to me was deleted, and I'm marked-deleted w/ no children!
+                        if (numReplies == 0) {
+                            console.log("I should be deleted right now b/c my only child was deleted! ", this.post);
+                            this.fire('delete-post');
+                        } else {
+                            console.log('Not sweeping deleted post bc has active ', numReplies, ' children');
+                        }
+                    } else {
+                        console.log("Stopping deleted post sweep at non-deleted post.");
+                    }
+                    e.stopPropagation();
+                }
+
+            },
+
             eventDelegates: {
                 'reply-to-post': 'replyToPost',
                 'edit-post': 'editPost',
@@ -278,7 +298,8 @@
                 'vote-up': 'voteUp',
                 'vote-down': 'voteDown',
                 'cancel-post': 'canceledReply',
-                'submitted-post': 'submittedReply'
+                'submitted-post': 'submittedReply',
+                'post-deleted': 'childPostDeleted'
             }
 
         });

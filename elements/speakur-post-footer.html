@@ -70,6 +70,17 @@
                 </div>
             </div>
         </template>
+
+        <!-- temporary until we have true admin stuff and/or fewer bug fixes -->
+<!--
+        <template if="{{ post.deleted }}">
+            <template if="{{canDeletePost}}">
+                <div title="Permanently delete this comment." on-click="{{deletePost}}">
+                    Delete
+                </div>
+            </template>
+        </template>
+-->
     </template>
     <script>
         Polymer({
