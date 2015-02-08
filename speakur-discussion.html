@@ -65,11 +65,13 @@ https://github.com/Polymer/core-component-page/issues/7
             <!-- logical elements -->
             <firebase-login id="baseLogin" user="{{user}}" statusKnown="{{statusKnown}}" location="{{firebaseLocation}}"
                             provider="google" on-login="{{onLogin}}" on-error="{{onLoginError}}"></firebase-login>
+
+            <!-- TODO: probably don't need the following 2 DB elements here? -->
             <firebase-element
-                    id="dbThread" location="{{firebaseLocation + '/threads/' + threadId }}"
+                    id="dbThread" location="{{ threadLocation(firebaseLocation,threadId) }}"
                     data="{{thread}}"></firebase-element>
             <firebase-element
-                    id="dbPosts" location="{{firebaseLocation + '/posts/' + threadId }}"
+                    id="dbPosts" location="{{ postsLocation(firebaseLocation,threadId) }}"
                     data="{{posts}}" keys="{{postIds}}"></firebase-element>
 
             <paper-toast text="This feature is not implemented yet." id="nyi-toast"></paper-toast>
@@ -122,11 +124,6 @@ https://github.com/Polymer/core-component-page/issues/7
 
 
                     <div class="speakur-body-container">
-                        <speakur-compose
-                                id="threadCompose"
-                                threadId="{{threadId}}"
-                                firebaseLocation="{{firebaseLocation}}">
-                        </speakur-compose>
                         <speakur-thread-view
                                 id="threadView"
                                 threadId="{{threadId}}"

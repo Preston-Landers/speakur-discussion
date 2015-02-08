@@ -8,7 +8,7 @@
           Really this is just to avoid attempting to access just "/profile/" before the site or UID are defined.
           I'm probably misunderstand something here.
         -->
-        <firebase-element id="base" location="{{firebaseLocation}}/profile/{{uid}}"
+        <firebase-element id="base" location="{{profileLocation(firebaseLocation,uid)}}"
                           data="{{profile}}"></firebase-element>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
     </template>
@@ -17,6 +17,12 @@
 
             Polymer({
                 ready: function () {
+                },
+
+                profileLocation: function (firebaseLocation, uid) {
+                    if (!firebaseLocation) { return ''; }
+                    if (!uid) { return ''; }
+                    return firebaseLocation + "/profile/" + uid;
                 },
 
                 profileChanged: function () {

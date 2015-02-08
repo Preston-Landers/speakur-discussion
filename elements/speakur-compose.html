@@ -26,7 +26,7 @@
         <link rel="stylesheet" href="../../bootstrap/dist/css/bootstrap.min.css">
         <firebase-element
                 id="posts" data="{{posts}}"
-                location="{{firebaseLocation + '/posts/' + threadId }}"></firebase-element>
+                location="{{postLocation(firebaseLocation, replyTo)}}"></firebase-element>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
 
         <form>
@@ -88,6 +88,13 @@
         Polymer({
             newText: '',
 
+            postLocation: function (firebaseLocation, replyTo) {
+                // {{firebaseLocation}}/posts/{{replyTo}}
+                if (!firebaseLocation) { return ''; }
+                if (!replyTo) { return ''; }
+                return firebaseLocation + "/posts/" + replyTo;
+            },
+
             submit: function () {
                 if (!this.threadId) {
                     console.error("Unable to submit post; no threadId given");
@@ -112,7 +119,7 @@
                 }
 
                 // insert own upvote?
-                var post = this.$.posts.push({
+                var post = {
                     threadId: this.threadId,
                     replyTo: this.replyTo,
                     // replies: [],
@@ -121,12 +128,15 @@
                     text: this.newText,
                     author: author,
                     timestamp: new Date().getTime()
-                });
-                var post_id = post.key();
+                };
+                var postRef = this.$.posts.push(post);
+                var post_id = postRef.key();
                 console.log("Created post: " + post_id);
 
                 this.newText = '';
+                post['postId'] = post_id;
 
+                this.fire('submitted-post', post);
             },
 
             cancel: function () {
@@ -134,7 +144,11 @@
                     console.error("Nothing in the compose box.");
                     return false;
                 }
+                this.fire('cancel-post');
+
+                // TODO: might want to just hide it, not delete the text.
                 this.newText = '';
+
             },
 
             editingHelp: function() {

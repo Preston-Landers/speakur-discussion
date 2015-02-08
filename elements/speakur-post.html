@@ -11,6 +11,7 @@
 <link rel="import" href="speakur-card.html">
 <link rel="import" href="speakur-post-footer.html">
 <link rel="import" href="speakur-post-set.html">
+<link rel="import" href="speakur-compose.html">
 
 <polymer-element
     name="speakur-post"
@@ -38,7 +39,7 @@
         <template if="{{!previewing}}">
             <firebase-element
                 id="base" data="{{post}}"
-                location="{{firebaseLocation}}/posts/{{parentId}}/{{postId}}"></firebase-element>
+                location="{{postLocation(firebaseLocation, parentId, postId) }}"></firebase-element>
 
         </template>
         <template if="{{!previewing || previewText}}">
@@ -92,18 +93,43 @@
 
                 </div>
             </div>
-            <speakur-post-set
-                firebaseLocation="{{firebaseLocation}}"
-                level="{{level + 1}}"
-                parentId="{{postId}}"
-                threadId="{{threadId}}"
-                ></speakur-post-set>
+
+            <!--
+              -- container for reply composition and all replies to this post.
+              -- visual indentation is controlled by the level
+              -->
+            <div style="margin-left: {{level+1 * 45}}px;">
+                <speakur-compose
+                    id="replyCompose"
+                    threadId="{{threadId}}"
+                    replyTo="{{postId}}"
+                    hidden?="{{!showingReply}}"
+                    firebaseLocation="{{firebaseLocation}}">
+                </speakur-compose>
+
+                <speakur-post-set
+                    firebaseLocation="{{firebaseLocation}}"
+                    level="{{level + 1}}"
+                    parentId="{{postId}}"
+                    threadId="{{threadId}}"
+                    ></speakur-post-set>
+
+            </div>
         </template>
     </template>
     <script>
         Polymer({
             previewing: false,
             previewText: null,
+            showingReply: false,
+
+            postLocation: function (firebaseLocation, parentId, postId) {
+                // {{firebaseLocation}}/posts/{{parentId}}/{{postId}}
+                if (!firebaseLocation) { return ''; }
+                if (!parentId) { return ''; }
+                if (!postId) { return ''; }
+                return firebaseLocation + "/posts/" + parentId + "/" + postId;
+            },
 
             deletePost: function (event, detail, sender) {
                 console.log("Deleting post: ", this.postId, this.post);
@@ -125,7 +151,19 @@
             },
 
             replyToPost: function() {
-                this.fire('not-yet-implemented');
+                // this.fire('not-yet-implemented');
+                this.showingReply = true;
+            },
+
+            submittedReply: function (e) {
+                console.log("reply submitted: ", e.detail);
+                // Close reply window?
+                this.showingReply = false;
+            },
+
+            canceledReply: function () {
+                console.log("reply canceled.");
+                this.showingReply = false;
             },
 
             editPost: function() {
@@ -150,7 +188,9 @@
                 'report-post': 'reportPost',
                 'delete-post': 'deletePost',
                 'vote-up': 'voteUp',
-                'vote-down': 'voteDown'
+                'vote-down': 'voteDown',
+                'cancel-post': 'canceledReply',
+                'submitted-post': 'submittedReply'
             }
 
         });

@@ -355,6 +355,19 @@
             // Show some kind of error dialog / message?
         },
 
+        threadLocation: function (firebaseLocation, threadId) {
+            if (!firebaseLocation) { return ''; }
+            if (!threadId) { return ''; }
+            return firebaseLocation + "/threads/" + threadId;
+        },
+
+        postsLocation: function (firebaseLocation, threadId) {
+            if (!firebaseLocation) { return ''; }
+            if (!threadId) { return ''; }
+            return firebaseLocation + "/posts/" + threadId;
+        },
+
+
         observe: {
             // '$.dbThread.location': 'fbLocationChanged',
             thread: 'threadChanged',

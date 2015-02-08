@@ -8,10 +8,10 @@
         </style>
 
         <firebase-element
-            id="dbPosts" location="{{firebaseLocation + '/posts/' + parentId }}"
+            id="dbPosts" location="{{postsLocation(firebaseLocation, parentId)}}"
             data="{{posts}}" keys="{{postIds}}"></firebase-element>
 
-        <template if="{{!level && !postIds.length}}">
+        <template if="{{level==0 && !postIds.length}}">
             <div>
                 <h2>No one has posted yet. Be the first to comment.</h2>
             </div>
@@ -30,7 +30,13 @@
     </template>
     <script>
         Polymer({
-            level: 0
+            level: 0,
+            postsLocation: function (firebaseLocation, parentId) {
+                //  {{firebaseLocation}}/posts/{{parentId}}
+                if (!firebaseLocation) { return ''; }
+                if (!parentId) { return ''; }
+                return firebaseLocation + "/posts/" + parentId;
+            }
         });
     </script>
 </polymer-element>
