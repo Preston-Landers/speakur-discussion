@@ -49,7 +49,7 @@
 
         </template>
         <template if="{{!previewing || previewText}}">
-            <div layout horizontal>
+            <div layout horizontal hidden?="{{ hidePost(post, $.replySet.posts, $.replySet.postIds) }}">
                 <div class="post-author-img">
                     <speakur-author-img
                         width="32" height="32"
@@ -137,6 +137,23 @@
             previewText: null,
             showingReply: false,
 
+            // This may not be ultimately necessary if we are automatically recursively deleting
+            // marked-deleted parents when their only child is actually deleted.
+            hidePost: function (post, replyPosts, replyPostIds) {
+                if (!post || post.deleted == undefined) {
+                    return false;
+                }
+                if (post.deleted === true) {
+                    // Note: this doesn't look recursively. All replies may be marked deleted...
+                    if (replyPosts && replyPostIds.length > 0) {
+                        console.log("Not hiding post ", post, " with ", replyPostIds.length, " replies.");
+                        return false;
+                    }
+                    return true;
+                }
+                return false;
+            },
+
             /**
              * Provide the location of the database element for an individual post.
              */
@@ -188,6 +205,9 @@
                 } else {
                     console.log("Post has no replies; deleting.");
                     this.$.base.remove("/");
+
+                    // TODO: check if parent has no more replies and is marked deleted,
+                    // then actually delete it!
                 }
 
             },
