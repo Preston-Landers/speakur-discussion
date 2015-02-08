@@ -1,6 +1,6 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../firebase-element/firebase-element.html">
-<link rel="import" href="speakur-post.html">
+<link rel="import" href="speakur-post-set.html">
 
 <polymer-element name="speakur-thread-view" attributes="firebaseLocation threadId postCount">
     <template>
@@ -10,9 +10,6 @@
         <firebase-element
                 id="dbThread" location="{{firebaseLocation + '/threads/' + threadId }}"
                 data="{{thread}}"></firebase-element>
-        <firebase-element
-                id="dbPosts" location="{{firebaseLocation + '/posts/' + threadId }}"
-                data="{{posts}}" keys="{{postIds}}"></firebase-element>
 
         <div layout vertical>
             <div>
@@ -27,19 +24,11 @@
                 </span>
             </div>
 
-            <template if="{{!postIds.length}}">
-                <div>
-                    <h2>No one has posted yet. Be the first to comment.</h2>
-                </div>
-
-            </template>
-            <template if="{{postIds.length}}" repeat="{{postId in postIds}}">
-                <speakur-post
-                        firebaseLocation="{{firebaseLocation}}"
-                        threadId="{{threadId}}"
-                        postId="{{postId}}"
-                        ></speakur-post>
-            </template>
+            <speakur-post-set
+                firebaseLocation="{{firebaseLocation}}"
+                level="0"
+                threadId="{{threadId}}"
+                parentId="{{threadId}}"></speakur-post-set>
         </div>
     </template>
     <script>

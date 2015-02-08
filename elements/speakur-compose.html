@@ -7,7 +7,7 @@
 <link rel="import" href="speakur-post.html">
 <link rel="import" href="speakur-author-slug.html">
 
-<polymer-element name="speakur-compose" attributes="firebaseLocation threadId">
+<polymer-element name="speakur-compose" attributes="firebaseLocation threadId replyTo">
     <template>
         <style>
             .cancel-btn {
@@ -100,12 +100,12 @@
                 }
 
                 var author;
-                var replyTo = null;// TODO: replies
                 if (this.globals.profile) {
                     author = {
                         uid: this.globals.profile.uid,
                         username: this.globals.profile.username,
-                        picture_link: this.globals.profile.picture_link
+                        picture_link: this.globals.profile.picture_link,
+                        md5_hash: this.globals.profile.md5_hash
                     };
                 } else {
                     author = _.clone(this.globals.anon_author, true);
@@ -114,8 +114,8 @@
                 // insert own upvote?
                 var post = this.$.posts.push({
                     threadId: this.threadId,
-                    replyTo: replyTo,
-                    replies: [],
+                    replyTo: this.replyTo,
+                    // replies: [],
                     upvotes: 0,
                     downvotes: 0,
                     text: this.newText,

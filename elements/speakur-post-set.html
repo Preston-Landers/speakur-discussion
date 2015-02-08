@@ -1,0 +1,36 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../firebase-element/firebase-element.html">
+<link rel="import" href="speakur-post.html">
+
+<polymer-element name="speakur-post-set" attributes="threadId parentId level firebaseLocation">
+    <template>
+        <style>
+        </style>
+
+        <firebase-element
+            id="dbPosts" location="{{firebaseLocation + '/posts/' + parentId }}"
+            data="{{posts}}" keys="{{postIds}}"></firebase-element>
+
+        <template if="{{!level && !postIds.length}}">
+            <div>
+                <h2>No one has posted yet. Be the first to comment.</h2>
+            </div>
+        </template>
+
+        <template if="{{postIds.length}}" repeat="{{postId in postIds}}">
+            <speakur-post
+                firebaseLocation="{{firebaseLocation}}"
+                threadId="{{threadId}}"
+                parentId="{{parentId}}"
+                level="{{level}}"
+                postId="{{postId}}">
+            </speakur-post>
+        </template>
+
+    </template>
+    <script>
+        Polymer({
+            level: 0
+        });
+    </script>
+</polymer-element>

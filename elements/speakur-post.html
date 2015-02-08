@@ -10,8 +10,11 @@
 <link rel="import" href="speakur-author-slug.html">
 <link rel="import" href="speakur-card.html">
 <link rel="import" href="speakur-post-footer.html">
+<link rel="import" href="speakur-post-set.html">
 
-<polymer-element name="speakur-post" attributes="firebaseLocation threadId postId previewing previewText">
+<polymer-element
+    name="speakur-post"
+    attributes="firebaseLocation threadId parentId postId previewing previewText level">
     <template>
         <link rel="stylesheet" href="../../highlightjs/styles/default.css">
         <style>
@@ -35,7 +38,7 @@
         <template if="{{!previewing}}">
             <firebase-element
                 id="base" data="{{post}}"
-                location="{{firebaseLocation}}/posts/{{threadId}}/{{postId}}"></firebase-element>
+                location="{{firebaseLocation}}/posts/{{parentId}}/{{postId}}"></firebase-element>
 
         </template>
         <template if="{{!previewing || previewText}}">
@@ -89,7 +92,12 @@
 
                 </div>
             </div>
-
+            <speakur-post-set
+                firebaseLocation="{{firebaseLocation}}"
+                level="{{level + 1}}"
+                parentId="{{postId}}"
+                threadId="{{threadId}}"
+                ></speakur-post-set>
         </template>
     </template>
     <script>
