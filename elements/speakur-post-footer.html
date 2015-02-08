@@ -5,70 +5,80 @@
 <polymer-element name="speakur-post-footer" attributes="post">
     <template>
         <style>
-            .speakur-post-toolbar>div {
+            .speakur-post-toolbar > div {
                 margin-right: 10px;
             }
+
             .vote-block {
                 margin-right: 8px;
             }
+
             .vote {
                 width: 16px;
                 height: 14px;
             }
+
             .vote-down {
                 margin-right: 6px;
                 color: #800004;
             }
+
             .vote-up {
                 margin-left: 6px;
                 color: #000ec1;
             }
+
             .not-voted {
                 opacity: 0.2;
             }
         </style>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
-        <div horizontal center layout class="speakur-post-toolbar">
-            <span class="vote-block">
-                <template if="{{netVotes !== 0}}">
-                    {{netVotes}}
-                </template>
-                <core-icon
-                    title="Good contribution"
-                    id="voteUp"
-                    class="vote vote-up not-voted"
-                    on-click="{{voteUp}}"
-                    icon="thumb-up"></core-icon>
-                &vert;
-                <core-icon
-                    title="It stinks!"
-                    id="voteDown"
-                    class="vote vote-down not-voted"
-                    on-click="{{voteDown}}"
-                    icon="thumb-down"></core-icon>
-            </span>
-            <div title="Reply to comment" on-click="{{replyToPost}}">
-                Reply
-            </div>
-            <div on-click="{{editPost}}">
-                Edit
-            </div>
-            <template if="{{canDeletePost}}">
-                <div title="Permanently delete this comment." on-click="{{deletePost}}">
-                    Delete
+        <template if="{{ ! post.deleted }}">
+            <div horizontal center layout class="speakur-post-toolbar">
+                <span class="vote-block">
+                    <template if="{{netVotes !== 0}}">
+                        {{netVotes}}
+                    </template>
+                    <core-icon
+                        title="Good contribution"
+                        id="voteUp"
+                        class="vote vote-up not-voted"
+                        on-click="{{voteUp}}"
+                        icon="thumb-up"></core-icon>
+                    &vert;
+                    <core-icon
+                        title="It stinks!"
+                        id="voteDown"
+                        class="vote vote-down not-voted"
+                        on-click="{{voteDown}}"
+                        icon="thumb-down"></core-icon>
+                </span>
+
+                <div title="Reply to comment" on-click="{{replyToPost}}">
+                    Reply
                 </div>
-            </template>
-            <div title="Report spam, harassment or illegal content." on-click="{{reportPost}}">
-                Report
+                <div on-click="{{editPost}}">
+                    Edit
+                </div>
+                <template if="{{canDeletePost}}">
+                    <div title="Permanently delete this comment." on-click="{{deletePost}}">
+                        Delete
+                    </div>
+                </template>
+                <div title="Report spam, harassment or illegal content." on-click="{{reportPost}}">
+                    Report
+                </div>
             </div>
-        </div>
+        </template>
     </template>
     <script>
         Polymer({
             getNetVotes: function (post) {
-                if (!post) { return 0; }
+                if (!post) {
+                    return 0;
+                }
                 // if we have auto-own-upvote, should we reflect a 1 vote post as 'neutral' ? instead of 0
-                if (! Object.keys(post).length) {
+                if (!Object.keys(post).length) {
                     return 0;
                 }
                 var upvotes = post.upvotes || 0;
@@ -76,7 +86,7 @@
                 return upvotes - downvotes;
             },
             computed: {
-              netVotes: "getNetVotes(post)"
+                netVotes: "getNetVotes(post)"
             },
             canDeletePost: function () {
                 if (this.post.author.uid === "anonymous" ||
@@ -87,20 +97,20 @@
                 return this.post.author.uid === this.globals.profile.uid;
             },
 
-            replyToPost: function() {
-                this.fire('reply-to-post');
+            replyToPost: function () {
+                this.fire('reply-to-post', this.post);
             },
-            editPost: function() {
-                this.fire('edit-post');
+            editPost: function () {
+                this.fire('edit-post', this.post);
             },
-            reportPost: function() {
-                this.fire('report-post');
+            reportPost: function () {
+                this.fire('report-post', this.post);
             },
-            deletePost: function() {
-                this.fire('delete-post');
+            deletePost: function () {
+                this.fire('delete-post', this.post);
             },
-            voteUp: function() {
-                this.fire('vote-up');
+            voteUp: function () {
+                this.fire('vote-up', this.post);
 
                 // Up/Down vote should be separate toggles.
 
@@ -110,7 +120,7 @@
                 // jQuery(this.$.voteDown).addClass("not-voted");
             },
             voteDown: function () {
-                this.fire('vote-down');
+                this.fire('vote-down', this.post);
                 jQuery(this.$.voteDown).toggleClass("not-voted");
                 //jQuery(this.$.voteUp).addClass("not-voted");
             }

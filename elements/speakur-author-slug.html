@@ -10,13 +10,15 @@
                 margin-right: 8px;
             }
 
-/*
-            .username {
-                margin-right: 12px;
-                font-weight: bold;
-                text-shadow: 1px 1px rgba(20, 20, 22, 0.78);
+            .deleted {
+                font-style: italic;
+                opacity: 0.9;
             }
-*/
+
+            .anon {
+                /*font-style: italic;*/
+                opacity: 0.8;
+            }
         </style>
         <div layout horizontal center>
             <template if="{{showPicture}}">
@@ -26,8 +28,8 @@
                     height="{{imgHeight}}">
                 </speakur-author-img>
             </template>
-            <span class="username">
-                {{author.username ? author.username : 'Anonymous' }}
+            <span class="username {{ {anon: is_anon, deleted: is_del } | tokenList }}">
+                {{ showUsername(author) }}
             </span>
         </div>
 
@@ -36,7 +38,26 @@
         Polymer({
             imgHeight: 24,
             imgWidth: 24,
-            showPicture: false
+            showPicture: false,
+            is_anon: false,
+            is_del: false,
+            showUsername: function (author) {
+                // this seems like a bad way to do it since this involves side effects
+                this.is_del = false;
+                this.is_anon = false;
+                if (author && author.uid !== 'anon' && author.uid !== 'anonymous') {
+                    if (author.uid === "_del") {
+                        this.is_del = true;
+                        return '[deleted]';
+                    }
+                    if (author.username) {
+                        return author.username;
+                    }
+                }
+                this.is_anon = true;
+                return 'Anonymous';
+            }
+
         });
     </script>
 </polymer-element>

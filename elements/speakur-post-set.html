@@ -8,6 +8,8 @@
         </style>
 
         <firebase-element
+            childEvents
+            on-child-removed="{{childRemoved}}"
             id="dbPosts" location="{{postsLocation(firebaseLocation, parentId)}}"
             data="{{posts}}" keys="{{postIds}}"></firebase-element>
 
@@ -17,7 +19,7 @@
             </div>
         </template>
 
-        <template if="{{postIds.length}}" repeat="{{postId in postIds}}">
+        <template if="{{posts && postIds.length}}" repeat="{{postId in postIds}}">
             <speakur-post
                 firebaseLocation="{{firebaseLocation}}"
                 threadId="{{threadId}}"
@@ -36,6 +38,10 @@
                 if (!firebaseLocation) { return ''; }
                 if (!parentId) { return ''; }
                 return firebaseLocation + "/posts/" + parentId;
+            },
+            childRemoved: function (event) {
+                console.log('child removed ', event.detail.name, ':', event.detail.value);
+                // this.fire('data-changed');
             }
         });
     </script>
