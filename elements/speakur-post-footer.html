@@ -60,7 +60,7 @@
                 <div on-click="{{editPost}}">
                     Edit
                 </div>
-                <template if="{{canDeletePost}}">
+                <template if="{{canDeletePost(post, globals.profile)}}">
                     <div title="Permanently delete this comment." on-click="{{deletePost}}">
                         Delete
                     </div>
@@ -70,17 +70,6 @@
                 </div>
             </div>
         </template>
-
-        <!-- temporary until we have true admin stuff and/or fewer bug fixes -->
-<!--
-        <template if="{{ post.deleted }}">
-            <template if="{{canDeletePost}}">
-                <div title="Permanently delete this comment." on-click="{{deletePost}}">
-                    Delete
-                </div>
-            </template>
-        </template>
--->
     </template>
     <script>
         Polymer({
@@ -97,15 +86,18 @@
                 return upvotes - downvotes;
             },
             computed: {
-                netVotes: "getNetVotes(post)"
+                netVotes: "getNetVotes(post)",
             },
-            canDeletePost: function () {
-                if (this.post.author.uid === "anonymous" ||
-                    this.post.author.uid === "anon") {
+            canDeletePost: function (post, my_profile) {
+                if (!my_profile || !post || !post.author || !post.author.uid) {
+                    return false;
+                }
+                if (post.author.uid === "anonymous" ||
+                    post.author.uid === "anon") {
                     // Temporary - anyone can delete anon posts
                     return true;
                 }
-                return this.post.author.uid === this.globals.profile.uid;
+                return post.author.uid === my_profile.uid;
             },
 
             replyToPost: function () {
