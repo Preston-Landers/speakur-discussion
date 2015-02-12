@@ -60,7 +60,7 @@
                 <div on-click="{{editPost}}">
                     Edit
                 </div>
-                <template if="{{canDeletePost(post, globals.profile)}}">
+                <template if="{{canDeletePost(post, globals.profile, globals.isAdmin)}}">
                     <div title="Permanently delete this comment." on-click="{{deletePost}}">
                         Delete
                     </div>
@@ -88,7 +88,8 @@
             computed: {
                 netVotes: "getNetVotes(post)",
             },
-            canDeletePost: function (post, my_profile) {
+            canDeletePost: function (post, my_profile, isAdmin) {
+                if (isAdmin) { return true; }
                 if (!my_profile || !post || !post.author || !post.author.uid) {
                     return false;
                 }

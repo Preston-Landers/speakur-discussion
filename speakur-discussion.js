@@ -318,35 +318,24 @@
             this.doLogout();
         },
 
-        onLogin: function () {
+        onLogin: function (e) {
             this.globals.currentUser = this.user;
 
             // Look for both Google and FB info
             this.$.speakurProfile.uid = this.user.uid;
 
-            console.log("onLogin", this.user);
-/*
-            this.async(function () {
-                this.$.speakurProfile.checkProfile(this.user);
-            }, null, 1300); /// questionable... race condition could overwrite existing? check this
-*/
+            // allow other sub-elements to respond to this
+            this.fire('speakur-user-login', this.user);
 
-
-/*
-            // only close this if open! TODO: don't violate encapsulation here... make it a reflected property
-            if (this.$.speakurLoginDialog.$['login-dialog'].opened) {
-                this.$.speakurLoginDialog.toggle();
-            }
-*/
-
+            console.log("onLogin complete", this.user);
+            e.stopPropagation();
         },
 
         doLogout: function () {
-            console.log("doLogout", this.user);
-            // clear out the global user/profile info
-            this.globals.currentUser = null;
-            this.$.speakurProfile.uid = null;
-            this.globals.profile = null;
+            // allow other sub-elements to respond to this
+            // in particular, the profile.
+            console.log("Firing user-logout");
+            this.fire('speakur-user-logout');
         },
 
         onLoginError: function (err) {

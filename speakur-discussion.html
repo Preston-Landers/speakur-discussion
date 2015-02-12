@@ -104,6 +104,12 @@ https://github.com/Polymer/core-component-page/issues/7
                             {{xtitle}}
                         </div>
 
+                        <template if="{{globals.isAdmin}}">
+                            <span style="margin-right: 6px;">
+                                <b>Admin Mode</b>
+                            </span>
+                        </template>
+
                         <paper-icon-button id="searchbutton"
                                            on-click="{{search}}"
                                            icon="search"></paper-icon-button>

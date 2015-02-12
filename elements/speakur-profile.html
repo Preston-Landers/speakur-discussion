@@ -10,6 +10,8 @@
         -->
         <firebase-element id="base" location="{{profileLocation(firebaseLocation,uid)}}"
                           data="{{profile}}"></firebase-element>
+        <firebase-element id="admins" location="{{adminsLocation(firebaseLocation,uid)}}"
+                          data="{{admins}}"></firebase-element>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
     </template>
     <script>
@@ -18,11 +20,40 @@
             Polymer({
                 ready: function () {
                 },
+                attached: function () {
+                    var that = this;
+                    this.ownerDocument.addEventListener('speakur-user-logout', function (e) {
+                        that.doLogout(e);
+                    });
+                    this.ownerDocument.addEventListener('speakur-user-login', function (e) {
+                        that.reactToLogin(e);
+                    });
+
+                },
 
                 profileLocation: function (firebaseLocation, uid) {
                     if (!firebaseLocation) { return ''; }
                     if (!uid) { return ''; }
                     return firebaseLocation + "/profile/" + uid;
+                },
+
+                adminsLocation: function (firebaseLocation, uid) {
+                    if (!firebaseLocation) { return ''; }
+                    if (!uid) { return ''; }
+                    return firebaseLocation + "/admins/" + uid;
+                },
+
+                reactToLogin: function (e) {
+                    console.log("profile notified that user logged in.");
+                },
+
+                doLogout: function (e) {
+                    console.log("doLogout in speakur-profile");
+                    // clear out the global user/profile info
+                    this.uid = null;
+                    this.globals.currentUser = null;
+                    this.globals.profile = null;
+                    this.globals.isAdmin = false;
                 },
 
                 profileChanged: function () {
@@ -41,6 +72,19 @@
                     console.log("firebase profile: ", this.profile);
                     this.globals.profile = this.profile;
 
+                    // TODO: whether or not the user is an admin is indeterminate at this point
+                    // until adminsChanged is called;
+                },
+
+                adminsChanged: function () {
+                    console.log("admins changed: ", this.admins);
+                    if (this.admins) {
+                        console.log("Congrats, you are an admin.");
+                        this.globals.isAdmin = true;
+                    } else {
+                        console.log("You're a regular old user.");
+                        this.globals.isAdmin = false;
+                    }
                 },
 
                 setEmailAddress: function (profile, email) {
