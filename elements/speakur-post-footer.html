@@ -9,6 +9,10 @@
                 margin-right: 10px;
             }
 
+            .speakur-post-toolbar > .report-post-button {
+                margin-right: 0;
+            }
+
             .vote-block {
                 margin-right: 8px;
             }
@@ -57,15 +61,21 @@
                 <div title="Reply to comment" on-click="{{replyToPost}}">
                     Reply
                 </div>
-                <div on-click="{{editPost}}">
-                    Edit
-                </div>
+
+                <template if="{{canEditPost(post, globals.profile, globals.isAdmin)}}">
+                    <div title="Edit this comment." on-click="{{editPost}}">
+                        Edit
+                    </div>
+                </template>
+
                 <template if="{{canDeletePost(post, globals.profile, globals.isAdmin)}}">
                     <div title="Permanently delete this comment." on-click="{{deletePost}}">
                         Delete
                     </div>
                 </template>
-                <div title="Report spam, harassment or illegal content." on-click="{{reportPost}}">
+
+                <div flex></div>
+                <div class="report-post-button" title="Report spam, harassment or illegal content." on-click="{{reportPost}}">
                     Report
                 </div>
             </div>
@@ -86,7 +96,7 @@
                 return upvotes - downvotes;
             },
             computed: {
-                netVotes: "getNetVotes(post)",
+                netVotes: "getNetVotes(post)"
             },
             canDeletePost: function (post, my_profile, isAdmin) {
                 if (isAdmin) { return true; }
@@ -95,10 +105,14 @@
                 }
                 if (post.author.uid === "anonymous" ||
                     post.author.uid === "anon") {
-                    // Temporary - anyone can delete anon posts
-                    return true;
+                    // Only admin can delete anon posts - later add moderators
+                    return false;
                 }
                 return post.author.uid === my_profile.uid;
+            },
+
+            canEditPost: function (post, my_profile, isAdmin) {
+                return this.canDeletePost(post, my_profile, isAdmin);
             },
 
             replyToPost: function () {

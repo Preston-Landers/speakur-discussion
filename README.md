@@ -35,3 +35,11 @@ The tests are also compatible with [web-component-tester](https://github.com/Pol
 npm install -g web-component-tester
 wct
 ```
+
+
+### TODO List
+
+* FIREBASE WARNING: resumeSession() was canceled: Auth token is expired.
+
+  Expired auth token isn't resetting globals.isAdmin - need to respond to an event for that?
+
