@@ -1,0 +1,93 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<polymer-element name="speakur-base">
+    <template>
+    </template>
+    <script>
+        var isFunction = function (obj) {
+            return Object.prototype.toString.call(obj) === "[object Function]";
+        };
+
+        Polymer({
+
+            /**
+             * The `toast` method will display a 'toast' message that appears
+             * briefly in the lower area of the screen and then disappears after
+             * a few seconds.
+             *
+             * @method toast
+             */
+            toast: function (message) {
+                this.fire("toast", message);
+            },
+
+            errorToast: function (message) {
+                this.errorLog(message);
+                this.toast(message);
+            },
+
+            log: function () {
+                var $ = jQuery;
+
+                if (window.console && window.console.log) {
+                    // convert the pseudo-array "arguments" to a real array and append the "this" object to be logged.
+                    var logArgs;
+                    if (this.length) {
+                        logArgs = Array.prototype.slice.call(arguments).concat([" --> ", this]);
+                    }
+                    else {
+                        logArgs = arguments;
+                    }
+                    if (typeof window.console.log === 'function' && isFunction(window.console.log.apply)) {
+                        window.console.log.apply(window.console, logArgs);
+                        // Automatically log stack traces where possible (Webkit, generally)
+                        $.each(logArgs, function () {
+                            if (this.stack) {
+                                window.console.log(this.stack);
+                            }
+                        });
+
+                    } else {
+                        // this is for older MSIE. So far I haven't found a satisfactory way to
+                        // combine them into one string.
+                        $.each(logArgs, function () {
+                            window.console.log(this.toString());
+                        });
+                    }
+                }
+            },
+
+            errorLog: function () {
+                var $ = jQuery;
+
+                if (window.console && window.console.error) {
+                    // convert the pseudo-array "arguments" to a real array and append the "this" object to be logged.
+                    var logArgs;
+                    if (this.length) {
+                        logArgs = Array.prototype.slice.call(arguments).concat([" --> ", this]);
+                    }
+                    else {
+                        logArgs = arguments;
+                    }
+                    if (typeof window.console.error === 'function' && isFunction(window.console.error.apply)) {
+                        window.console.error.apply(window.console, logArgs);
+                        // Automatically log stack traces where possible (Webkit, generally)
+                        $.each(logArgs, function () {
+                            if (this.stack) {
+                                window.console.error(this.stack);
+                            }
+                        });
+
+                    } else {
+                        // this is for older MSIE. So far I haven't found a satisfactory way to
+                        // combine them into one string.
+                        $.each(logArgs, function () {
+                            window.console.error(this.toString());
+                        });
+                    }
+                }
+
+            }
+        });
+    </script>
+</polymer-element>

@@ -124,8 +124,13 @@
 
         thread: null,
 
-        // you can reference globals.updateTick in an expression to have something
-        // that will change on a regular schedule (currently every 20 seconds)
+        /**
+         * The `global-tick` event is fired on a regular schedule
+         * so that the globals.updateTick can be put in expressions to have
+         * something that regularly changes (forcing re-eval)
+         *
+         * @event global-tick
+         */
         globalTick: function () {
             this.globals.updateTick = new Date();
             this.job('global-tick', function () {
@@ -172,40 +177,22 @@
             }
         },
 
-        /**
-         * The `sayHello` method will return a greeting.
-         *
-         * @method sayHello
-         * @param {String} greeting Pass in a specific greeting.
-         * @return {String} Returns a string greeting.
-         */
-        sayHello: function (greeting) {
-            var response = greeting || 'Hello World!';
-            return 'speakur-discussion says, ' + response;
-        },
-
         nyiClick: function() {
-            this.$['nyi-toast'].show();
+            this.errorLog("Not yet implemented.");
+            this.toast("This feature is not implemented yet.");
         },
 
-        /**
-         * The `speakur-discussion-lasers-success` event is fired whenever we
-         * call fireLasers.
-         *
-         * @event speakur-discussion-lasers-success
-         * @param {Object} detail
-         *   @param {string} detail.sound An amazing sound.
-         */
-
-        /**
-         * The `fireLasers` method will fire the lasers. At least
-         * it will dispatch an event that claims lasers were fired :)
-         *
-         * @method fireLasers
-         */
-        fireLasers: function () {
-            this.fire('speakur-discussion-lasers-success', {sound: 'Pew pew pew!'});
+        handleToastEvent: function (e, detail, sender) {
+            var msg = detail;
+            var toastElem = 'speakur-toast';
+            var toast = this.$[toastElem];
+            if (!toast) {
+                this.errorLog(toastElem + " element is missing?");
+            }
+            toast.text=msg;
+            toast.show();
         },
+
 
         toggle: function () {
             // toggle w/ animation the inner content
@@ -226,29 +213,31 @@
                     direction: direction
                 });
 
-            // console.log("Speakur discussion toggled.");
+            // this.log("Speakur discussion toggled.");
         },
 
         // called when the above toggle is finished.
         openStatusChanged: function (event, value) {
-            // console.log("opened -> ", event, value);
+            // this.log("opened -> ", event, value);
             this.closed = !this.closed;
         },
 
         search: function () {
-            console.log("Search clicked.");
+            this.log("Search clicked.");
             this.nyiClick();
         },
 
         menu: function () {
-            console.log("Menu clicked.");
+            this.log("Menu clicked.");
             this.nyiClick();
         },
 
+/*
         reportProblem: function () {
-            console.log("Report Problem clicked.");
+            this.log("Report Problem clicked.");
             this.nyiClick();
         },
+*/
 
         setThreadIdFromHref: function () {
             // Normalize: everything to lower case
@@ -264,7 +253,7 @@
 
             // digest it
             var threadId = md5(href);
-            console.log("href " + href + " -> md5: " + threadId);
+            this.log("href " + href + " -> md5: " + threadId);
             // set it.
             this.threadId = threadId;
         },
@@ -274,11 +263,11 @@
         },
 
         threadIdChanged: function (oldValue, newValue) {
-            console.log("Thread ID was changed from " + oldValue + " to ->" + newValue);
+            this.log("Thread ID was changed from " + oldValue + " to ->" + newValue);
         },
 
         threadChanged: function () {
-            console.log("Thread changed. ", this.$.dbThread.location, " thread ID: ", this.threadId);
+            this.log("Thread changed. ", this.$.dbThread.location, " thread ID: ", this.threadId);
             if (this.threadId && !this.thread) {
                 // Create a default thread description.
                 var new_thread = {
@@ -299,20 +288,20 @@
                     }
                 };
                 this.thread = new_thread;
-                console.log("Created new thread for " + this.href + " -> " + this.thread);
+                this.log("Created new thread for " + this.href + " -> " + this.thread);
             } else {
-                console.log("this.thread -> ", this.thread);
+                this.log("this.thread -> ", this.thread);
             }
 
         },
 
         threadKeysChanged: function (oldValue, newValue) {
-            console.log("Thread keys changed: ", newValue.length);
+            this.log("Thread keys changed: ", newValue.length);
             // this.numComments = newValue.length;
         },
 
         login: function () {
-            console.log('LOGIN!');
+            this.log('LOGIN!');
             this.$.speakurLoginDialog.toggle();
         },
 
@@ -330,20 +319,20 @@
             // allow other sub-elements to respond to this
             this.fire('speakur-user-login', this.user);
 
-            console.log("onLogin complete", this.user);
+            this.log("onLogin complete", this.user);
             e.stopPropagation();
         },
 
         doLogout: function () {
             // allow other sub-elements to respond to this
             // in particular, the profile.
-            console.log("Firing user-logout");
+            this.log("Firing user-logout");
             this.fire('speakur-user-logout');
         },
 
         onLoginError: function (err) {
             this.doLogout();
-            console.log('An error occurred.');
+            this.log('An error occurred.');
             // Show some kind of error dialog / message?
         },
 
@@ -371,6 +360,7 @@
             'loginButtonPressed': 'login',
             'logoutButtonPressed': 'logout',
             'not-yet-implemented': 'nyiClick',
+            'toast': 'handleToastEvent',
             'global-tick': 'globalTick'
         }
 

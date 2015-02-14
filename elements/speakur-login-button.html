@@ -6,7 +6,10 @@
 <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../pvc-globals/pvc-globals.html">
 
-<polymer-element name="speakur-login-button" attributes="user statusKnown">
+<polymer-element
+    name="speakur-login-button"
+    extends="speakur-base"
+    attributes="user statusKnown">
     <template>
         <style>
             .username {

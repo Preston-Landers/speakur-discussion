@@ -7,7 +7,10 @@
 <link rel="import" href="speakur-post.html">
 <link rel="import" href="speakur-author-slug.html">
 
-<polymer-element name="speakur-compose" attributes="firebaseLocation threadId replyTo editing">
+<polymer-element
+    name="speakur-compose"
+    extends="speakur-base"
+    attributes="firebaseLocation threadId replyTo editing">
     <template>
         <style>
             .tool-btn {
@@ -60,6 +63,7 @@
                         <div
                             on-click="{{resetEditText}}"
                             title="Undo changes - reset text to original"
+                            hidden?="{{ !editing }}"
                             class="btn btn-sm btn-warning reset-btn tool-btn">
                             Undo Changes
                         </div>
@@ -173,11 +177,12 @@
                     editingPost.author = author;
                 }
 
-                // console.log("Save EDIT");
+                // this.log("Save EDIT");
 
                 // write it
                 this.posts[this.editing] = editingPost;
 
+                this.toast("Changes saved.");
                 this.fire('submitted-edit', editingPost);
             },
 
@@ -185,7 +190,7 @@
                 if (oldTextList.length > this.globals.maxPostRevisionsKeep) {
                     //
                     var killnum = oldTextList.length - this.globals.maxPostRevisionsKeep;
-                    console.log("Getting rid of " + killnum + " old versions!");
+                    this.log("Getting rid of " + killnum + " old versions!");
                     return _.slice(oldTextList, killnum-1);
                 }
                 return oldTextList;
@@ -193,12 +198,11 @@
 
             submit: function () {
                 if (!this.threadId) {
-                    console.error("Unable to submit post; no threadId given");
+                    this.errorToast("Internal error: no threadId available.");
                     return false;
                 }
                 if (!this.newText.length) {
-                    console.error('Please write something.');
-                    // TODO: error handling - toast?
+                    this.errorToast('Please write something.');
                     return false;
                 }
 
@@ -217,11 +221,12 @@
                 };
                 var postRef = this.$.posts.push(post);
                 var post_id = postRef.key();
-                console.log("Created post: " + post_id);
+                this.log("Created post: " + post_id);
 
                 this.newText = '';
                 post['postId'] = post_id;
 
+                this.toast("Post saved.");
                 this.fire('submitted-post', post);
             },
 
@@ -242,7 +247,7 @@
 
             cancel: function () {
                 if (!this.newText.length) {
-                    console.error("Nothing in the compose box.");
+                    // this.errorToast("There is nothing to cancel.");
                     return false;
                 }
                 if (this.editing) {
@@ -251,7 +256,7 @@
                     this.fire('cancel-post');
                 }
 
-                // TODO: might want to just hide it, not delete the text.
+                //// this would delete the text...
                 // this.newText = '';
 
             },

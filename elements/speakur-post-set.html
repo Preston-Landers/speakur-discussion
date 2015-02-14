@@ -2,7 +2,10 @@
 <link rel="import" href="../../firebase-element/firebase-element.html">
 <link rel="import" href="speakur-post.html">
 
-<polymer-element name="speakur-post-set" attributes="threadId parentId level firebaseLocation posts postIds">
+<polymer-element 
+    name="speakur-post-set"
+    extends="speakur-base"
+    attributes="threadId parentId level firebaseLocation posts postIds">
     <template>
         <style>
         </style>
@@ -40,7 +43,7 @@
                 return firebaseLocation + "/posts/" + parentId;
             },
             childRemoved: function (event) {
-                console.log('child removed ', event.detail.name, ':', event.detail.value);
+                this.log('child removed ', event.detail.name, ':', event.detail.value);
                 // this.fire('data-changed');
             }
         });

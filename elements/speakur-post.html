@@ -15,6 +15,7 @@
 
 <polymer-element
     name="speakur-post"
+    extends="speakur-base"
     attributes="firebaseLocation threadId parentId postId previewing previewText previewingEdit level">
     <template>
         <link rel="stylesheet" href="../../highlightjs/styles/default.css">
@@ -188,7 +189,7 @@
                 // Need to stop the event b/c we're only deleting this, not all parent posts!
                 e.stopPropagation();
 
-                console.log("Requesting delete post: ", detail);
+                this.log("Requesting delete post: ", detail);
 
                 var numReplies = this.numRepliesToMe();
 
@@ -198,7 +199,7 @@
                 }
 
                 if (numReplies > 0) {
-                    console.log("Post has ", numReplies, " direct replies.");
+                    this.log("Post has ", numReplies, " direct replies.");
                     // Just mark it as deleted and clear its text and author.
                     // This will allow replies under it to persist.
                     // In the future we might allow recursive deleting under some circumstances.
@@ -210,7 +211,7 @@
                         uid: '_del'
                     };
                 } else {
-                    console.log("Post has no replies; deleting.");
+                    this.log("Post has no replies; deleting.");
                     var post_copy = _.clone(this.post);
                     this.$.base.remove("/");
 
@@ -219,13 +220,14 @@
                     this.fire('post-deleted', post_copy);
 
                 }
+                this.toast("Post deleted.");
 
             },
 
             /*
                         safeTags: function(value) {
                             if (!value) { return value; }
-                            console.log("Foo", value);
+                            this.log("Foo", value);
                             return strip_tags(value, null);
                         }
             */
@@ -246,14 +248,14 @@
             },
 
             submittedReply: function (e) {
-                console.log("reply submitted: ", e.detail);
+                this.log("reply submitted: ", e.detail);
                 // Close reply window?
                 this.showingReply = false;
                 e.stopPropagation();
             },
 
             canceledReply: function (e) {
-                console.log("reply canceled.");
+                this.log("reply canceled.");
                 this.showingReply = false;
                 e.stopPropagation();
             },
@@ -284,14 +286,14 @@
             },
 
             submittedEdit: function (e) {
-                console.log("edit submitted: ", e.detail);
+                this.log("edit submitted: ", e.detail);
                 // Close reply window?
                 this.showingEdit = false;
                 e.stopPropagation();
             },
 
             canceledEdit: function (e) {
-                console.log("Edit Post canceled.");
+                this.log("Edit Post canceled.");
                 this.showingEdit = false;
                 e.stopPropagation();
             },
@@ -320,20 +322,20 @@
                 // if it's marked for deletion already and has no other replies.
 
                 if (this.postId == detail.replyTo) {
-                    console.log("Me: ", this.postId, " child post deleted: ", detail);
+                    this.log("Me: ", this.postId, " child post deleted: ", detail);
 
                     // am I marked deleted?
                     if (this.post.deleted) {
                         var numReplies = this.numRepliesToMe();
                         // a reply to me was deleted, and I'm marked-deleted w/ no children!
                         if (numReplies == 0) {
-                            console.log("I should be deleted right now b/c my only child was deleted! ", this.post);
+                            this.log("I should be deleted right now b/c my only child was deleted! ", this.post);
                             this.fire('delete-post');
                         } else {
-                            console.log('Not sweeping deleted post bc has active ', numReplies, ' children');
+                            this.log('Not sweeping deleted post bc has active ', numReplies, ' children');
                         }
                     } else {
-                        console.log("Stopping deleted post sweep at non-deleted post.");
+                        this.log("Stopping deleted post sweep at non-deleted post.");
                     }
                     e.stopPropagation();
                 }
