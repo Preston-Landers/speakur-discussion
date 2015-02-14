@@ -7,11 +7,11 @@
 <link rel="import" href="speakur-post.html">
 <link rel="import" href="speakur-author-slug.html">
 
-<polymer-element name="speakur-compose" attributes="firebaseLocation threadId replyTo">
+<polymer-element name="speakur-compose" attributes="firebaseLocation threadId replyTo editing">
     <template>
         <style>
-            .cancel-btn {
-                margin-right: 10px;
+            .tool-btn {
+                margin-left: 10px;
             }
 
             .preview-div {
@@ -19,14 +19,17 @@
             }
 
             .posting-as {
-                margin-right: 16px;
+                margin-right: 6px;
                 font-size: 90%;
             }
         </style>
         <link rel="stylesheet" href="../../bootstrap/dist/css/bootstrap.min.css">
         <firebase-element
-                id="posts" data="{{posts}}"
-                location="{{postLocation(firebaseLocation, replyTo)}}"></firebase-element>
+            id="posts" data="{{posts}}"
+            location="{{postLocation(firebaseLocation, replyTo)}}"></firebase-element>
+        <firebase-element
+            id="dbEditPost" data="{{editPost}}"
+            location="{{editPostLocation(firebaseLocation, replyTo, editing)}}"></firebase-element>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
 
         <form>
@@ -34,20 +37,11 @@
                 <div class="form-group">
                     <label class="sr-only" for="commentText">Leave a comment:</label>
                         <textarea
-                                value="{{newText}}"
-                                rows="3"
-                                class="form-control"
-                                placeholder="Leave a comment here."
-                                id="commentText"></textarea>
-                    <!--
-                                        <mark-down-editor
-                                                    rows="3"
-                                                    class="form-control"
-                                                    placeholder="Enter a comment here."
-                                                    id="commentText">
-
-                                            </mark-down-editor>
-                    -->
+                            value="{{newText}}"
+                            rows="3"
+                            class="form-control"
+                            placeholder="Leave a comment here."
+                            id="commentText"></textarea>
                 </div>
             </div>
             <div class="footer">
@@ -57,27 +51,43 @@
                             Editing Help
                         </div>
                         <div flex></div>
-                        <div horizontal layout end-justified center  class="posting-as">
+                        <div horizontal layout end-justified center class="posting-as">
                             <span style="margin-right: 4px;">
                                 Posting as:
                             </span>
                             <speakur-author-slug author="{{globals.profile}}"></speakur-author-slug>
                         </div>
                         <div
-                                on-click="{{cancel}}"
-                                title="Cancel (Clear Text)"
-                                class="btn btn-sm btn-danger cancel-btn">
+                            on-click="{{resetEditText}}"
+                            title="Undo changes - reset text to original"
+                            class="btn btn-sm btn-warning reset-btn tool-btn">
+                            Undo Changes
+                        </div>
+                        <div
+                            on-click="{{cancel}}"
+                            title="Cancel (Clear Text)"
+                            class="btn btn-sm btn-danger cancel-btn tool-btn">
                             Cancel
                         </div>
-                        <div on-click="{{submit}}" title="Publish Comment" class="btn btn-sm btn-primary">Publish
-                            Comment
-                        </div>
+                        <template if="{{ !editing }}">
+                            <div on-click="{{submit}}" title="Publish Comment"
+                                 class="btn btn-sm btn-primary tool-btn">
+                                Publish Comment
+                            </div>
+                        </template>
+                        <template if="{{ editing }}">
+                            <div on-click="{{saveEdit}}" title="Save Changes"
+                                 class="btn btn-sm btn-primary tool-btn">
+                                Save Changes
+                            </div>
+                        </template>
                     </div>
                     <div class="preview-div">
                         <speakur-post
-                                id="preview"
-                                previewText="{{newText}}"
-                                previewing="{{true}}">
+                            id="preview"
+                            previewText="{{newText}}"
+                            previewingEdit="{{editing}}"
+                            previewing="{{true}}">
                         </speakur-post>
                     </div>
                 </template>
@@ -86,13 +96,99 @@
     </template>
     <script>
         Polymer({
+            // current text editing buffer
             newText: '',
+
+            // original post text before editing (if any)
+            originalEditText: null,
+
+            // when post we're editing has changed, reset the saved original text
+            editPostChanged: function () {
+                if (this.editing) {
+                    // If editing, load the current text into the editing buffer.
+                    this.originalEditText = this.posts[this.editing].text;
+                    this.resetEditText();
+                }
+            },
+
+            // restore the original text
+            resetEditText: function () {
+                if (this.originalEditText) {
+                    this.newText = this.originalEditText;
+                }
+            },
 
             postLocation: function (firebaseLocation, replyTo) {
                 // {{firebaseLocation}}/posts/{{replyTo}}
-                if (!firebaseLocation) { return ''; }
-                if (!replyTo) { return ''; }
+                if (!firebaseLocation) {
+                    return '';
+                }
+                if (!replyTo) {
+                    return '';
+                }
                 return firebaseLocation + "/posts/" + replyTo;
+            },
+
+            editPostLocation: function (firebaseLocation, replyTo, editingId) {
+                // {{firebaseLocation}}/posts/{{replyTo}}/{{editingId}}
+                if (!firebaseLocation) {
+                    return '';
+                }
+                if (!replyTo) {
+                    return '';
+                }
+                if (!editingId) {
+                    return '';
+                }
+                return firebaseLocation + "/posts/" + replyTo + "/" + editingId;
+            },
+
+
+            // Save changes to the post.
+            saveEdit: function () {
+
+                var editingPost = this.editPost;
+                var oldText = {
+                    text: editingPost.text
+                };
+                if (editingPost.lastModified) {
+                    oldText.timestamp = editingPost.lastModified;
+                } else if (editingPost.timestamp) {
+                    oldText.timestamp = editingPost.timestamp;
+                }
+                if (!editingPost.oldTextList) {
+                    editingPost.oldTextList = [];
+                }
+                var author = this.getAuthor();
+
+                editingPost.oldTextList.push(oldText);
+                editingPost.oldTextList = this.maybeTrimOldPostVersions(editingPost.oldTextList);
+
+                editingPost.text = this.newText;
+                editingPost.lastModified = new Date().getTime();
+
+                // rewrite the author record w/ current vals but only if we're the original author
+                // ie. not an admin/moderator
+                if (editingPost.author.uid === author.uid) {
+                    editingPost.author = author;
+                }
+
+                // console.log("Save EDIT");
+
+                // write it
+                this.posts[this.editing] = editingPost;
+
+                this.fire('submitted-edit', editingPost);
+            },
+
+            maybeTrimOldPostVersions: function (oldTextList) {
+                if (oldTextList.length > this.globals.maxPostRevisionsKeep) {
+                    //
+                    var killnum = oldTextList.length - this.globals.maxPostRevisionsKeep;
+                    console.log("Getting rid of " + killnum + " old versions!");
+                    return _.slice(oldTextList, killnum-1);
+                }
+                return oldTextList;
             },
 
             submit: function () {
@@ -106,17 +202,7 @@
                     return false;
                 }
 
-                var author;
-                if (this.globals.profile) {
-                    author = {
-                        uid: this.globals.profile.uid,
-                        username: this.globals.profile.username,
-                        picture_link: this.globals.profile.picture_link,
-                        md5_hash: this.globals.profile.md5_hash
-                    };
-                } else {
-                    author = _.clone(this.globals.anon_author, true);
-                }
+                var author = this.getAuthor();
 
                 // insert own upvote?
                 var post = {
@@ -139,19 +225,38 @@
                 this.fire('submitted-post', post);
             },
 
+            getAuthor: function () {
+                var author;
+                if (this.globals.profile) {
+                    author = {
+                        uid: this.globals.profile.uid,
+                        username: this.globals.profile.username,
+                        picture_link: this.globals.profile.picture_link,
+                        md5_hash: this.globals.profile.md5_hash
+                    };
+                } else {
+                    author = _.clone(this.globals.anon_author, true);
+                }
+                return author;
+            },
+
             cancel: function () {
                 if (!this.newText.length) {
                     console.error("Nothing in the compose box.");
                     return false;
                 }
-                this.fire('cancel-post');
+                if (this.editing) {
+                    this.fire('cancel-edit');
+                } else {
+                    this.fire('cancel-post');
+                }
 
                 // TODO: might want to just hide it, not delete the text.
-                this.newText = '';
+                // this.newText = '';
 
             },
 
-            editingHelp: function() {
+            editingHelp: function () {
                 this.fire('not-yet-implemented');
             }
         });

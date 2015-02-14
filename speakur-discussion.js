@@ -144,6 +144,9 @@
                 username: 'Anonymous'
             };
 
+            // maximum number of old post revisions to keep
+            this.globals.maxPostRevisionsKeep = 5;
+
             // Start the 'global tick' which is updated every X seconds
             // to be used in expressions like globals.updateTick to give them an 'expiration time'
             this.fire('global-tick');

@@ -15,7 +15,7 @@
 
 <polymer-element
     name="speakur-post"
-    attributes="firebaseLocation threadId parentId postId previewing previewText level">
+    attributes="firebaseLocation threadId parentId postId previewing previewText previewingEdit level">
     <template>
         <link rel="stylesheet" href="../../highlightjs/styles/default.css">
         <style>
@@ -33,6 +33,10 @@
                 margin-right: 12px;
                 font-weight: bold;
                 text-shadow: 1px 1px rgba(20, 20, 22, 0.78);
+            }
+
+            speakur-card > .header /deep/ .edited-time {
+                margin-left: 6px;
             }
 
             speakur-card /deep/ .deleted-post-body {
@@ -59,35 +63,33 @@
                 <div flex>
                     <speakur-card>
                         <div layout horizontal center class="header">
-                            <template if="{{previewing}}">
+                            <template if="{{ previewing && previewingEdit}}">
+                                Preview - Edit Post
+                            </template>
+                            <template if="{{previewing && ! previewingEdit }}">
                                 Preview
                             </template>
                             <template if="{{ !previewing }}">
-                                <!--
-                                                        <paper-button
-                                                                id="deletebutton"
-                                                                on-click="{{deletePost}}"
-                                                                >
-                                                            <paper-icon-button
-                                                                    style="color: red; width: 12px; height: 12px;"
-                                                                    icon="delete"></paper-icon-button>
-                                                            Delete
-                                                        </paper-button>
-                                -->
                                 <speakur-author-slug showPicture="false" author="{{post.author}}"></speakur-author-slug>
-                                <em title="{{post.timestamp | formatTimestamp}}">
-                                    <small>{{globals.updateTick && post.timestamp | formatTimestampFromAgo}}</small>
-                                </em>
+                                <div class="post-time">
+                                    <em title="{{post.timestamp | formatTimestamp}}">
+                                        <small>{{globals.updateTick && post.timestamp | formatTimestampFromAgo}}</small>
+                                    </em>
+                                </div>
+                                <template if="{{ post.lastModified && post.lastModified !== post.timestamp }}">
+                                    <div class="edited-time">
+                                        &mdash;
+                                        <em title="{{post.lastModified | formatTimestamp}}">
+                                            <small>
+                                                Edited:
+                                                {{globals.updateTick && post.lastModified | formatTimestampFromAgo}}
+                                            </small>
+                                        </em>
+                                    </div>
+                                </template>
                             </template>
                         </div>
                         <div class="body" on-marked-js-highlight="{{hilight}}">
-                            <!--
-                                            {{post.text | stripTags }}
-                            -->
-                            <!--
-                                            <mark-down text="{{post.text}}">
-                                            </mark-down>
-                            -->
                             <template if="{{! post.deleted }}">
                                 <marked-element
                                     text="{{previewing ? ( previewText ? previewText : '' ) : post.text}}">
@@ -100,7 +102,7 @@
                             </template>
                         </div>
                         <template if="{{!previewing}}">
-                            <speakur-post-footer class="footer" post="{{post}}"></speakur-post-footer>
+                            <speakur-post-footer id="postFooter" class="footer" post="{{post}}"></speakur-post-footer>
                         </template>
                     </speakur-card>
 
@@ -112,6 +114,18 @@
               -- visual indentation is controlled by the level
               -->
             <div style="margin-left: {{level+1 * 45}}px;">
+
+                <template if="{{ canEditPost(post, globals.profile, globals.isAdmin) }}">
+                    <speakur-compose
+                        id="editCompose"
+                        threadId="{{threadId}}"
+                        replyTo="{{ editReplyTo }}"
+                        editing="{{ editId }}"
+                        hidden?="{{!showingEdit}}"
+                        firebaseLocation="{{firebaseLocation}}">
+                    </speakur-compose>
+                </template>
+
                 <speakur-compose
                     id="replyCompose"
                     threadId="{{threadId}}"
@@ -138,6 +152,8 @@
             postId: null,
             previewing: false,
             previewText: null,
+            editId: null,
+            showingEdit: false,
             showingReply: false,
 
             /**
@@ -242,10 +258,44 @@
                 e.stopPropagation();
             },
 
+            canEditPost: function (post, profile, isAdmin) {
+                if (!this.$ || !this.$.postFooter) {
+                    return false;
+                }
+                if (!post || !profile) {
+                    return false;
+                }
+                return this.$.postFooter.canEditPost(post, profile, isAdmin);
+            },
+
+
             editPost: function (e) {
-                this.fire('not-yet-implemented');
+                this.showingEdit = !this.showingEdit;
+                this.editId = this.postId;
+
+                if (this.post.replyTo) {
+                    this.editReplyTo = this.post.replyTo;
+                } else {
+                    this.editReplyTo = this.post.threadId;
+                }
+
+                // Need to stop the event b/c we're only editing this, not all parent posts.
                 e.stopPropagation();
             },
+
+            submittedEdit: function (e) {
+                console.log("edit submitted: ", e.detail);
+                // Close reply window?
+                this.showingEdit = false;
+                e.stopPropagation();
+            },
+
+            canceledEdit: function (e) {
+                console.log("Edit Post canceled.");
+                this.showingEdit = false;
+                e.stopPropagation();
+            },
+
 
             reportPost: function (e) {
                 this.fire('not-yet-implemented');
@@ -293,6 +343,8 @@
             eventDelegates: {
                 'reply-to-post': 'replyToPost',
                 'edit-post': 'editPost',
+                'cancel-edit': 'canceledEdit',
+                'submitted-edit': 'submittedEdit',
                 'report-post': 'reportPost',
                 'delete-post': 'deletePost',
                 'vote-up': 'voteUp',
