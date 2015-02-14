@@ -7,6 +7,10 @@ NOTE: The rest of this document has been auto-generated. I need to update it.
 
 See the [component page](http://polymerlabs.github.io/seed-element) for more information.
 
+## License
+
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+
 ## Getting Started
 
 We've put together a [guide to seed-element](http://www.polymer-project.org/docs/start/reusableelements.html) to help get you rolling.

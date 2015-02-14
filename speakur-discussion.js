@@ -1,7 +1,11 @@
 /**
- * Created by Preston on 2/1/2015.
+ * @license
+ * Copyright (c) 2015 Preston Landers. All rights reserved.
+ * This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+ * The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+ *
  */
-
 (function (document) {
     'use strict';
 
