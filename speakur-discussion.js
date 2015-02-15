@@ -224,9 +224,12 @@
         },
 
         // called when the above toggle is finished.
-        openStatusChanged: function (event, value) {
-            // this.log("opened -> ", event, value);
-            this.closed = !this.closed;
+        openStatusChanged: function (e) {
+            // We don't care if a child elemnt doesn't swallow this (core-collapse-open) somewhere
+            // because we only respond if we know it's coming from "our" mainCollapse
+            if (e.path[0] === this.$.mainCollapse) {
+                this.closed = !this.closed;
+            }
         },
 
         search: function () {
