@@ -75,7 +75,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         </div>
                         <div
                             on-click="{{cancel}}"
-                            title="Cancel (Clear Text)"
+                            title="Cancel {{ topLevelComment ? '(Clear Text)' : '(Hide Text)' }}"
                             class="btn btn-sm btn-danger cancel-btn tool-btn">
                             Cancel
                         </div>
@@ -262,6 +262,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     this.fire('cancel-post');
                 }
 
+                if (this.threadId == this.replyTo) {
+                    this.log("canceled top level post");
+                    this.newText = '';
+                }
+
                 //// this would delete the text...
                 // this.newText = '';
 
@@ -269,6 +274,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             editingHelp: function () {
                 this.fire('not-yet-implemented');
+            },
+
+
+            computed: {
+                topLevelComment: "threadId == replyTo"
             }
         });
     </script>
