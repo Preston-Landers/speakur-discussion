@@ -77,7 +77,7 @@ https://github.com/Polymer/core-component-page/issues/7
             <speakur-dialog-login id="speakurLoginDialog" baseLogin="{{$.baseLogin}}" ></speakur-dialog-login>
             <speakur-profile id="speakurProfile" firebaseLocation="{{firebaseLocation}}"></speakur-profile>
             <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
-            <speakur-i18next id="si18next" locale="{{globals.profile ? globals.profile.locale : '' }}"></speakur-i18next>
+            <speakur-i18next id="si18next" locale="{{globals.profile ? globals.profile.locale : null }}"></speakur-i18next>
 
             <!-- structural elements -->
             <div vertical layout class="speakur-layout">
