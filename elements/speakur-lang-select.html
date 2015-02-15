@@ -1,0 +1,80 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../paper-item/paper-item.html">
+<link rel="import" href="../../core-menu/core-menu.html">
+
+
+<link rel="import" href="../../pvc-globals/pvc-globals.html">
+
+<polymer-element
+    name="speakur-lang-select"
+    attributes="locale"
+    extends="speakur-base">
+    <template>
+        <style>
+            core-item.core-selected {
+                color: red;
+            }
+        </style>
+        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
+
+        <div>
+            <span>
+                {{ 'language' | $$ }}:
+            </span>
+            <paper-dropdown-menu label="{{ 'language' | $$ }}">
+                <paper-dropdown class="dropdown">
+                    <core-menu id="menu" class="menu">
+                        <paper-item data-locale="en-US">English</paper-item>
+                        <paper-item data-locale="fr-FR">Français</paper-item>
+                    </core-menu>
+                </paper-dropdown>
+            </paper-dropdown-menu>
+        </div>
+
+        <p>
+            {{ 'greeting1' | $$ }}
+
+            locale: {{locale}} &mdash; profile locale: {{ globals.profile ? globals.profile.locale : '' }}
+        </p>
+    </template>
+    <script>
+        Polymer({
+            locale: null,
+
+            domReady: function () {
+                var that = this;
+
+                // I'm pretty sure there has to be a better way to do this?
+                this.$.menu.addEventListener('core-select', function (e) {
+                    if (e.detail.isSelected) {
+                        var newLocale = e.detail.item.dataset['locale'];
+                        that.locale = newLocale;
+                        // that.log("Changed locale to: ", newLocale);
+                    }
+                });
+            },
+
+            observe: {
+                locale: 'localeChanged'
+            },
+
+            localeChanged: function (oldVal, newVal) {
+                this.log("locale changed from:", oldVal, " to: ", newVal);
+                if (this.globals.profile) {
+                    this.log("globals.profile.locale was :", this.globals.profile.locale);
+                    this.globals.profile.locale = newVal;
+                    // Changing the profile.locale should in theory tell the i18next element to load a new language
+                }
+            }
+
+        });
+    </script>
+</polymer-element>

@@ -192,9 +192,12 @@
             var toast = this.$[toastElem];
             if (!toast) {
                 this.errorLog(toastElem + " element is missing?");
+                e.stopPropagation();
+                return;
             }
             toast.text=msg;
             toast.show();
+            e.stopPropagation();
         },
 
 
