@@ -1,5 +1,5 @@
 {
   "greeting1": "Bonjour à tout le monde!",
   "language": "Langue préférée",
-  "apples_oranges": "Marie a quatre pommes et 6 oranges."
+  "apples_oranges": "Marie a __apples__ pommes et __oranges__ oranges."
 }

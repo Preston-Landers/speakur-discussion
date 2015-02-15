@@ -32,6 +32,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 this.toast(message);
             },
 
+            computed: {
+                // when this property has changed, it reflects a fully loaded and changed locale
+                // can use it in expressions like {{ 'key' | $$({param1: 'foo'}, _loc) }}
+                // to ensure that the string is re-translated when _loc changes
+                "_loc": "globals.currentLocale ? globals.currentLocale : 'en-US'"
+            },
+
             log: function () {
                 var $ = jQuery;
 

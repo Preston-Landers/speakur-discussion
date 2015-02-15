@@ -19,7 +19,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     extends="speakur-base">
     <template>
         <style>
-            core-item.core-selected {
+            paper-item.core-selected {
                 color: red;
             }
         </style>
@@ -27,9 +27,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
         <div>
             <span>
-                {{ 'language' | $$ }}:
+                {{ 'language' | $$(_loc) }}:
+
             </span>
-            <paper-dropdown-menu label="{{ 'language' | $$ }}">
+            <paper-dropdown-menu label="{{ 'language' | $$(_loc) }}">
                 <paper-dropdown class="dropdown">
                     <core-menu id="menu" class="menu">
                         <paper-item data-locale="en-US">English</paper-item>
@@ -40,9 +41,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         </div>
 
         <p>
-            {{ 'greeting1' | $$ }}
+            {{ 'greeting1' | $$(_loc) }}
 
             locale: {{locale}} &mdash; profile locale: {{ globals.profile ? globals.profile.locale : '' }}
+        </p>
+        <p>
+            {{ 'apples_oranges' | $$({apples: 3, oranges: 4}, _loc) }}
         </p>
     </template>
     <script>

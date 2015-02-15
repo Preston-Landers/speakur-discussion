@@ -5,6 +5,7 @@ The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
 -->
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../pvc-globals/pvc-globals.html">
 <script src="../../i18next/i18next.js"></script>
 
 <!--
@@ -19,6 +20,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     extends="speakur-base"
     attributes="locale">
     <template>
+        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
     </template>
     <script>
         (function () {
@@ -54,8 +56,14 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 },
 
                 localeChanged: function () {
-                    this.log('Language changed to:', this.locale);
-                    i18n.setLng(this.locale);
+                    var that = this;
+                    i18n.setLng(this.locale, function () {
+                        that.log('Language changed to:', that.locale);
+                        that.globals.currentLocale = that.locale;
+
+                        // TODO: change 'moment' library's locale?
+
+                    });
                 }
 
             });
