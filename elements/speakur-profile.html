@@ -76,9 +76,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         this.profile = this.createProfile(user);
                     }
                     else {
-                        this.log("Profile already exists: ", this.profile);
+                        this.log("Profile already exists: ", this.profile, ". Updating it.");
+                        this.updateProfileFromProvider(user, this.profile);
                     }
-                    this.log("firebase profile: ", this.profile);
+                    // this.log("firebase profile: ", this.profile);
                     this.globals.profile = this.profile;
 
                     // TODO: whether or not the user is an admin is indeterminate at this point
@@ -96,12 +97,79 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     }
                 },
 
+                updateProfileFromProvider: function(puser, profile) {
+                    /// Update everything that we care about updating EVERY time, not just first time.
+
+                    // Update image and email address from current values
+                    // possibly locale?
+
+
+                    var email, xprof, displayName;
+
+                    if (puser.google) {
+                        xprof = puser.google.cachedUserProfile;
+                        displayName = user.google.displayName;
+                        email = puser.google.email;
+                        profile['fullname'] = displayName;
+                        if (xprof) {
+                            // doesn't provide TZ... could get from browser?
+                            profile['picture_link'] = xprof.picture;
+                            // profile['about_link'] = xprof.link;
+                            // profile['locale'] = xprof.locale;
+                        }
+                    } else if (puser.facebook) {
+                        xprof = puser.facebook.cachedUserProfile;
+                        displayName = puser.facebook.displayName;
+                        email = puser.facebook.email;
+                        profile['fullname'] = displayName;
+                        if (xprof) {
+                            // profile['timezone'] = xprof.timezone;
+                            profile['picture_link'] = xprof.picture.data.url;
+                            // profile['about_link'] = xprof.link;
+                            // profile['locale'] = xprof.locale;
+                        }
+                    }
+
+                    if (email) {
+                        this.setEmailAddress(profile, email);
+                    } else {
+                        this.log("Warning: user " + puser.uid + " hasn't provided an email address.");
+                    }
+
+                },
+
                 setEmailAddress: function (profile, email) {
                     if (email) {
                         profile['email'] = email;
                         profile['md5_hash'] = md5(email);
                     }
                 },
+
+
+                firstTimeProfileInfoFromProvider: function (puser, profile) {
+                    // Add stuff that we only care about the first time, in theory b/c we will manage it
+                    var xprof, displayName;
+                    if (puser.google) {
+                        xprof = puser.google.cachedUserProfile;
+                        displayName = puser.google.displayName;
+                        profile['username'] = displayName;
+                        if (xprof) {
+                            // doesn't provide TZ... could get from browser?
+                            profile['about_link'] = xprof.link;
+                            profile['locale'] = xprof.locale;
+                        }
+                    } else if (puser.facebook) {
+                        xprof = puser.facebook.cachedUserProfile;
+                        displayName = puser.facebook.displayName;
+                        profile['username'] = displayName;
+                        if (xprof) {
+                            profile['timezone'] = xprof.timezone;
+                            profile['about_link'] = xprof.link;
+                            profile['locale'] = xprof.locale;
+                        }
+                    }
+                },
+
 
                 // create a new generic user profile from an authentication user
                 createProfile: function (user) {
@@ -119,39 +187,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         md5_hash: '',
                         timezone: -5
                     };
-                    var xprof, displayName, email;
 
-                    if (user.google) {
-                        xprof = user.google.cachedUserProfile;
-                        displayName = user.google.displayName;
-                        email = user.google.email;
-                        prof['username'] = displayName;
-                        prof['fullname'] = displayName;
-                        if (xprof) {
-                            // doesn't provide TZ... could get from browser?
-                            prof['picture_link'] = xprof.picture;
-                            prof['about_link'] = xprof.link;
-                            prof['locale'] = xprof.locale;
-                        }
-                    } else if (user.facebook) {
-                        xprof = user.facebook.cachedUserProfile;
-                        displayName = user.facebook.displayName;
-                        email = user.facebook.email;
-                        prof['username'] = displayName;
-                        prof['fullname'] = displayName;
-                        if (xprof) {
-                            prof['timezone'] = xprof.timezone;
-                            prof['picture_link'] = xprof.picture.data.url;
-                            prof['about_link'] = xprof.link;
-                            prof['locale'] = xprof.locale;
-                        }
-                    }
+                    this.updateProfileFromProvider(user, prof);
 
-                    if (email) {
-                        this.setEmailAddress(prof, email);
-                    } else {
-                        this.log("Warning: user " + user.uid + " hasn't provided an email address.");
-                    }
+                    this.firstTimeProfileInfoFromProvider(user, prof);
 
                     return prof;
                 }
