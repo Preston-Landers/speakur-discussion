@@ -6,11 +6,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 -->
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../paper-shadow/paper-shadow.html">
+<link rel="import" href="../../core-collapse/core-collapse.html">
 
 <polymer-element
     name="speakur-card"
     extends="speakur-base"
-    attributes="">
+    attributes="collapsible">
     <template>
         <style>
             .shadow {
@@ -43,18 +44,20 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             <paper-shadow class="shadow" z="1">
                 <div class="speakur-card" vertical layout>
                     <template if="{{showheader}}">
-                        <div class="card card-header">
+                        <div class="card card-header" on-click="{{toggleCard}}">
                             <content id="header" select=".header"></content>
                         </div>
                     </template>
-                    <div class="card card-body">
-                        <content select=":not(.footer)"></content>
-                    </div>
-                    <template if="{{showfooter}}">
-                        <div class="card card-footer">
-                            <content id="footer" select=".footer"></content>
+                    <core-collapse opened id="bodycollapse">
+                        <div class="card card-body">
+                            <content select=":not(.footer)"></content>
                         </div>
-                    </template>
+                        <template if="{{showfooter}}">
+                            <div class="card card-footer">
+                                <content id="footer" select=".footer"></content>
+                            </div>
+                        </template>
+                    </core-collapse>
                 </div>
             </paper-shadow>
 
@@ -62,6 +65,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     </template>
     <script>
         Polymer({
+            collapsible: true,
 
             domReady: function () {
                 // Doesn't work in IE11...
@@ -80,6 +84,15 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     value: false,
                     reflect: true
                 }
+            },
+
+            toggleCard: function (e) {
+                if (!this.collapsible) return;
+                this.$.bodycollapse.toggle();
+                // this.$.footercollapse.toggle();
+
+                this.fire("speakur-card-toggle", this.$.bodycollapse.opened);
+                e.stopPropagation();
             }
 
         });

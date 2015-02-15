@@ -11,6 +11,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="../../marked-element/marked-element.html">
 <link rel="import" href="../../highlightjs-element/highlightjs-element.html">
 <link rel="import" href="../../pvc-globals/pvc-globals.html">
+<link rel="import" href="../../core-collapse/core-collapse.html">
 
 <link rel="import" href="speakur-author-img.html">
 <link rel="import" href="speakur-author-slug.html">
@@ -51,6 +52,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 padding-bottom: 12px;
             }
 
+            .mmwidth {
+                min-width: {{indentWidth}}px;
+            }
         </style>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <template if="{{!previewing}}">
@@ -61,14 +65,19 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         </template>
         <template if="{{!previewing || previewText}}">
             <div layout horizontal>
-                <div class="post-author-img">
-                    <speakur-author-img
-                        width="32" height="32"
-                        author="{{previewing ? globals.profile : post.author}}">
-                    </speakur-author-img>
+
+                <div class="mmwidth">
+                    <core-collapse opened id="imgCollapse">
+                        <div class="post-author-img">
+                            <speakur-author-img
+                                width="32" height="32"
+                                author="{{previewing ? globals.profile : post.author}}">
+                            </speakur-author-img>
+                        </div>
+                    </core-collapse>
                 </div>
                 <div flex>
-                    <speakur-card>
+                    <speakur-card collapsible="true">
                         <div layout horizontal center class="header">
                             <template if="{{ previewing && previewingEdit}}">
                                 Preview - Edit Post
@@ -112,7 +121,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             <speakur-post-footer id="postFooter" class="footer" post="{{post}}"></speakur-post-footer>
                         </template>
                     </speakur-card>
-
                 </div>
             </div>
 
@@ -120,40 +128,44 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
               -- container for reply composition and all replies to this post.
               -- visual indentation is controlled by the level
               -->
-            <div style="margin-left: {{level+1 * 45}}px;">
 
-                <template if="{{ canEditPost(post, globals.profile, globals.isAdmin) }}">
+            <core-collapse opened id="extraCollapse">
+                <div style="margin-left: {{level+1 * indentWidth}}px;">
+
+                    <template if="{{ canEditPost(post, globals.profile, globals.isAdmin) }}">
+                        <speakur-compose
+                            id="editCompose"
+                            threadId="{{threadId}}"
+                            replyTo="{{ editReplyTo }}"
+                            editing="{{ editId }}"
+                            hidden?="{{!showingEdit}}"
+                            firebaseLocation="{{firebaseLocation}}">
+                        </speakur-compose>
+                    </template>
+
                     <speakur-compose
-                        id="editCompose"
+                        id="replyCompose"
                         threadId="{{threadId}}"
-                        replyTo="{{ editReplyTo }}"
-                        editing="{{ editId }}"
-                        hidden?="{{!showingEdit}}"
+                        replyTo="{{postId}}"
+                        hidden?="{{!showingReply}}"
                         firebaseLocation="{{firebaseLocation}}">
                     </speakur-compose>
-                </template>
 
-                <speakur-compose
-                    id="replyCompose"
-                    threadId="{{threadId}}"
-                    replyTo="{{postId}}"
-                    hidden?="{{!showingReply}}"
-                    firebaseLocation="{{firebaseLocation}}">
-                </speakur-compose>
+                    <speakur-post-set
+                        id="replySet"
+                        firebaseLocation="{{firebaseLocation}}"
+                        level="{{level + 1}}"
+                        parentId="{{postId}}"
+                        threadId="{{threadId}}"
+                        ></speakur-post-set>
 
-                <speakur-post-set
-                    id="replySet"
-                    firebaseLocation="{{firebaseLocation}}"
-                    level="{{level + 1}}"
-                    parentId="{{postId}}"
-                    threadId="{{threadId}}"
-                    ></speakur-post-set>
-
-            </div>
+                </div>
+            </core-collapse>
         </template>
     </template>
     <script>
         Polymer({
+            indentWidth: 46,
             threadId: null,
             parentId: null,
             postId: null,
@@ -348,6 +360,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             },
 
+            postCollapseToggle: function (e, details, sender) {
+                // this.log("post collapsed", this.post, details, sender);
+                this.$.imgCollapse.toggle();
+                this.$.extraCollapse.toggle();
+                e.stopPropagation();
+            },
+
             eventDelegates: {
                 'reply-to-post': 'replyToPost',
                 'edit-post': 'editPost',
@@ -359,6 +378,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 'vote-down': 'voteDown',
                 'cancel-post': 'canceledReply',
                 'submitted-post': 'submittedReply',
+                'speakur-card-toggle': 'postCollapseToggle',
                 'post-deleted': 'childPostDeleted'
             }
 
