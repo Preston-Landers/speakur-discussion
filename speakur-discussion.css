@@ -75,14 +75,25 @@ paper-icon-button /deep/ core-icon[role=img] {
 
 }
 
-speakur-toolbar paper-icon-button {
-    padding: 4px;
-}
-
 #helpbutton {
     color: blue;
 }
 
 #reportbutton {
     color: #807507;
+}
+
+:host /deep/ paper-icon-button.toolbar-icon {
+    /*padding: 0;*/
+    margin-left: 4px;
+}
+
+
+:host /deep/ paper-icon-button.toolbar-icon /deep/ core-icon {
+    width: 24px;
+    height: 24px;
+}
+
+:host /deep/ .toolbar-icon-author {
+    margin: 2px 2px 0;
 }

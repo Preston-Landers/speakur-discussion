@@ -6,6 +6,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 -->
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../core-menu/core-menu.html">
+<link rel="import" href="../../core-icon/core-icon.html">
 <link rel="import" href="../../core-item/core-item.html">
 <link rel="import" href="../../paper-item/paper-item.html">
 <link rel="import" href="../../paper-menu-button/paper-menu-button.html">
@@ -18,7 +19,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <polymer-element
     name="speakur-login-button"
     extends="speakur-base"
-    attributes="user statusKnown">
+    attributes="user statusKnown width height">
     <template>
         <style>
             .username {
@@ -46,8 +47,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <!-- duplicating the whole structure is the only way it seems to accommodate dynamic size changes due to login/logout status? -->
         <template if="{{ user }}">
             <paper-menu-button halign="right">
-                <div style="margin-top: 2px;">
-                    <speakur-author-img width="18" height="18" author="{{globals.profile}}"></speakur-author-img>
+                <div class="toolbar-icon toolbar-icon-author">
+                    <speakur-author-img
+                        width="{{width}}" height="{{height}}"
+                        author="{{globals.profile}}">
+                    </speakur-author-img>
                 </div>
 
                 <paper-dropdown class="dropdown" transition="">
@@ -67,14 +71,18 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     </core-menu>
                 </paper-dropdown>
             </paper-menu-button>
+
         </template>
         <template if="{{ ! user }}">
             <paper-menu-button halign="right">
-                <paper-icon-button icon="social:person"></paper-icon-button>
+                <paper-icon-button icon="social:person" class="toolbar-icon toolbar-icon-anon">
+                </paper-icon-button>
+
+                <!--<paper-icon-button icon="social:person"></paper-icon-button>-->
                 <paper-dropdown class="dropdown" transition="">
                     <core-menu class="menu">
                         <paper-item on-click="{{login}}" hidden?="{{!statusKnown || user}}">
-                            <core-icon icon="social:person" class="icon"></core-icon>
+                            <core-icon icon="social:person" class="icon" class="toolbar-icon"></core-icon>
                             Sign In
                         </paper-item>
                     </core-menu>
@@ -82,10 +90,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             </paper-menu-button>
         </template>
 
-
     </template>
     <script>
         Polymer({
+            width: 24,
+            height: 24,
+
             login: function () {
                 this.fire('loginButtonPressed');
             },
