@@ -156,6 +156,8 @@
             // maximum number of old post revisions to keep
             this.globals.maxPostRevisionsKeep = 5;
 
+            this.globals.isAdmin = false;
+
             // Start the 'global tick' which is updated every X seconds
             // to be used in expressions like globals.updateTick to give them an 'expiration time'
             this.fire('global-tick');
@@ -225,7 +227,7 @@
 
         // called when the above toggle is finished.
         openStatusChanged: function (e) {
-            // We don't care if a child elemnt doesn't swallow this (core-collapse-open) somewhere
+            // We don't care if a child element doesn't swallow this (core-collapse-open) somewhere
             // because we only respond if we know it's coming from "our" mainCollapse
             if (e.path[0] === this.$.mainCollapse) {
                 this.closed = !this.closed;
@@ -321,10 +323,11 @@
         },
 
         onLogin: function (e) {
+            this.globals.isAdmin = false; // profile will update this
             this.globals.currentUser = this.user;
 
             // Look for both Google and FB info
-            this.$.speakurProfile.uid = this.user.uid;
+            // this.$.speakurProfile.uid = this.user.uid;
 
             // allow other sub-elements to respond to this
             this.fire('speakur-user-login', this.user);
@@ -334,6 +337,8 @@
         },
 
         doLogout: function () {
+            this.globals.isAdmin = false;
+
             // allow other sub-elements to respond to this
             // in particular, the profile.
             this.log("Firing user-logout");
@@ -341,6 +346,7 @@
         },
 
         onLoginError: function (err) {
+            this.globals.isAdmin = false;
             this.doLogout();
             this.log('An error occurred.');
             // Show some kind of error dialog / message?

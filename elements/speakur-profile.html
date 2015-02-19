@@ -87,13 +87,21 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 },
 
                 adminsChanged: function () {
+                    this.globals.isAdmin = false;
+                    if (!this.uid) {
+                        return;
+                    }
                     this.log("admins changed: ", this.admins);
                     if (this.admins) {
-                        this.log("Congrats, you are an admin.");
-                        this.globals.isAdmin = true;
+                        if (this.admins.scope === "*") {
+                            console.log("Congrats, you are an admin.", this.admins);
+                            this.globals.isAdmin = true;
+                        } else {
+                            this.log("Admin scope doesn't match.");
+                        }
+
                     } else {
                         this.log("You're a regular old user.");
-                        this.globals.isAdmin = false;
                     }
                 },
 
