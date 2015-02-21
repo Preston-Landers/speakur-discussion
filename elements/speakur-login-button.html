@@ -45,7 +45,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
 
         <!-- duplicating the whole structure is the only way it seems to accommodate dynamic size changes due to login/logout status? -->
-        <template if="{{ user }}">
+        <template if="{{ statusKnown && user }}">
             <paper-menu-button halign="right">
                 <div class="toolbar-icon toolbar-icon-author">
                     <speakur-author-img
@@ -60,11 +60,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             <div class="username">{{globals.profile.username}}</div>
                             <div class="provider">{{ describeProvider(user.provider) }}</div>
                         </core-item>
-                        <paper-item on-click="{{editProfile}}">
+                        <paper-item on-click="{{editProfile}}" title="Edit your profile">
                             <core-icon icon="settings" class="icon"></core-icon>
                             Edit Profile
                         </paper-item>
-                        <paper-item on-click="{{logout}}">
+                        <paper-item on-click="{{logout}}" title="Sign out of Speakur">
                             <core-icon icon="social:person-outline" class="icon"></core-icon>
                             Sign Out
                         </paper-item>
@@ -73,7 +73,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             </paper-menu-button>
 
         </template>
-        <template if="{{ ! user }}">
+        <template if="{{ !statusKnown || ! user }}">
             <paper-menu-button halign="right">
                 <paper-icon-button icon="social:person" class="toolbar-icon toolbar-icon-anon">
                 </paper-icon-button>
@@ -102,6 +102,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             logout: function () {
                 this.fire('logoutButtonPressed');
+            },
+
+            editProfile: function () {
+                this.fire('editProfileButtonPressed');
             },
 
             describeProvider: function (provider) {
