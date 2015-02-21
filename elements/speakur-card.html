@@ -39,29 +39,36 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 color: slategray;
             }
 
+            .card-container {
+                margin: 1px;
+                padding: 0;
+            }
+
         </style>
-        <section>
-            <paper-shadow class="shadow" z="1">
-                <div class="speakur-card" vertical layout>
-                    <template if="{{showheader}}">
-                        <div class="card card-header" on-click="{{toggleCard}}">
-                            <content id="header" select=".header"></content>
-                        </div>
-                    </template>
-                    <core-collapse opened id="bodycollapse">
-                        <div class="card card-body">
-                            <content select=":not(.footer)"></content>
-                        </div>
-                        <template if="{{showfooter}}">
-                            <div class="card card-footer">
-                                <content id="footer" select=".footer"></content>
+        <div class="card-container">
+            <section>
+                <paper-shadow class="shadow" z="1">
+                    <div class="speakur-card" vertical layout>
+                        <template if="{{showheader}}">
+                            <div class="card card-header" on-click="{{toggleCard}}">
+                                <content id="header" select=".header"></content>
                             </div>
                         </template>
-                    </core-collapse>
-                </div>
-            </paper-shadow>
+                        <core-collapse opened id="bodycollapse">
+                            <div class="card card-body">
+                                <content select=":not(.footer)"></content>
+                            </div>
+                            <template if="{{showfooter}}">
+                                <div class="card card-footer">
+                                    <content id="footer" select=".footer"></content>
+                                </div>
+                            </template>
+                        </core-collapse>
+                    </div>
+                </paper-shadow>
 
-        </section>
+            </section>
+        </div>
     </template>
     <script>
         Polymer({
@@ -72,8 +79,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 // this.showheader = this.querySelector(':scope > .header');
                 // this.showfooter = this.querySelector(':scope > .footer');
 
-                this.showheader = _.filter(this.children, function(e) { return e.className === "header"; }).length;
-                this.showfooter = _.filter(this.children, function(e) { return e.className === "footer"; }).length;
+                this.showheader = _.filter(this.children, function (e) {
+                    return e.className === "header";
+                }).length;
+                this.showfooter = _.filter(this.children, function (e) {
+                    return e.className === "footer";
+                }).length;
             },
             publish: {
                 showheader: {
