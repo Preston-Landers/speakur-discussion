@@ -45,8 +45,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
              */
             fbLocation: function () {
                 var args = _.slice(arguments); // clone it into a true array
-                for (var i=0; i<args; i++) {
-                    if (!args[i]) {
+                for (var i = 0; i < args.length; i++) {
+                    if (!args[i] || !args[i].length) {
+                        // console.log("fbLocation empty component:", args);
                         return '';
                     }
                 }
