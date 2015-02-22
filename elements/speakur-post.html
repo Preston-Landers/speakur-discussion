@@ -44,10 +44,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 text-shadow: 1px 1px rgba(20, 20, 22, 0.78);
             }
 
-            speakur-card > .header /deep/ .edited-time {
-                margin-left: 6px;
-            }
-
             speakur-card /deep/ .deleted-post-body {
                 padding-top: 14px;
                 padding-bottom: 12px;
@@ -86,6 +82,25 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 </div>
                 <div flex>
                     <speakur-card collapsible="true">
+                        <style>
+
+                            .edited-time {
+                                margin-left: 6px;
+                                font-size: 0.9em;
+                                font-style: italic;
+                            }
+
+                            .post-time {
+                                font-size: 0.9em;
+                                font-style: italic;
+                            }
+
+                            .netVotesTitleDisplay {
+                                font-size: 0.8em;
+                                margin-right: 8px;
+                            }
+
+                        </style>
                         <div layout horizontal center class="header">
                             <template if="{{ previewing && previewingEdit}}">
                                 Preview - Edit Post
@@ -95,20 +110,17 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             </template>
                             <template if="{{ !previewing }}">
                                 <speakur-author-slug showPicture="false" author="{{post.author}}"></speakur-author-slug>
-                                <div class="post-time">
-                                    <em title="{{post.timestamp | formatTimestamp}}">
-                                        <small>{{globals.updateTick && post.timestamp | formatTimestampFromAgo}}</small>
-                                    </em>
+                                <div class="netVotesTitleDisplay">
+                                    {{netVotesText}}
+                                </div>
+                                <div class="post-time" title="{{post.timestamp | formatTimestamp}}">
+                                    {{globals.updateTick && post.timestamp | formatTimestampFromAgo}}
                                 </div>
                                 <template if="{{ post.lastModified && post.lastModified !== post.timestamp }}">
-                                    <div class="edited-time">
+                                    <div class="edited-time" title="{{post.lastModified | formatTimestamp}}">
                                         &mdash;
-                                        <em title="{{post.lastModified | formatTimestamp}}">
-                                            <small>
-                                                Edited:
-                                                {{globals.updateTick && post.lastModified | formatTimestampFromAgo}}
-                                            </small>
-                                        </em>
+                                        Edited:
+                                        {{globals.updateTick && post.lastModified | formatTimestampFromAgo}}
                                     </div>
                                 </template>
                             </template>
@@ -364,6 +376,23 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 e.stopPropagation();
             },
 
+            // Net votes text displayed in post header.
+            getNetVotesText: function (post, votedUp, votedDown) {
+                if (!post) return '';
+
+                var downVotes = this.$.postFooter.numDownvotes;
+                var upVotes = this.$.postFooter.numUpvotes;
+
+                if (upVotes === 0 && downVotes === 0) return '';
+                var netVotes = upVotes - downVotes;
+                if (netVotes > -1) {
+                    return '(+' + netVotes + ')';
+                } else {
+                    return '(-' + netVotes + ')';
+                }
+
+            },
+
             eventDelegates: {
                 'reply-to-post': 'replyToPost',
                 'edit-post': 'editPost',
@@ -377,6 +406,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 'submitted-post': 'submittedReply',
                 'speakur-card-toggle': 'postCollapseToggle',
                 'post-deleted': 'childPostDeleted'
+            },
+
+            computed: {
+                'netVotesText': 'getNetVotesText(post, $.vote.votedUp, $.vote.votedDown)'
             }
 
         });
