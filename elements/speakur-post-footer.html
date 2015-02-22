@@ -11,7 +11,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <polymer-element
     name="speakur-post-footer"
     extends="speakur-base"
-    attributes="post">
+    attributes="post postVote">
     <template>
         <style>
             .speakur-post-toolbar > div {
@@ -29,16 +29,31 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             .vote {
                 width: 16px;
                 height: 14px;
+                opacity: 0.3;
             }
 
-            .vote-down {
+            .vote-down-block {
                 margin-right: 6px;
                 color: #800004;
+                display: inline;
             }
 
-            .vote-up {
+            /* actually has voted down */
+            .voted-down {
+                color: #d40005;
+                opacity: 1.0;
+            }
+
+            .vote-up-block {
                 margin-left: 6px;
                 color: #000ec1;
+                display: inline;
+            }
+
+            /* actually has voted up */
+            .voted-up {
+                color: #0011fd;
+                opacity: 1.0;
             }
 
             .not-voted {
@@ -49,22 +64,26 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <template if="{{ ! post.deleted }}">
             <div horizontal center layout class="speakur-post-toolbar">
                 <span class="vote-block">
-                    <template if="{{netVotes !== 0}}">
-                        {{netVotes}}
-                    </template>
-                    <core-icon
-                        title="Good contribution"
-                        id="voteUp"
-                        class="vote vote-up not-voted"
-                        on-click="{{voteUp}}"
-                        icon="thumb-up"></core-icon>
+                    <div class="vote-up-block">
+                        <core-icon
+                            title="Good contribution"
+                            id="voteUp"
+                            class="vote vote-up {{ {'not-voted': notVoted, 'voted-up': votedUp} | tokenList }}  "
+                            on-click="{{voteUp}}"
+                            icon="thumb-up"></core-icon>
+                        ({{numUpvotes}})
+                    </div>
                     &vert;
-                    <core-icon
-                        title="It stinks!"
-                        id="voteDown"
-                        class="vote vote-down not-voted"
-                        on-click="{{voteDown}}"
-                        icon="thumb-down"></core-icon>
+                    <div class="vote-down-block">
+                        <core-icon
+                            title="It stinks!"
+                            id="voteDown"
+                            class="vote vote-down {{ {'not-voted': notVoted, 'voted-down': votedDown} | tokenList }} "
+                            on-click="{{voteDown}}"
+                            icon="thumb-down"></core-icon>
+
+                        ({{numDownvotes}})
+                    </div>
                 </span>
 
                 <div title="Reply to comment" on-click="{{replyToPost}}">
@@ -84,7 +103,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 </template>
 
                 <div flex></div>
-                <div class="report-post-button" title="Report spam, harassment or illegal content." on-click="{{reportPost}}">
+                <div class="report-post-button" title="Report spam, harassment or illegal content."
+                     on-click="{{reportPost}}">
                     Report
                 </div>
             </div>
@@ -93,22 +113,32 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     <script>
         Polymer({
             getNetVotes: function (post) {
-                if (!post) {
-                    return 0;
-                }
-                // if we have auto-own-upvote, should we reflect a 1 vote post as 'neutral' ? instead of 0
-                if (!Object.keys(post).length) {
-                    return 0;
-                }
-                var upvotes = post.upvotes || 0;
-                var downvotes = post.downvotes || 0;
-                return upvotes - downvotes;
+                return this.numUpvotes(post) - this.numDownvotes(post);
             },
+
+            getNumUpvotes: function (post) {
+                if (!post) return 0;
+                return post.upvotes || 0;
+            },
+
+            getNumDownvotes: function (post) {
+                if (!post) return 0;
+                return post.downvotes || 0;
+            },
+
             computed: {
-                netVotes: "getNetVotes(post)"
+                // netVotes: "getNetVotes(post, postVote.votedUp, postVote.votedDown)",
+                numUpvotes: "getNumUpvotes(post, postVote.votedUp, postVote.votedDown)",
+                numDownvotes: "getNumDownvotes(post, postVote.votedUp, postVote.votedDown)",
+                votedUp: "globals.profile && postVote && postVote.votedUp ? true: false",
+                votedDown: "globals.profile && postVote && postVote.votedDown ? true: false",
+                notVoted: "!globals.profile || !postVote || (!postVote.votedDown && !postVote.votedUp) ? true: false"
             },
+
             canDeletePost: function (post, my_profile, isAdmin) {
-                if (isAdmin) { return true; }
+                if (isAdmin) {
+                    return true;
+                }
                 if (!my_profile || !post || !post.author || !post.author.uid) {
                     return false;
                 }
@@ -138,18 +168,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             },
             voteUp: function () {
                 this.fire('vote-up', this.post);
-
-                // Up/Down vote should be separate toggles.
-
-                jQuery(this.$.voteUp).toggleClass("not-voted");
-                // var $vdown = jQuery(this.$.voteDown);
-                // if ($vdown.hasClass('not-voted'))
-                // jQuery(this.$.voteDown).addClass("not-voted");
             },
             voteDown: function () {
                 this.fire('vote-down', this.post);
-                jQuery(this.$.voteDown).toggleClass("not-voted");
-                //jQuery(this.$.voteUp).addClass("not-voted");
             }
         });
     </script>

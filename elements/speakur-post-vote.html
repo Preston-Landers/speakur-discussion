@@ -5,17 +5,138 @@ The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
 -->
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../firebase-element/firebase-element.html">
+
+<!--
+    An element to handle the mechanics of up and down voting a post.
+  -->
 <polymer-element
     name="speakur-post-vote"
-    attributes="firebaseLocation userId threadId postId"
+    attributes="firebaseLocation uid threadId postId vote canVote votedUp votedDown post"
     extends="speakur-base">
     <template>
         <style>
         </style>
+        <firebase-element
+            id="voteDB" data="{{vote}}"
+            location="{{fbLocation(firebaseLocation, 'votes', uid, threadId, postId) }}">
+        </firebase-element>
+
         <div>
         </div>
     </template>
     <script>
-        Polymer({});
+        Polymer({
+            canVote: false,
+
+            computed: {
+                'canVote': 'uid ? true : false',
+                'votedUp': 'vote && vote["up"] ? true: false',
+                'votedDown': 'vote && vote["down"]  ? true: false'
+            },
+
+            logVoteStatus: function (up) {
+                if (up) {
+                    console.log("Voted UP postId", this.postId);
+                } else {
+                    console.log("Voted DOWN postId", this.postId);
+                }
+                if (this.vote) {
+                    console.log("Current (prev) vote status: ", this.vote);
+                } else {
+                    console.log("No vote yet on ", this.postId);
+                }
+            },
+
+            changeVoteStatus: function (up) {
+
+                // Note that if we had previously downvoted and change that to an upvote, that's a +2 net change to the post score.
+
+                var curDown, curUp;
+                var netChange = 0;
+                var netUp = 0;
+                var netDown = 0;
+
+                if (!this.vote) {
+                    this.vote = {
+                        up: false,
+                        down: false
+                    };
+                }
+                var vote = this.vote;
+
+                // logic below might be a little suspect, or could at least be condensed probably.
+
+                // add or subtract votes accordingly while tracking net vote change.
+                if (up) {
+                    if (vote['up']) {
+                        // voting up, but have already voted up - remove upvote.
+                        netChange--;
+                        netUp--;
+                        vote['up'] = false;
+                    } else {
+                        // voting up, and have not already done so - add upvote.
+                        netChange++;
+                        netUp++;
+                        vote['up'] = true;
+                        if (vote['down']) {
+                            netChange++;
+                            netDown--;
+                            vote['down'] = false;
+                        }
+                    }
+
+                } else {
+
+                    if (vote['down']) {
+                        // voting down, but have already voted down - remove downvote.
+                        netChange++;
+                        netDown--;
+                        vote['down'] = false;
+
+                    } else {
+                        // voting down, and have not already done so - add downvote.
+                        netChange--;
+                        netDown++;
+                        vote['down'] = true;
+                        if (vote['up']) {
+                            netChange--;
+                            netUp--;
+                            vote['up'] = false;
+                        }
+
+                    }
+                }
+
+                if (netChange !== 0) {
+                    // console.log("net change in vote: ", netChange);
+                    vote['timestamp'] = new Date().getTime();
+
+                    // console.log("netDown:", netDown);
+                    // console.log("netUp:", netUp);
+                    if (this.post) {
+                        curDown = this.post['downvotes'] || 0;
+                        curUp = this.post['upvotes'] || 0;
+                        this.post['upvotes'] = curUp + netUp;
+                        this.post['downvotes'] = curDown + netDown;
+                        // console.log("after post", this.post);
+                    }
+
+                }
+
+            },
+
+            voteUp: function () {
+                this.logVoteStatus(true);
+                this.changeVoteStatus(true);
+                return null;
+            },
+
+            voteDown: function () {
+                this.logVoteStatus(false);
+                this.changeVoteStatus(false);
+                return null;
+            }
+        });
     </script>
 </polymer-element>

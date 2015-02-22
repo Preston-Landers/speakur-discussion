@@ -60,7 +60,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <speakur-post-vote
             id="vote"
-            userId="{{userId}}"
+            uid="{{globals.currentUser.uid}}"
+            post="{{post}}"
             threadId="{{threadId}}"
             postId="{{postId}}"
             firebaseLocation="{{firebaseLocation}}"></speakur-post-vote>
@@ -125,7 +126,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             </template>
                         </div>
                         <template if="{{!previewing}}">
-                            <speakur-post-footer id="postFooter" class="footer" post="{{post}}"></speakur-post-footer>
+                            <speakur-post-footer
+                                id="postFooter"
+                                class="footer"
+                                postVote="{{$.vote}}"
+                                post="{{post}}"></speakur-post-footer>
                         </template>
                     </speakur-card>
                 </div>
@@ -314,13 +319,15 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             },
 
             voteUp: function (e) {
-                this.fire('not-yet-implemented');
+                // this.fire('not-yet-implemented');
+                this.$.vote.voteUp();
                 e.stopPropagation();
 
             },
 
             voteDown: function (e) {
-                this.fire('not-yet-implemented');
+                // this.fire('not-yet-implemented');
+                this.$.vote.voteDown();
                 e.stopPropagation();
             },
 
