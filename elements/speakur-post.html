@@ -57,14 +57,17 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <speakur-post-vote
             id="vote"
             uid="{{globals.currentUser.uid}}"
-            post="{{post}}"
-            threadId="{{threadId}}"
+            postVotes="{{postVotes}}"
+            parentId="{{parentId}}"
             postId="{{postId}}"
             firebaseLocation="{{firebaseLocation}}"></speakur-post-vote>
         <template if="{{!previewing}}">
             <firebase-element
-                id="base" data="{{post}}"
+                id="postDB" data="{{post}}"
                 location="{{fbLocation(firebaseLocation, 'posts', parentId, postId) }}"></firebase-element>
+            <firebase-element
+                id="postvotesDB" data="{{postVotes}}"
+                location="{{fbLocation(firebaseLocation, 'postvotes', parentId, postId) }}"></firebase-element>
 
         </template>
         <template if="{{!previewing || previewText}}">
@@ -141,7 +144,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             <speakur-post-footer
                                 id="postFooter"
                                 class="footer"
-                                postVote="{{$.vote}}"
+                                postVotes="{{postVotes}}"
+                                voteElem="{{$.vote}}"
                                 post="{{post}}"></speakur-post-footer>
                         </template>
                     </speakur-card>
@@ -238,7 +242,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 } else {
                     this.log("Post has no replies; deleting.");
                     var post_copy = _.clone(this.post);
-                    this.$.base.remove("/");
+                    this.$.postDB.remove("/");
 
                     // TODO: check if parent has no more replies and is marked deleted,
                     // then actually delete it!
@@ -377,13 +381,16 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             },
 
             // Net votes text displayed in post header.
-            getNetVotesText: function (post, votedUp, votedDown) {
-                if (!post) return '';
+            getNetVotesText: function (postVotes, votedUp, votedDown) {
+                if (!postVotes) return '';
 
-                var downVotes = this.$.postFooter.numDownvotes;
-                var upVotes = this.$.postFooter.numUpvotes;
+//                var downVotes = this.$.vote.postVotesDown;
+//                var upVotes = this.$.vote.postVotesUp;
+                var downVotes = postVotes.down || 0;
+                var upVotes = postVotes.up || 0;
 
                 if (upVotes === 0 && downVotes === 0) return '';
+
                 var netVotes = upVotes - downVotes;
                 if (netVotes > -1) {
                     return '(+' + netVotes + ')';
@@ -409,7 +416,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             },
 
             computed: {
-                'netVotesText': 'getNetVotesText(post, $.vote.votedUp, $.vote.votedDown)'
+                'netVotesText': 'getNetVotesText(postVotes, $.vote.votedUp, $.vote.votedDown)'
             }
 
         });

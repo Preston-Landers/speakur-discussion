@@ -8,22 +8,17 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="../../firebase-element/firebase-element.html">
 
 <!--
-    An element to handle the mechanics of up and down voting a post.
+    An element to handle the mechanics of up and down voting a post. This has no UI.
   -->
 <polymer-element
     name="speakur-post-vote"
-    attributes="firebaseLocation uid threadId postId vote canVote votedUp votedDown post"
+    attributes="firebaseLocation uid parentId postId vote canVote votedUp votedDown postVotes"
     extends="speakur-base">
     <template>
-        <style>
-        </style>
         <firebase-element
-            id="voteDB" data="{{vote}}"
-            location="{{fbLocation(firebaseLocation, 'votes', uid, threadId, postId) }}">
+            id="uservoteDB" data="{{vote}}"
+            location="{{fbLocation(firebaseLocation, 'uservotes', uid, parentId, postId) }}">
         </firebase-element>
-
-        <div>
-        </div>
     </template>
     <script>
         Polymer({
@@ -32,7 +27,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             computed: {
                 'canVote': 'uid ? true : false',
                 'votedUp': 'vote && vote["up"] ? true: false',
-                'votedDown': 'vote && vote["down"]  ? true: false'
+                'votedDown': 'vote && vote["down"]  ? true: false',
+                'postVotesUp': '!postVotes ? 0 : postVotes["up"] || 0',
+                'postVotesDown': '!postVotes ? 0 : postVotes["down"] || 0'
             },
 
             logVoteStatus: function (up) {
@@ -52,6 +49,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
                 // Note that if we had previously downvoted and change that to an upvote, that's a +2 net change to the post score.
 
+                var time_now = new Date().getTime();
                 var curDown, curUp;
                 var netChange = 0;
                 var netUp = 0;
@@ -110,16 +108,24 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
                 if (netChange !== 0) {
                     // console.log("net change in vote: ", netChange);
-                    vote['timestamp'] = new Date().getTime();
+                    vote['timestamp'] = time_now;
 
                     // console.log("netDown:", netDown);
                     // console.log("netUp:", netUp);
-                    if (this.post) {
-                        curDown = this.post['downvotes'] || 0;
-                        curUp = this.post['upvotes'] || 0;
-                        this.post['upvotes'] = curUp + netUp;
-                        this.post['downvotes'] = curDown + netDown;
-                        // console.log("after post", this.post);
+                    if (!this.postVotes) {
+                        this.postVotes = {
+                            up: 0,
+                            down: 0,
+                            timestamp: time_now
+                        };
+                    }
+                    if (this.postVotes) {
+                        curDown = this.postVotes['down'] || 0;
+                        curUp = this.postVotes['up'] || 0;
+                        this.postVotes['up'] = curUp + netUp;
+                        this.postVotes['down'] = curDown + netDown;
+                        this.postVotes['timestamp'] = time_now;
+                        // console.log("after post", this.postVotes);
                     }
 
                 }

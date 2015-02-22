@@ -8,10 +8,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="../../core-icon/core-icon.html">
 <link rel="import" href="../../pvc-globals/pvc-globals.html">
 
+<!--
+    Present a UI for the post display footer with actions like vote, edit, delete, etc.
+  -->
 <polymer-element
     name="speakur-post-footer"
     extends="speakur-base"
-    attributes="post postVote">
+    attributes="post postVotes voteElem">
     <template>
         <style>
             .speakur-post-toolbar > div {
@@ -66,7 +69,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 <span class="vote-block">
                     <div class="vote-up-block">
                         <core-icon
-                            title="Good contribution"
+                            title="Adds to discussion"
                             id="voteUp"
                             class="vote vote-up {{ {'not-voted': notVoted, 'voted-up': votedUp} | tokenList }}  "
                             on-click="{{voteUp}}"
@@ -76,7 +79,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     &vert;
                     <div class="vote-down-block">
                         <core-icon
-                            title="It stinks!"
+                            title="Not a 'Disagree' button!"
                             id="voteDown"
                             class="vote vote-down {{ {'not-voted': notVoted, 'voted-down': votedDown} | tokenList }} "
                             on-click="{{voteDown}}"
@@ -112,27 +115,27 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     </template>
     <script>
         Polymer({
-            getNetVotes: function (post) {
-                return this.numUpvotes(post) - this.numDownvotes(post);
+            getNetVotes: function (postVotes) {
+                return this.numUpvotes(postVotes) - this.numDownvotes(postVotes);
             },
 
-            getNumUpvotes: function (post) {
-                if (!post) return 0;
-                return post.upvotes || 0;
+            getNumUpvotes: function (postVotes) {
+                if (!postVotes) return 0;
+                return postVotes.up || 0;
             },
 
-            getNumDownvotes: function (post) {
-                if (!post) return 0;
-                return post.downvotes || 0;
+            getNumDownvotes: function (postVotes) {
+                if (!postVotes) return 0;
+                return postVotes.down || 0;
             },
 
             computed: {
-                // netVotes: "getNetVotes(post, postVote.votedUp, postVote.votedDown)",
-                numUpvotes: "getNumUpvotes(post, postVote.votedUp, postVote.votedDown)",
-                numDownvotes: "getNumDownvotes(post, postVote.votedUp, postVote.votedDown)",
-                votedUp: "globals.profile && postVote && postVote.votedUp ? true: false",
-                votedDown: "globals.profile && postVote && postVote.votedDown ? true: false",
-                notVoted: "!globals.profile || !postVote || (!postVote.votedDown && !postVote.votedUp) ? true: false"
+                // netVotes: "getNetVotes(postVotes, voteElem.votedUp, voteElem.votedDown)",
+                numUpvotes: "getNumUpvotes(postVotes, voteElem.votedUp, voteElem.votedDown)",
+                numDownvotes: "getNumDownvotes(postVotes, voteElem.votedUp, voteElem.votedDown)",
+                votedUp: "globals.profile && voteElem && voteElem.votedUp ? true: false",
+                votedDown: "globals.profile && voteElem && voteElem.votedDown ? true: false",
+                notVoted: "!globals.profile || !voteElem || (!voteElem.votedDown && !voteElem.votedUp) ? true: false"
             },
 
             canDeletePost: function (post, my_profile, isAdmin) {
