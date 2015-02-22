@@ -7,7 +7,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="../../../polymer/polymer.html">
 <link rel="import" href="../../../paper-dialog/paper-dialog.html">
 
-<polymer-element name="speakur-dialog" attributes="okButton cancelButton">
+<polymer-element
+    name="speakur-dialog"
+    attributes="okButton cancelButton unsavedChanges cancelTitle okTitle unsavedChangesTitle">
     <template>
 
         <paper-dialog
@@ -20,13 +22,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             <style>
                 .dialog-content {
                     font-family: "RobotoDraft", "Calibri", Helvetica, Arial, sans-serif;
-                    max-width: 800px;
-                    min-width: 400px;
+                    min-width: 500px;
                     font-size: 14px;
                     color: black;
                     background-color: white;
                 }
-
 
                 .dialog-header {
                     font-weight: bold;
@@ -38,12 +38,20 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     margin-left: 16px;
                 }
 
+                .dialog-std-buttons {
+                    margin-top: 12px;
+                }
+
                 /*
 
                 .dialog-footer {
                     margin-top: 15px;
                 }
                 */
+
+                .unsaved-changes {
+                    font-style: italic;
+                }
 
             </style>
 
@@ -57,26 +65,35 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     <content select=":not(.footer)"></content>
                 </div>
                 <div class="modal-footer dialog-footer">
-                    <content id="footer" select=".footer"></content>
-                    <div layout horizontal end-justified>
-                        <template if="{{cancelButton}}">
-                            <button type="button"
-                                    class="btn btn-danger footer-button"
-                                    on-click="{{clickCancel}}"
-                                    >
-                                <!-- data-dismiss="modal" -->
-                                {{cancelButton}}
-                            </button>
-                        </template>
-                        <template if="{{okButton}}">
-                            <button type="button"
-                                    class="btn btn-primary footer-button"
-                                    on-click="{{clickOkay}}" >
-                                {{okButton}}
-                            </button>
-                        </template>
+                    <div layout vertical>
+                        <content id="footer" select=".footer"></content>
                     </div>
-
+                    <template if="{{showStandardButtons}}">
+                        <div layout horizontal end-justified class="dialog-std-buttons form-inline">
+                            <template if="{{unsavedChanges}}">
+                                <div self-center class="unsaved-changes">
+                                    {{unsavedChangesTitle}}
+                                </div>
+                            </template>
+                            <div flex></div>
+                            <template if="{{cancelButton}}">
+                                <button type="button"
+                                        class="btn btn-danger footer-button"
+                                        title="{{cancelTitle}}"
+                                        on-click="{{clickCancel}}">
+                                    {{cancelButton}}
+                                </button>
+                            </template>
+                            <template if="{{okButton}}">
+                                <button type="button"
+                                        class="btn btn-primary footer-button"
+                                        title="{{okTitle}}"
+                                        on-click="{{clickOkay}}">
+                                    {{okButton}}
+                                </button>
+                            </template>
+                        </div>
+                    </template>
                 </div>
 
             </div>
@@ -90,6 +107,15 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             Polymer({
                 okButton: null,
                 cancelButton: null,
+                unsavedChanges: false,
+
+                okTitle: 'Accept',
+                cancelTitle: 'Discard Changes',
+                unsavedChangesTitle: 'Unsaved Changes',
+
+                computed: {
+                    'showStandardButtons': "okButton || cancelButton || unsavedChanges"
+                },
 
                 // This is basically just converting one event (core-overlay-open)
                 // to another (dialog-toggle) - not sure if I really need/want this.
@@ -108,24 +134,16 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 },
 
                 clickOkay: function () {
-                    console.log("OK clicked");
+                    // console.log("OK clicked");
                     this.toggle();
                     this.fire('dialog-click-ok', this.okButton);
                 },
 
                 clickCancel: function () {
-                    console.log("Cancel clicked");
+                    // console.log("Cancel clicked");
                     this.toggle();
                     this.fire('dialog-click-cancel', this.cancelButton);
                 }
-
-/*
-                clickClose: function () {
-                    console.log("Close clicked");
-                    this.toggle();
-                    this.fire('dialog-click-close');
-                }
-*/
 
             });
         })();

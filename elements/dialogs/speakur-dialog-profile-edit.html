@@ -14,8 +14,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     <template>
 
         <speakur-dialog
+            unsavedChanges="{{unsavedChanges}}"
             okButton="Save Changes"
+            okTitle="Save Changes"
             cancelButton="Cancel"
+            cancelTitle="Discard Changes"
             id="dialog">
 
             <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.min.css">
@@ -64,13 +67,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         </speakur-dialog>
 
 
-
     </template>
     <script>
         (function () {
             Polymer({
                 okButton: "Save Changes",
                 cancelButton: "Cancel",
+                unsavedChanges: false,
                 username: null,
                 about: null,
                 about_link: null,
@@ -80,42 +83,59 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     'dialog-click-cancel': 'cancelChanges'
                 },
 
+                observe: {
+                    'username': 'checkForUnsavedChanges',
+                    'about': 'checkForUnsavedChanges',
+                    'about_link': 'checkForUnsavedChanges'
+                },
+
+                checkForUnsavedChanges: function () {
+                    var unsaved = false;
+
+                    if (this.username !== this.profile['username']) unsaved = true;
+                    if (this.about !== this.profile['about']) unsaved = true;
+                    if (this.about_link !== this.profile['about_link']) unsaved = true;
+                    this.unsavedChanges = unsaved;
+                    return unsaved;
+                },
 
                 toggle: function () {
                     this.$.dialog.toggle();
                 },
 
                 // Load the current dialog state from the database profile
-                updateFromProfile: function (profile) {
+                loadProfileFromDB: function (profile) {
                     this.username = profile['username'];
                     this.about_link = profile['about_link'];
                     this.about = profile['about'];
-
+                    this.unsavedChanges = false;
                 },
 
                 // Save the current dialog state to the database
-                updateToProfile: function () {
+                saveProfileToDB: function () {
                     this.profile['username'] = this.username;
                     this.profile['about_link'] = this.about_link;
                     this.profile['about'] = this.about;
+                    this.unsavedChanges = false;
 
                     // Update 'public' profile?
                 },
 
                 profileChanged: function (oldVal, newVal) {
-                    this.updateFromProfile(newVal);
+                    this.loadProfileFromDB(newVal);
                 },
 
 
                 saveChanges: function (e, detail, sender) {
                     console.log("Save changes to profile...", this.profile);
-                    this.updateToProfile();
+                    this.saveProfileToDB();
                     e.stopPropagation();
                 },
 
                 cancelChanges: function (e, detail, sender) {
                     console.log("Cancel clicked in profile edit", e);
-                    this.updateFromProfile(this.profile);
+                    // reset the profile from the DB
+                    this.loadProfileFromDB(this.profile);
                 }
 
             });
