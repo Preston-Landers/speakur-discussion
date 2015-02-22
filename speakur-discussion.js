@@ -371,10 +371,16 @@
             '$.threadView.postIds': 'threadKeysChanged'
         },
 
+
+        editProfileButtonPressed: function () {
+            this.$.profileEditDialog.toggle();
+        },
+
         eventDelegates: {
             'core-collapse-open': 'openStatusChanged',
             'loginButtonPressed': 'login',
             'logoutButtonPressed': 'logout',
+            'editProfileButtonPressed': 'editProfileButtonPressed',
             'not-yet-implemented': 'nyiClick',
             'toast': 'handleToastEvent',
             'global-tick': 'globalTick'

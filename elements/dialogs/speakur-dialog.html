@@ -1,0 +1,133 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../paper-dialog/paper-dialog.html">
+
+<polymer-element name="speakur-dialog" attributes="okButton cancelButton">
+    <template>
+
+        <paper-dialog
+            class="speakur-dialog"
+            on-core-overlay-open="{{wasToggled}}"
+            id="dialog">
+
+            <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.min.css">
+
+            <style>
+                .dialog-content {
+                    font-family: "RobotoDraft", "Calibri", Helvetica, Arial, sans-serif;
+                    max-width: 800px;
+                    min-width: 400px;
+                    font-size: 14px;
+                    color: black;
+                    background-color: white;
+                }
+
+
+                .dialog-header {
+                    font-weight: bold;
+                    font-size: 1.3em;
+                    margin-bottom: 20px;
+                }
+
+                .footer-button {
+                    margin-left: 16px;
+                }
+
+                /*
+
+                .dialog-footer {
+                    margin-top: 15px;
+                }
+                */
+
+            </style>
+
+            <div class="dialog-content">
+
+                <div class="modal-header dialog-header">
+                    <content id="header" select=".header">
+                    </content>
+                </div>
+                <div class="modal-body dialog-body">
+                    <content select=":not(.footer)"></content>
+                </div>
+                <div class="modal-footer dialog-footer">
+                    <content id="footer" select=".footer"></content>
+                    <div layout horizontal end-justified>
+                        <template if="{{cancelButton}}">
+                            <button type="button"
+                                    class="btn btn-danger footer-button"
+                                    on-click="{{clickCancel}}"
+                                    >
+                                <!-- data-dismiss="modal" -->
+                                {{cancelButton}}
+                            </button>
+                        </template>
+                        <template if="{{okButton}}">
+                            <button type="button"
+                                    class="btn btn-primary footer-button"
+                                    on-click="{{clickOkay}}" >
+                                {{okButton}}
+                            </button>
+                        </template>
+                    </div>
+
+                </div>
+
+            </div>
+        </paper-dialog>
+
+
+    </template>
+
+    <script>
+        (function () {
+            Polymer({
+                okButton: null,
+                cancelButton: null,
+
+                // This is basically just converting one event (core-overlay-open)
+                // to another (dialog-toggle) - not sure if I really need/want this.
+                wasToggled: function (e, detail, sender) {
+//                    if (detail) {
+//                        console.log("was opened.");
+//                    } else {
+//                        console.log("was closed.");
+//                    }
+                    e.stopPropagation();
+                    this.fire('dialog-toggle', detail);
+                },
+
+                toggle: function () {
+                    this.$["dialog"].toggle();
+                },
+
+                clickOkay: function () {
+                    console.log("OK clicked");
+                    this.toggle();
+                    this.fire('dialog-click-ok', this.okButton);
+                },
+
+                clickCancel: function () {
+                    console.log("Cancel clicked");
+                    this.toggle();
+                    this.fire('dialog-click-cancel', this.cancelButton);
+                }
+
+/*
+                clickClose: function () {
+                    console.log("Close clicked");
+                    this.toggle();
+                    this.fire('dialog-click-close');
+                }
+*/
+
+            });
+        })();
+    </script>
+</polymer-element>

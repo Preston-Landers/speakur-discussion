@@ -1,0 +1,123 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+
+<link rel="import" href="speakur-dialog.html">
+
+<polymer-element
+    name="speakur-dialog-login"
+    attributes="baseLogin">
+    <template>
+
+        <speakur-dialog
+            on-dialog-toggle="{{wasToggled}}"
+            cancelButton="Cancel"
+            id="dialog">
+
+            <style>
+                .login-button {
+                    width: 250px;
+                    height: 40px;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    margin: 10px;
+                }
+
+                .login-button-facebook {
+                    background-image: url("../../images/facebook-login-button.png");
+                }
+
+                .login-button-google {
+                    background-image: url("../../images/google-sign-in-button.png");
+                }
+            </style>
+
+            <div class="header">
+                Sign in to Speakur
+            </div>
+
+            <div class="body">
+                <p>Please sign in with one of the following identity providers. You will be able to change
+                    the name you post under.
+                </p>
+
+                <p>
+                    Your email address will be shared with Speakur but no other private data will be shared. Your email
+                    will <em>not</em> be visible to other users.
+                </p>
+
+                <p>
+                    You can only be signed in with one service at a time.
+                </p>
+
+                <div layout horizontal>
+                    <div
+                        class="login-button login-button-facebook"
+                        title="Sign in with Facebook"
+                        on-click="{{loginFacebook}}"
+                        >
+
+                    </div>
+                    <div
+                        class="login-button login-button-google"
+                        title="Sign in with Google"
+                        on-click="{{loginGoogle}}"
+                        >
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </speakur-dialog>
+
+    </template>
+    <script>
+        (function () {
+            Polymer({
+
+                toggle: function () {
+                    this.$.dialog.toggle();
+                },
+
+                wasToggled: function (e, detail, sender) {
+                    if (detail) {
+                        console.log("login dialog was opened.");
+                    } else {
+                        console.log("login dialog was closed.");
+                    }
+                    e.stopPropagation();
+                },
+
+
+                loginGoogle: function () {
+                    console.log('LOGIN with Google!');
+                    this.baseLogin.provider = 'google';
+                    this.toggle();
+                    this.baseLogin.login({
+                        remember: "default",
+                        scope: "email"
+                    });
+                },
+
+                loginFacebook: function () {
+                    console.log('LOGIN with Facebook!');
+                    this.baseLogin.provider = 'facebook';
+                    this.toggle();
+                    this.baseLogin.login({
+                        remember: "default",
+                        scope: "email"
+                    });
+                }
+
+                // TODO: reflect 'opened' as a property?  Or provide a closeIfOpen method?
+
+            });
+        })();
+    </script>
+</polymer-element>

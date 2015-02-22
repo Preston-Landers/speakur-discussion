@@ -1,0 +1,124 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+
+<link rel="import" href="speakur-dialog.html">
+
+<polymer-element
+    name="speakur-dialog-profile-edit"
+    attributes="profile">
+    <template>
+
+        <speakur-dialog
+            okButton="Save Changes"
+            cancelButton="Cancel"
+            id="dialog">
+
+            <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.min.css">
+
+            <div class="header">
+                Edit your Speakur Profile
+            </div>
+
+            <div class="body">
+                <form class="profile-form" id="profile-form">
+
+                    <div class="form-group">
+                        <label
+                            class="form-label"
+                            for="usernameInput">Public Username</label>
+                        <input
+                            type="text" class="form-control" id="usernameInput"
+                            value="{{username}}"
+                            placeholder="Username">
+                    </div>
+
+                    <div class="form-group">
+                        <label
+                            class="form-label"
+                            for="aboutlinkInput">Public Link</label>
+                        <input
+                            type="text" class="form-control" id="aboutlinkInput"
+                            value="{{about_link}}"
+                            placeholder="Public link - your blog or site here">
+                    </div>
+
+                    <div class="form-group">
+                        <label
+                            class="form-label"
+                            for="aboutInput">Public Biography</label>
+                        <textarea
+                            id="aboutInput"
+                            value="{{about}}"
+                            placeholder="Public bio or about yourself..."
+                            class="form-control" rows="3"></textarea>
+                    </div>
+
+                </form>
+            </div>
+
+        </speakur-dialog>
+
+
+
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                okButton: "Save Changes",
+                cancelButton: "Cancel",
+                username: null,
+                about: null,
+                about_link: null,
+
+                eventDelegates: {
+                    'dialog-click-ok': 'saveChanges',
+                    'dialog-click-cancel': 'cancelChanges'
+                },
+
+
+                toggle: function () {
+                    this.$.dialog.toggle();
+                },
+
+                // Load the current dialog state from the database profile
+                updateFromProfile: function (profile) {
+                    this.username = profile['username'];
+                    this.about_link = profile['about_link'];
+                    this.about = profile['about'];
+
+                },
+
+                // Save the current dialog state to the database
+                updateToProfile: function () {
+                    this.profile['username'] = this.username;
+                    this.profile['about_link'] = this.about_link;
+                    this.profile['about'] = this.about;
+
+                    // Update 'public' profile?
+                },
+
+                profileChanged: function (oldVal, newVal) {
+                    this.updateFromProfile(newVal);
+                },
+
+
+                saveChanges: function (e, detail, sender) {
+                    console.log("Save changes to profile...", this.profile);
+                    this.updateToProfile();
+                    e.stopPropagation();
+                },
+
+                cancelChanges: function (e, detail, sender) {
+                    console.log("Cancel clicked in profile edit", e);
+                    this.updateFromProfile(this.profile);
+                }
+
+            });
+        })();
+    </script>
+</polymer-element>

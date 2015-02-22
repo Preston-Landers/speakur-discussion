@@ -75,7 +75,13 @@ https://github.com/Polymer/core-component-page/issues/7
 
             <paper-toast id="speakur-toast"></paper-toast>
             <speakur-dialog-login id="speakurLoginDialog" baseLogin="{{$.baseLogin}}" ></speakur-dialog-login>
-            <speakur-profile id="speakurProfile" uid="{{ statusKnown && user.uid }}" firebaseLocation="{{firebaseLocation}}"></speakur-profile>
+            <speakur-profile id="speakurProfile" profile="{{profile}}" uid="{{ statusKnown && user.uid }}" firebaseLocation="{{firebaseLocation}}"></speakur-profile>
+
+            <speakur-dialog-profile-edit
+                profile="{{profile}}"
+                id="profileEditDialog">
+            </speakur-dialog-profile-edit>
+
             <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
             <speakur-i18next id="si18next" locale="{{globals.profile ? globals.profile.locale : null }}"></speakur-i18next>
 
@@ -163,11 +169,9 @@ https://github.com/Polymer/core-component-page/issues/7
 
     </template>
 
-    <script src="../jquery/dist/jquery.min.js"></script>
-    <script src="../bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../moment/moment.js"></script>
 
-    <!-- Is this style import OK? TODO: come back to this and make a proper import wrapper -->
+    <!-- Is this style import OK? Come back to this and make a proper import wrapper? -->
     <script src="../js-md5/js/md5.min.js"></script>
 
     <script src="speakur-discussion.js"></script>
