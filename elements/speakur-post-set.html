@@ -19,7 +19,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <firebase-element
             childEvents
             on-child-removed="{{childRemoved}}"
-            id="dbPosts" location="{{postsLocation(firebaseLocation, parentId)}}"
+            id="dbPosts" location="{{fbLocation(firebaseLocation, 'posts', parentId)}}"
             data="{{posts}}" keys="{{postIds}}"></firebase-element>
 
         <template if="{{level==0 && !postIds.length}}">
@@ -42,12 +42,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     <script>
         Polymer({
             level: 0,
-            postsLocation: function (firebaseLocation, parentId) {
-                //  {{firebaseLocation}}/posts/{{parentId}}
-                if (!firebaseLocation) { return ''; }
-                if (!parentId) { return ''; }
-                return firebaseLocation + "/posts/" + parentId;
-            },
             childRemoved: function (event) {
                 this.log('child removed ', event.detail.name, ':', event.detail.value);
                 // this.fire('data-changed');

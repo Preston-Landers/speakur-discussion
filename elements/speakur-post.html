@@ -18,6 +18,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="speakur-card.html">
 <link rel="import" href="speakur-post-footer.html">
 <link rel="import" href="speakur-post-set.html">
+<link rel="import" href="speakur-post-vote.html">
 <link rel="import" href="speakur-compose.html">
 
 <polymer-element
@@ -57,10 +58,16 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             }
         </style>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
+        <speakur-post-vote
+            id="vote"
+            userId="{{userId}}"
+            threadId="{{threadId}}"
+            postId="{{postId}}"
+            firebaseLocation="{{firebaseLocation}}"></speakur-post-vote>
         <template if="{{!previewing}}">
             <firebase-element
                 id="base" data="{{post}}"
-                location="{{postLocation(firebaseLocation, parentId, postId) }}"></firebase-element>
+                location="{{fbLocation(firebaseLocation, 'posts', parentId, postId) }}"></firebase-element>
 
         </template>
         <template if="{{!previewing || previewText}}">
@@ -174,23 +181,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             editId: null,
             showingEdit: false,
             showingReply: false,
-
-            /**
-             * Provide the location of the database element for an individual post.
-             */
-            postLocation: function (firebaseLocation, parentId, postId) {
-                // {{firebaseLocation}}/posts/{{parentId}}/{{postId}}
-                if (!firebaseLocation) {
-                    return '';
-                }
-                if (!parentId) {
-                    return '';
-                }
-                if (!postId) {
-                    return '';
-                }
-                return firebaseLocation + "/posts/" + parentId + "/" + postId;
-            },
 
             numRepliesToMe: function () {
                 var numReplies = 0;

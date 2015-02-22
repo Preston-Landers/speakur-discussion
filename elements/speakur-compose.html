@@ -35,10 +35,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <link rel="stylesheet" href="../../bootstrap/dist/css/bootstrap.min.css">
         <firebase-element
             id="posts" data="{{posts}}"
-            location="{{postLocation(firebaseLocation, replyTo)}}"></firebase-element>
+            location="{{ fbLocation(firebaseLocation, 'posts', replyTo) }}"></firebase-element>
         <firebase-element
             id="dbEditPost" data="{{editPost}}"
-            location="{{editPostLocation(firebaseLocation, replyTo, editing)}}"></firebase-element>
+            location="{{ fbLocation(firebaseLocation, 'posts', replyTo, editing) }}"></firebase-element>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
 
         <form>
@@ -128,32 +128,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 }
             },
 
-            postLocation: function (firebaseLocation, replyTo) {
-                // {{firebaseLocation}}/posts/{{replyTo}}
-                if (!firebaseLocation) {
-                    return '';
-                }
-                if (!replyTo) {
-                    return '';
-                }
-                return firebaseLocation + "/posts/" + replyTo;
-            },
-
-            editPostLocation: function (firebaseLocation, replyTo, editingId) {
-                // {{firebaseLocation}}/posts/{{replyTo}}/{{editingId}}
-                if (!firebaseLocation) {
-                    return '';
-                }
-                if (!replyTo) {
-                    return '';
-                }
-                if (!editingId) {
-                    return '';
-                }
-                return firebaseLocation + "/posts/" + replyTo + "/" + editingId;
-            },
-
-
             // Save changes to the post.
             saveEdit: function () {
 
@@ -219,8 +193,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     threadId: this.threadId,
                     replyTo: this.replyTo,
                     // replies: [],
-                    upvotes: 0,
-                    downvotes: 0,
                     text: this.newText,
                     author: author,
                     timestamp: new Date().getTime()

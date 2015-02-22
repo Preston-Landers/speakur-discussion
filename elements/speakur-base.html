@@ -39,6 +39,21 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 "_loc": "globals.currentLocale ? globals.currentLocale : 'en-US'"
             },
 
+            /**
+             * Provide the location of the firebase element given an arguments array
+             * Every element of the arguments must be true, and they will be joined with '/'.
+             */
+            fbLocation: function () {
+                var args = _.slice(arguments); // clone it into a true array
+                for (var i=0; i<args; i++) {
+                    if (!args[i]) {
+                        return '';
+                    }
+                }
+                return args.join('/');
+            },
+
+
             log: function () {
                 var $ = jQuery;
 

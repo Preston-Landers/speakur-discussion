@@ -9,11 +9,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="speakur-compose.html">
 <link rel="import" href="speakur-post-set.html">
 
-<!--
-<link rel="import" href="speakur-lang-select.html">
--->
-
-
 <polymer-element
     name="speakur-thread-view"
     extends="speakur-base"
@@ -23,13 +18,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         </style>
 
         <firebase-element
-                id="dbThread" location="{{ threadLocation(firebaseLocation,threadId) }}"
-                data="{{thread}}"></firebase-element>
+            id="dbThread" location="{{ fbLocation(firebaseLocation, 'threads', threadId) }}"
+            data="{{thread}}"></firebase-element>
 
         <div layout vertical>
-<!--
-            <speakur-lang-select></speakur-lang-select>
--->
 
             <speakur-compose
                 id="threadCompose"
@@ -58,13 +50,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         </div>
     </template>
     <script>
-        Polymer({
-            threadLocation: function (firebaseLocation, threadId) {
-                if (!firebaseLocation) { return ''; }
-                if (!threadId) { return ''; }
-                return firebaseLocation + "/threads/" + threadId;
-            }
-
-        });
+        Polymer({});
     </script>
 </polymer-element>

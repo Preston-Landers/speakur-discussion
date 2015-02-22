@@ -12,14 +12,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     extends="speakur-base"
     attributes="firebaseLocation uid profile">
     <template>
-        <!--
-          This location expression is really ugly ... there has to be a way to fix this.
-          Really this is just to avoid attempting to access just "/profile/" before the site or UID are defined.
-          I'm probably misunderstand something here.
-        -->
-        <firebase-element id="base" location="{{profileLocation(firebaseLocation,uid)}}"
+        <firebase-element id="base" location="{{ fbLocation(firebaseLocation, 'profile', uid) }}"
                           data="{{profile}}"></firebase-element>
-        <firebase-element id="admins" location="{{adminsLocation(firebaseLocation,uid)}}"
+        <firebase-element id="admins" location="{{ fbLocation(firebaseLocation, 'admins', uid) }}"
                           data="{{admins}}"></firebase-element>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
     </template>
@@ -38,18 +33,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         that.reactToLogin(e);
                     });
 
-                },
-
-                profileLocation: function (firebaseLocation, uid) {
-                    if (!firebaseLocation) { return ''; }
-                    if (!uid) { return ''; }
-                    return firebaseLocation + "/profile/" + uid;
-                },
-
-                adminsLocation: function (firebaseLocation, uid) {
-                    if (!firebaseLocation) { return ''; }
-                    if (!uid) { return ''; }
-                    return firebaseLocation + "/admins/" + uid;
                 },
 
                 reactToLogin: function (e) {

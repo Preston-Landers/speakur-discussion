@@ -67,10 +67,10 @@ https://github.com/Polymer/core-component-page/issues/7
 
             <!-- TODO: probably don't need the following 2 DB elements here? -->
             <firebase-element
-                    id="dbThread" location="{{ threadLocation(firebaseLocation,threadId) }}"
+                    id="dbThread" location="{{ fbLocation(firebaseLocation,'threads',threadId) }}"
                     data="{{thread}}"></firebase-element>
             <firebase-element
-                    id="dbPosts" location="{{ postsLocation(firebaseLocation,threadId) }}"
+                    id="dbPosts" location="{{ fbLocation(firebaseLocation,'posts',threadId) }}"
                     data="{{posts}}" keys="{{postIds}}"></firebase-element>
 
             <paper-toast id="speakur-toast"></paper-toast>
