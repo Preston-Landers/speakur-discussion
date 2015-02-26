@@ -24,7 +24,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <polymer-element
     name="speakur-post"
     extends="speakur-base"
-    attributes="firebaseLocation threadId parentId postId previewing previewText previewingEdit level">
+    attributes="firebaseLocation threadId parentId postId previewing previewText previewingEdit level sortOrder">
     <template>
         <link rel="stylesheet" href="../../highlightjs/styles/default.css">
         <style>
@@ -182,6 +182,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     <speakur-post-set
                         id="replySet"
                         firebaseLocation="{{firebaseLocation}}"
+                        sortOrder="{{sortOrder}}"
                         level="{{level + 1}}"
                         parentId="{{postId}}"
                         threadId="{{threadId}}"
