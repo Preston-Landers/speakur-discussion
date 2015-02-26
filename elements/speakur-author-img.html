@@ -5,28 +5,32 @@ The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
 -->
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../core-image/core-image.html">
+
 <polymer-element
     name="speakur-author-img"
     extends="speakur-base"
     attributes="author width height showAnon">
     <template>
         <style>
-            .profile-img {
+            core-image.profile-img {
                 border-radius: 48%;
-                height: {{height}}px;
-                width: {{width}}px;
                 border: 2px rgba(108, 122, 127, 0.3) solid; /* color! */
+                /*background-size: 110% 110%;*/   /* make it a bit bigger to avoid bad thingies around rounded corners */
             }
         </style>
 
-        <div>
-            <!-- TODO: binding on img src may not work on all browers?
-     https://www.polymer-project.org/docs/polymer/databinding-compat.html  -->
-            <img
-                src="{{picture_link}}"
-                style="width: {{width}}px; height: {{height}}px;"
+        <!-- TODO: binding on img src may not work on all browers?
+ https://www.polymer-project.org/docs/polymer/databinding-compat.html  -->
+        <div class="profile-img-border">
+            <core-image
+                sizing="110% 110%"
                 class="profile-img"
-                alt="Profile Picture">
+                width="{{width}}"
+                height="{{height}}"
+                alt="Profile Picture"
+                src="{{picture_link}}">
+            </core-image>
         </div>
     </template>
     <script>
