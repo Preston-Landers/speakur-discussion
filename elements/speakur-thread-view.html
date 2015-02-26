@@ -6,15 +6,22 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 -->
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../firebase-element/firebase-element.html">
+<link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../core-menu/core-menu.html">
+<link rel="import" href="../../paper-item/paper-item.html">
 <link rel="import" href="speakur-compose.html">
 <link rel="import" href="speakur-post-set.html">
 
 <polymer-element
     name="speakur-thread-view"
     extends="speakur-base"
-    attributes="firebaseLocation threadId postCount">
+    attributes="firebaseLocation threadId postCount sortOrder">
     <template>
         <style>
+            .thread-header > div {
+                margin: 4px;
+            }
         </style>
 
         <firebase-element
@@ -30,26 +37,66 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 firebaseLocation="{{firebaseLocation}}">
             </speakur-compose>
 
-            <div>
-                <span>
+            <div layout horizontal center class="thread-header">
+                <div>
                     Discussion: {{thread.title}}
-                </span>
-                <span>
+                </div>
+                <div>
                     <a target="_blank" href="{{thread.href}}">(link)</a>
-                </span>
-                <span>
+                </div>
+                <div>
                     Created: {{thread.created | formatTimestamp}}
-                </span>
+                </div>
+                <div flex></div>
+                <div>
+                    <paper-dropdown-menu label="{{sortDescription}}">
+                        <paper-dropdown layered class="speakur-paper-dropdown dropdown">
+                            <core-menu id="sortMenu" class="menu">
+                                <paper-item data-sorting="newest">{{sortDesc['newest']}}</paper-item>
+                                <paper-item data-sorting="oldest">{{sortDesc['oldest']}}</paper-item>
+                                <paper-item data-sorting="high">{{sortDesc['high']}}</paper-item>
+                                <paper-item data-sorting="low">{{sortDesc['low']}}</paper-item>
+                            </core-menu>
+                        </paper-dropdown>
+                    </paper-dropdown-menu>
+
+                </div>
             </div>
 
             <speakur-post-set
                 firebaseLocation="{{firebaseLocation}}"
                 level="0"
+                sortOrder="{{sortOrder}}"
                 threadId="{{threadId}}"
                 parentId="{{threadId}}"></speakur-post-set>
         </div>
     </template>
     <script>
-        Polymer({});
+        Polymer({
+            sortOrder: 'oldest',
+            sortDesc: {
+                oldest: 'Oldest',
+                newest: 'Newest',
+                high: 'Highly Rated',
+                low: 'Low Rated'
+            },
+
+            computed: {
+                'sortDescription': 'sortDesc[sortOrder]'
+            },
+
+            domReady: function () {
+                var that = this;
+
+                // I'm pretty sure there has to be a better way to do this?
+                this.$.sortMenu.addEventListener('core-select', function (e) {
+                    if (e.detail.isSelected) {
+                        that.sortOrder = e.detail.item.dataset['sorting'];
+                        console.log('Sort changed to ', that.sortDesc[that.sortOrder]);
+                    }
+                });
+            }
+
+        });
     </script>
 </polymer-element>

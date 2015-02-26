@@ -54,7 +54,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     </speakur-author-img>
                 </div>
 
-                <paper-dropdown class="dropdown" transition="">
+                <paper-dropdown class="dropdown" transition="" layered class="speakur-paper-dropdown">
                     <core-menu class="menu" excludedLocalNames="div">
                         <core-item>
                             <div class="username">{{globals.profile.username}}</div>
@@ -79,7 +79,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 </paper-icon-button>
 
                 <!--<paper-icon-button icon="social:person"></paper-icon-button>-->
-                <paper-dropdown class="dropdown" transition="">
+                <paper-dropdown class="dropdown" transition="" layered class="speakur-paper-dropdown">
                     <core-menu class="menu">
                         <paper-item on-click="{{login}}" hidden?="{{!statusKnown || user}}">
                             <core-icon icon="social:person" class="icon" class="toolbar-icon"></core-icon>

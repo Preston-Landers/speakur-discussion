@@ -11,7 +11,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <polymer-element 
     name="speakur-post-set"
     extends="speakur-base"
-    attributes="threadId parentId level firebaseLocation posts postIds">
+    attributes="threadId parentId level firebaseLocation posts postIds sortOrder">
     <template>
         <style>
         </style>
@@ -20,15 +20,20 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             childEvents
             on-child-removed="{{childRemoved}}"
             id="dbPosts" location="{{fbLocation(firebaseLocation, 'posts', parentId)}}"
+            orderByChild="{{postOrderKey(sortOrder)}}"
             data="{{posts}}" keys="{{postIds}}"></firebase-element>
+        <firebase-element
+            id="dbPostVotes" location="{{fbLocation(firebaseLocation, 'postvotes', parentId)}}"
+            orderByChild="{{voteOrderKey(sortOrder)}}"
+            data="{{postvotes}}" keys="{{postvoteIds}}"></firebase-element>
 
         <template if="{{level==0 && !postIds.length}}">
             <div>
-                <h2>No one has posted yet. Be the first to comment.</h2>
+                <h2>No one has written anything yet. Be the first to comment.</h2>
             </div>
         </template>
 
-        <template if="{{posts && postIds.length}}" repeat="{{postId in postIds}}">
+        <template if="{{posts && postIds.length}}" repeat="{{postId in sortedPostIds(postIds, sortOrder)}}">
             <speakur-post
                 firebaseLocation="{{firebaseLocation}}"
                 threadId="{{threadId}}"
@@ -45,6 +50,65 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             childRemoved: function (event) {
                 this.log('child removed ', event.detail.name, ':', event.detail.value);
                 // this.fire('data-changed');
+            },
+            voteOrderKey: function (sortOrder) {
+                if (sortOrder === 'low') {
+                    return 'down';
+                }
+                if (sortOrder === 'high') {
+                    return 'up';
+                }
+                return null;
+            },
+            postOrderKey: function (sortOrder) {
+                if (sortOrder === 'oldest' || sortOrder === 'newest') {
+                    return 'timestamp';
+                }
+                return null;
+            },
+            sortedPostIds: function (postIds, sortOrder) {
+                if (sortOrder === 'high' || sortOrder === 'low') {
+                    return this.voteSortedPostIds(postIds, sortOrder);
+                }
+                // The ordering provided by the main FB element should work here.
+                return postIds;
+            },
+            voteSortedPostIds: function (postIds, sortOrder) {
+                // console.log("pre=", postIds);
+
+                // Pull out all the votes for these post IDs, assigning 0 votes to
+                // posts without votes, and also put in the timestamp as a secondary sort field.
+                var allvotes = [];
+                for (var i in postIds) {
+                    var postId = postIds[i];
+                    var postVote = this.postvotes[postId];
+                    var post = this.posts[postId];
+                    if (!post) continue;
+                    if (!postVote) {
+                        postVote = {
+                            up: 0,
+                            down: 0
+                        };
+                    }
+                    postVote['id'] = postId;
+                    postVote['timestamp'] = post.timestamp;
+                    allvotes.push(postVote);
+                }
+                // sort by timestamp first as a 'secondary' sort,
+                // then sort again by the primary key (votes).
+                // http://stackoverflow.com/a/18262813/858289
+                var timeSorted = _.sortBy(allvotes, 'timestamp');
+                // console.log("time sorted", timeSorted);
+
+                // now vote sort.
+                var voteSorted = _.sortBy(timeSorted, function (val) {
+                    if (sortOrder === 'high') return -val.up;
+                    return -val.down;
+                });
+                // console.log("vote sorted", voteSorted);
+                var sortedIds = _.pluck(voteSorted, 'id');
+                // console.log("plucked", sortedIds);
+                return sortedIds;
             }
         });
     </script>
