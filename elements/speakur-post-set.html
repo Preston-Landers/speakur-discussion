@@ -89,6 +89,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 return _.pluck(timeSorted, 'id');
             },
             voteSortedPostIds: function (postIds, sortOrder) {
+                if (!postIds) return null;
                 // console.log("pre=", postIds);
 
                 // Pull out all the votes for these post IDs, assigning 0 votes to

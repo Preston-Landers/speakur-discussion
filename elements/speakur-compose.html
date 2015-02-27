@@ -10,6 +10,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="../../marked-element/marked-element.html">
 <link rel="import" href="../../pvc-globals/pvc-globals.html">
 
+<link rel="import" href="bootstrap.partial.html">
 <link rel="import" href="speakur-post.html">
 <link rel="import" href="speakur-author-slug.html">
 
@@ -18,6 +19,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     extends="speakur-base"
     attributes="firebaseLocation threadId replyTo editing">
     <template>
+        <core-style ref="bootstrap-form"></core-style>
+
         <style>
             .tool-btn {
                 margin-left: 10px;
@@ -30,9 +33,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             .posting-as {
                 margin-right: 6px;
                 font-size: 90%;
+                font-weight: bold;
             }
         </style>
-        <link rel="stylesheet" href="../../bootstrap/dist/css/bootstrap.min.css">
         <firebase-element
             id="posts" data="{{posts}}"
             location="{{ fbLocation(firebaseLocation, 'posts', replyTo) }}"></firebase-element>
@@ -45,8 +48,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             <div class="body">
                 <div class="form-group">
                     <label class="sr-only" for="commentText">Leave a comment:</label>
+                        <!--value="{{newText}}"-->
                         <textarea
-                            value="{{newText}}"
                             rows="3"
                             class="form-control"
                             placeholder="Leave a comment here."
@@ -95,9 +98,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     <div class="preview-div">
                         <speakur-post
                             id="preview"
-                            previewText="{{newText}}"
+                            previewText="{{previewText}}"
                             previewingEdit="{{editing}}"
-                            previewing="{{true}}">
+                            previewing="true">
                         </speakur-post>
                     </div>
                 </template>
@@ -109,8 +112,32 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             // current text editing buffer
             newText: '',
 
+            // periodically update preview buffer - a 'live' update is very, very slow...
+            previewText: '',
+
             // original post text before editing (if any)
             originalEditText: null,
+
+            domReady: function () {
+                // this.updatePreviewText();
+                var that = this;
+                var commentText = jQuery(this.$.commentText);
+                // var oldVal = '';
+                commentText.on("change", function () {
+                    var currVal = commentText.val();
+                    that.previewText = currVal;
+                    that.newText = currVal;
+/*
+                    that.job('update-preview-text', function () {
+                        if (currVal !== oldVal) {
+                            console.log("xx", currVal);
+                            that.previewText = currVal;
+                            oldVal = currVal;
+                        }
+                    }, 500);
+*/
+                });
+            },
 
             // when post we're editing has changed, reset the saved original text
             editPostChanged: function () {

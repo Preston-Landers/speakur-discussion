@@ -49,9 +49,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 padding-bottom: 12px;
             }
 
+/*
             .mmwidth {
-                min-width: {{indentWidth}}px;
+                width: {{indentWidth}}px;
             }
+*/
         </style>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <speakur-post-vote
@@ -73,7 +75,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <template if="{{!previewing || previewText}}">
             <div layout horizontal>
 
-                <div class="mmwidth">
+                <div class="mmwidth" style="min-width: {{indentWidth}}px;">
                     <core-collapse opened id="imgCollapse">
                         <div class="post-author-img">
                             <speakur-author-img
@@ -129,7 +131,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             </template>
                         </div>
                         <div class="body" on-marked-js-highlight="{{hilight}}">
-                            <template if="{{! post.deleted }}">
+                            <template if="{{ !post.deleted && !isCollapsed }}">
                                 <marked-element
                                     text="{{previewing ? ( previewText ? previewText : '' ) : post.text}}">
                                 </marked-element>
@@ -203,6 +205,15 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             editId: null,
             showingEdit: false,
             showingReply: false,
+            isCollapsed: false,
+
+//            observe: {
+//                'previewText': 'previewTextChanged'
+//            },
+//
+//            previewTextChanged: function () {
+//                console.log('preview changed:', this.previewText);
+//            },
 
             numRepliesToMe: function () {
                 var numReplies = 0;
@@ -376,6 +387,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             postCollapseToggle: function (e, details, sender) {
                 // this.log("post collapsed", this.post, details, sender);
+                this.isCollapsed = !this.isCollapsed;
                 this.$.imgCollapse.toggle();
                 this.$.extraCollapse.toggle();
                 e.stopPropagation();
