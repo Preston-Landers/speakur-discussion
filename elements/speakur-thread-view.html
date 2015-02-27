@@ -8,6 +8,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="../../firebase-element/firebase-element.html">
 <link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../core-menu/core-menu.html">
 <link rel="import" href="../../paper-item/paper-item.html">
 <link rel="import" href="speakur-compose.html">
@@ -19,8 +20,31 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     attributes="firebaseLocation threadId postCount sortOrder">
     <template>
         <style>
-            .thread-header > div {
+            #header > div {
                 margin: 4px;
+                font-size: 1.1em;
+            }
+
+            #header > div.thread-favorite paper-icon-button {
+                margin: 0;
+                padding-bottom: 4px;
+                color: #605805;
+            }
+
+            #header > div.thread-favorite paper-icon-button /deep/ core-icon[role=img] {
+                height: 24px;
+                width: 24px;
+                padding: 1px;
+                margin: 1px;
+                color: #f4e700;
+            }
+
+            #header > div.thread-title {
+                font-weight: bold;
+            }
+
+            #header > div.thread-age {
+                font-style: italic;
             }
         </style>
 
@@ -37,25 +61,44 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 firebaseLocation="{{firebaseLocation}}">
             </speakur-compose>
 
-            <div layout horizontal center class="thread-header">
-                <div>
-                    Discussion: {{thread.title}}
+            <div layout horizontal center id="header" class="thread-header">
+                <div class="thread-favorite">
+                    <paper-icon-button
+                        icon="star-outline"
+
+                        on-click="{{favoriteToggle}}"
+                        title="Favorite">
+                    </paper-icon-button>
                 </div>
-                <div>
-                    <a target="_blank" href="{{thread.href}}">(link)</a>
+                <div class="thread-title">
+                    {{thread.title}}
                 </div>
-                <div>
-                    Created: {{thread.created | formatTimestamp}}
+                <div class="thread-link">
+                    <small>
+                        <a target="_blank" href="{{thread.href}}">/new window/</a>
+                    </small>
                 </div>
+                <div class="thread-age" title="{{ thread.created | formatTimestamp }}">
+                    posted {{ thread.created | formatTimestampFromAgo }}
+                </div>
+
                 <div flex></div>
-                <div>
+                <div class="thread-sort">
                     <paper-dropdown-menu label="{{sortDescription}}">
                         <paper-dropdown layered class="speakur-paper-dropdown dropdown" transition="">
                             <core-menu id="sortMenu" class="menu">
-                                <paper-item data-sorting="newest">{{sortDesc['newest']}}</paper-item>
-                                <paper-item data-sorting="oldest">{{sortDesc['oldest']}}</paper-item>
-                                <paper-item data-sorting="high">{{sortDesc['high']}}</paper-item>
-                                <paper-item data-sorting="low">{{sortDesc['low']}}</paper-item>
+                                <paper-item data-sorting="newest">
+                                    {{sortDesc['newest']}}
+                                </paper-item>
+                                <paper-item data-sorting="oldest">
+                                    {{sortDesc['oldest']}}
+                                </paper-item>
+                                <paper-item data-sorting="high">
+                                    {{sortDesc['high']}}
+                                </paper-item>
+                                <paper-item data-sorting="low">
+                                    {{sortDesc['low']}}
+                                </paper-item>
                             </core-menu>
                         </paper-dropdown>
                     </paper-dropdown-menu>
@@ -75,10 +118,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         Polymer({
             sortOrder: 'oldest',
             sortDesc: {
-                oldest: 'Oldest',
-                newest: 'Newest',
-                high: 'Highly Rated',
-                low: 'Low Rated'
+                oldest: 'Oldest First',
+                newest: 'Newest First',
+                high: 'Upvotes',
+                low: 'Downvotes'
             },
 
             computed: {
@@ -95,6 +138,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         console.log('Sort changed to ', that.sortDesc[that.sortOrder]);
                     }
                 });
+            },
+
+            favoriteToggle: function () {
+                this.fire('not-yet-implemented');
             }
 
         });
