@@ -123,21 +123,22 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 var that = this;
                 var commentText = jQuery(this.$.commentText);
                 // var oldVal = '';
-                commentText.on("change", function () {
+
+                // Using a regular Polymer value binding on a textarea seems to produce
+                // extremely slow performance as polymer goes nuts observing its changes
+                // Doing it this way seems a lot faster...
+                commentText.on("keyup", function () {
                     var currVal = commentText.val();
-                    that.previewText = currVal;
                     that.newText = currVal;
-/*
+
+                    // rate-limit these updates to preview for performance...
                     that.job('update-preview-text', function () {
-                        if (currVal !== oldVal) {
-                            console.log("xx", currVal);
-                            that.previewText = currVal;
-                            oldVal = currVal;
-                        }
+                        that.previewText = currVal;
                     }, 500);
-*/
+
                 });
             },
+
 
             // when post we're editing has changed, reset the saved original text
             editPostChanged: function () {
