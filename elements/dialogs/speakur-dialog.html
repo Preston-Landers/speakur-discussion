@@ -5,7 +5,9 @@ The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
 -->
 <link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../core-style/core-style.html">
 <link rel="import" href="../../../paper-dialog/paper-dialog.html">
+<link rel="import" href="../../../paper-button/paper-button.html">
 
 <polymer-element
     name="speakur-dialog"
@@ -17,43 +19,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             on-core-overlay-open="{{wasToggled}}"
             id="dialog">
 
-            <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.min.css">
-
-            <style>
-                .dialog-content {
-                    font-family: "RobotoDraft", "Calibri", Helvetica, Arial, sans-serif;
-                    min-width: 500px;
-                    font-size: 14px;
-                    color: black;
-                    background-color: white;
-                }
-
-                .dialog-header {
-                    font-weight: bold;
-                    font-size: 1.3em;
-                    margin-bottom: 20px;
-                }
-
-                .footer-button {
-                    margin-left: 16px;
-                }
-
-                .dialog-std-buttons {
-                    margin-top: 12px;
-                }
-
-                /*
-
-                .dialog-footer {
-                    margin-top: 15px;
-                }
-                */
-
-                .unsaved-changes {
-                    font-style: italic;
-                }
-
-            </style>
+            <!-- Chrome need this here -->
+            <core-style ref="speakur-dialog"></core-style>
 
             <div class="dialog-content">
 
@@ -77,20 +44,20 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             </template>
                             <div flex></div>
                             <template if="{{cancelButton}}">
-                                <button type="button"
-                                        class="btn btn-danger footer-button"
-                                        title="{{cancelTitle}}"
-                                        on-click="{{clickCancel}}">
+                                <paper-button
+                                    class="colored footer-button footer-button-cancel"
+                                    title="{{cancelTitle}}"
+                                    on-click="{{clickCancel}}">
                                     {{cancelButton}}
-                                </button>
+                                </paper-button>
                             </template>
                             <template if="{{okButton}}">
-                                <button type="button"
-                                        class="btn btn-primary footer-button"
-                                        title="{{okTitle}}"
-                                        on-click="{{clickOkay}}">
+                                <paper-button
+                                    class="colored footer-button footer-button-ok"
+                                    title="{{okTitle}}"
+                                    on-click="{{clickOkay}}">
                                     {{okButton}}
-                                </button>
+                                </paper-button>
                             </template>
                         </div>
                     </template>
@@ -149,3 +116,61 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         })();
     </script>
 </polymer-element>
+
+<!--
+    Style which must be applied at the scope of the page, mainly for the core-overlay stuff
+    Therefore it should be 'protected' by .speakur-dialog
+-->
+<core-style id="speakur-dialog">
+
+    .speakur-dialog .dialog-content {
+        /*font-family: "RobotoDraft", "Calibri", Helvetica, Arial, sans-serif;*/
+        /*font-size: 14px;*/
+        min-width: 500px;
+        color: black;
+        background-color: white;
+    }
+
+    .speakur-dialog .dialog-header {
+        font-weight: bold;
+        font-size: 1.3em;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid black;
+    }
+
+    .speakur-dialog .footer-button {
+        margin-left: 16px;
+    }
+
+    .speakur-dialog .footer-button-ok {
+        background-color: #008000;
+        color: white;
+    }
+
+    .speakur-dialog .footer-button-cancel {
+        background-color: #ff0000;
+        color: white;
+    }
+
+    .speakur-dialog .dialog-std-buttons {
+        margin-top: 12px;
+    }
+
+    /*
+
+    .speakur-dialog .dialog-footer {
+        margin-top: 15px;
+    }
+    */
+
+    .speakur-dialog .unsaved-changes {
+        font-style: italic;
+    }
+
+
+
+</core-style>
+
+<!-- Firefox & MSIE need this here -->
+<core-style ref="speakur-dialog"></core-style>

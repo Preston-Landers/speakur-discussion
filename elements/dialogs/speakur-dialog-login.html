@@ -17,30 +17,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             on-dialog-toggle="{{wasToggled}}"
             cancelButton="Cancel"
             id="dialog">
-
-            <style>
-                .login-button {
-                    width: 250px;
-                    height: 40px;
-                    background-repeat: no-repeat;
-                    background-size: contain;
-                    margin: 10px;
-                }
-
-                .login-button-facebook {
-                    background-image: url("../../images/facebook-login-button.png");
-                }
-
-                .login-button-google {
-                    background-image: url("../../images/google-sign-in-button.png");
-                }
-            </style>
-
+            <core-style ref="speakur-dialog-login"></core-style>
             <div class="header">
                 Sign in to Speakur
             </div>
 
             <div class="body">
+
                 <p>Please sign in with one of the following identity providers. You will be able to change
                     the name you post under.
                 </p>
@@ -121,3 +104,23 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         })();
     </script>
 </polymer-element>
+<core-style id="speakur-dialog-login">
+    .speakur-dialog .login-button {
+        width: 250px;
+        height: 40px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin: 10px;
+    }
+
+    .speakur-dialog .login-button-facebook {
+        background-image: url("../speakur-discussion/images/facebook-login-button.png");
+    }
+
+    .speakur-dialog .login-button-google {
+        background-image: url("../speakur-discussion/images/google-sign-in-button.png");
+    }
+</core-style>
+
+<!-- Firefox & MSIE need this here -->
+<core-style ref="speakur-dialog-login"></core-style>
