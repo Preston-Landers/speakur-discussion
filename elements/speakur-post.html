@@ -166,7 +166,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
               -->
 
             <core-collapse opened id="extraCollapse">
-                <div _style="margin-left: {{level+1 * indentWidth}}px;">
+                <div _style="margin-left: {{indentWidthForLevel}}px;">
 
                     <template if="{{ canEditPost(post, globals.profile, globals.isAdmin) }}">
                         <speakur-compose
@@ -213,14 +213,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             showingReply: false,
             isCollapsed: false,
 
-//            observe: {
-//                'previewText': 'previewTextChanged'
-//            },
-//
-//            previewTextChanged: function () {
-//                console.log('preview changed:', this.previewText);
-//            },
-
             numRepliesToMe: function () {
                 var numReplies = 0;
                 if (this.$.replySet.posts && this.$.replySet.postIds) {
@@ -261,9 +253,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     this.log("Post has no replies; deleting.");
                     var post_copy = _.clone(this.post);
                     this.$.postDB.remove("/");
-
-                    // TODO: check if parent has no more replies and is marked deleted,
-                    // then actually delete it!
                     this.fire('post-deleted', post_copy);
 
                 }
@@ -271,23 +260,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             },
 
-            /*
-                        safeTags: function(value) {
-                            if (!value) { return value; }
-                            this.log("Foo", value);
-                            return strip_tags(value, null);
-                        }
-            */
-
-            ready: function () {
-            },
-
             hilight: function (event, detail, sender) {
                 detail.code = hljs.highlightAuto(detail.code).value;
             },
 
             replyToPost: function (e) {
-                // this.fire('not-yet-implemented');
                 this.showingReply = !this.showingReply;
 
                 // Need to stop the event b/c we're only replying to this, not all parent posts.
@@ -403,8 +380,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             getNetVotesText: function (postVotes, votedUp, votedDown) {
                 if (!postVotes) return '';
 
-//                var downVotes = this.$.vote.postVotesDown;
-//                var upVotes = this.$.vote.postVotesUp;
                 var downVotes = postVotes.down || 0;
                 var upVotes = postVotes.up || 0;
 
@@ -435,7 +410,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             },
 
             computed: {
-                'netVotesText': 'getNetVotesText(postVotes, $.vote.votedUp, $.vote.votedDown)'
+                'netVotesText': 'getNetVotesText(postVotes, $.vote.votedUp, $.vote.votedDown)',
+                'indentWidthForLevel': 'level+1 * indentWidth'
             }
 
         });
