@@ -11,13 +11,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <polymer-element
     name="speakur-card"
     extends="speakur-base"
-    attributes="collapsible shadowZ">
+    attributes="collapsible shadowZ curved">
     <template>
         <style>
-            .shadow {
-                margin-top: 8px;
-                margin-bottom: 8px;
-            }
 
             .card {
                 padding: 8px 12px;
@@ -30,6 +26,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 font-size: 1.1em;
                 padding-top: 6px;
                 padding-bottom: 6px;
+            }
+
+            .curved-header {
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
             }
 
             .card-footer {
@@ -50,7 +51,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 <article vertical layout>
                     <template if="{{showheader}}">
                         <header>
-                            <div class="card card-header" on-click="{{toggleCard}}">
+                            <div class="card card-header {{ {'curved-header': curved} | tokenList }}" on-click="{{toggleCard}}">
                                 <content id="header" select=".header"></content>
                             </div>
                         </header>
@@ -75,6 +76,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         Polymer({
             shadowZ: 0,
             collapsible: true,
+            curved: false,
 
             domReady: function () {
                 // Doesn't work in IE11...
