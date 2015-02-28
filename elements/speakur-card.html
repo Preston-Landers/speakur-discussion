@@ -11,7 +11,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <polymer-element
     name="speakur-card"
     extends="speakur-base"
-    attributes="collapsible">
+    attributes="collapsible shadowZ">
     <template>
         <style>
             .shadow {
@@ -46,7 +46,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
         </style>
         <div class="card-container">
-            <paper-shadow class="shadow" z="1">
+            <paper-shadow class="shadow" z="{{shadowZ}}">
                 <article vertical layout>
                     <template if="{{showheader}}">
                         <header>
@@ -73,6 +73,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     </template>
     <script>
         Polymer({
+            shadowZ: 0,
             collapsible: true,
 
             domReady: function () {
