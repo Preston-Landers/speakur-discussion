@@ -97,3 +97,7 @@ paper-icon-button /deep/ core-icon[role=img] {
 :host /deep/ .toolbar-icon-author {
     margin: 2px 2px 0;
 }
+
+article, aside, figure, figcaption, footer, header, main, nav, section, summary {
+    display: block;
+}
