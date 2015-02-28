@@ -29,7 +29,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <link rel="stylesheet" href="../../highlightjs/styles/default.css">
         <style>
             .post-card-container {
-                margin: 0 0 10px;
+                margin: 0 0 12px 0;
             }
 
             /* give less padding to the body of the card within. maybe just change the card itself */
@@ -44,8 +44,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 margin: 0;
             }
 
+            /*.indent-2 {*/
+                /*border: none;*/
+                /*border-left: 1px solid rgba(166, 164, 168, 0.75);*/
+            /*}*/
 
-/*
+            /*
             .indent-1 speakur-card /deep/ .card-header {
                 background-color: rgba(114, 113, 117, 0.20);
                 color: #f5f5f5;
@@ -63,7 +67,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 color: #fcfcfc;
                 color: black;
             }
-*/
+            */
 
 
         </style>
@@ -85,9 +89,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
         </template>
         <template if="{{!previewing || previewText}}">
-            <div layout horizontal class="post-container">
+            <div class="post-and-replies {{indentClass}}">
+                <div layout horizontal class="post-container">
 
-                <div class="mmwidth" _style="min-width: {{indentWidth}}px;">
+                <div class="author-img-div" _style="min-width: {{indentWidth}}px;">
                     <core-collapse opened id="imgCollapse">
                         <div class="post-author-img">
                             <speakur-author-img
@@ -97,8 +102,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         </div>
                     </core-collapse>
                 </div>
-                <div flex class="post-card-container {{indentClass}}">
-                    <speakur-card id="card" collapsible="true" curved="true" wideHeader="false">
+                <div flex class="post-card-container">
+                    <!--<speakur-card id="card" collapsible="true" curved="true" wideHeader="false" shadowZ="0">-->
+                    <speakur-card id="card" collapsible="true" curved="true" wideHeader="true" shadowZ="0">
                         <style>
 
                             .edited-time {
@@ -181,44 +187,45 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 </div>
             </div>
 
-            <!--
-              -- container for reply composition and all replies to this post.
-              -- visual indentation is controlled by the level
-              -->
+                <!--
+                  -- container for reply composition and all replies to this post.
+                  -- visual indentation is controlled by the level
+                  -->
 
-            <core-collapse opened id="extraCollapse">
-                <div _style="margin-left: {{indentWidthForLevel}}px;">
+                <core-collapse opened id="extraCollapse">
+                    <div _style="margin-left: {{indentWidthForLevel}}px;">
 
-                    <template if="{{ canEditPost(post, globals.profile, globals.isAdmin) }}">
+                        <template if="{{ canEditPost(post, globals.profile, globals.isAdmin) }}">
+                            <speakur-compose
+                                id="editCompose"
+                                threadId="{{threadId}}"
+                                replyTo="{{ editReplyTo }}"
+                                editing="{{ editId }}"
+                                hidden?="{{!showingEdit}}"
+                                firebaseLocation="{{firebaseLocation}}">
+                            </speakur-compose>
+                        </template>
+
                         <speakur-compose
-                            id="editCompose"
+                            id="replyCompose"
                             threadId="{{threadId}}"
-                            replyTo="{{ editReplyTo }}"
-                            editing="{{ editId }}"
-                            hidden?="{{!showingEdit}}"
+                            replyTo="{{postId}}"
+                            hidden?="{{!showingReply}}"
                             firebaseLocation="{{firebaseLocation}}">
                         </speakur-compose>
-                    </template>
 
-                    <speakur-compose
-                        id="replyCompose"
-                        threadId="{{threadId}}"
-                        replyTo="{{postId}}"
-                        hidden?="{{!showingReply}}"
-                        firebaseLocation="{{firebaseLocation}}">
-                    </speakur-compose>
+                        <speakur-post-set
+                            id="replySet"
+                            firebaseLocation="{{firebaseLocation}}"
+                            sortOrder="{{sortOrder}}"
+                            level="{{level + 1}}"
+                            parentId="{{postId}}"
+                            threadId="{{threadId}}"
+                            ></speakur-post-set>
 
-                    <speakur-post-set
-                        id="replySet"
-                        firebaseLocation="{{firebaseLocation}}"
-                        sortOrder="{{sortOrder}}"
-                        level="{{level + 1}}"
-                        parentId="{{postId}}"
-                        threadId="{{threadId}}"
-                        ></speakur-post-set>
-
-                </div>
-            </core-collapse>
+                    </div>
+                </core-collapse>
+            </div>
         </template>
     </template>
     <script>
