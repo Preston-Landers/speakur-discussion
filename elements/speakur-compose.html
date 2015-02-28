@@ -152,7 +152,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             // restore the original text
             resetEditText: function () {
                 if (this.originalEditText) {
-                    this.newText = this.originalEditText;
+                    this.setNewText(this.originalEditText);
                 }
             },
 
@@ -229,7 +229,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 var post_id = postRef.key();
                 this.log("Created post: " + post_id);
 
-                this.newText = '';
+                this.setNewText();
                 post['postId'] = post_id;
 
                 this.toast("Post saved.");
@@ -264,7 +264,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
                 if (this.threadId == this.replyTo) {
                     this.log("canceled top level post");
-                    this.newText = '';
+                    this.setNewText();
                 }
 
                 //// this would delete the text...
@@ -276,6 +276,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 this.fire('not-yet-implemented');
             },
 
+
+            // reset the textarea to either the given value or blank
+            setNewText: function (val) {
+                if (!val) val = '';
+                this.newText = val;
+                jQuery(this.$.commentText).val(val);
+            },
 
             computed: {
                 topLevelComment: "threadId == replyTo"
