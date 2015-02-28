@@ -7,6 +7,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="../../../polymer/polymer.html">
 
 <link rel="import" href="speakur-dialog.html">
+<link rel="import" href="../../imports/bootstrap.partial.html">
 
 <polymer-element
     name="speakur-dialog-profile-edit"
@@ -21,13 +22,14 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             cancelTitle="Discard Changes"
             id="dialog">
 
-            <link rel="stylesheet" href="../../../bootstrap/dist/css/bootstrap.min.css">
 
             <div class="header">
                 Edit your Speakur Profile
             </div>
 
             <div class="body">
+                <core-style ref="bootstrap-form"></core-style>
+
                 <form class="profile-form" id="profile-form">
 
                     <div class="form-group">
