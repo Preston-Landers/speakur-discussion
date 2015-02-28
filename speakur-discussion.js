@@ -244,12 +244,10 @@
             this.nyiClick();
         },
 
-/*
         reportProblem: function () {
             this.log("Report Problem clicked.");
             this.nyiClick();
         },
-*/
 
         setThreadIdFromHref: function () {
             // Normalize: everything to lower case
