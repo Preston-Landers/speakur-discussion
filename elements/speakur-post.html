@@ -49,11 +49,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 padding-bottom: 12px;
             }
 
-/*
-            .mmwidth {
-                width: {{indentWidth}}px;
-            }
-*/
         </style>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <speakur-post-vote
@@ -75,7 +70,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <template if="{{!previewing || previewText}}">
             <div layout horizontal>
 
-                <div class="mmwidth" style="min-width: {{indentWidth}}px;">
+                <div class="mmwidth" _style="min-width: {{indentWidth}}px;">
                     <core-collapse opened id="imgCollapse">
                         <div class="post-author-img">
                             <speakur-author-img
@@ -160,7 +155,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
               -->
 
             <core-collapse opened id="extraCollapse">
-                <div style="margin-left: {{level+1 * indentWidth}}px;">
+                <div _style="margin-left: {{level+1 * indentWidth}}px;">
 
                     <template if="{{ canEditPost(post, globals.profile, globals.isAdmin) }}">
                         <speakur-compose
