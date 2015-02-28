@@ -92,13 +92,16 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 if (!postIds) return null;
                 // console.log("pre=", postIds);
 
+                var postvotes = this.postvotes;
+                if (!postvotes) postvotes = {};
+
                 // Pull out all the votes for these post IDs, assigning 0 votes to
                 // posts without votes, and also put in the timestamp as a secondary sort field.
                 var postVote, post;
                 var allvotes = [];
                 var that = this;
                 _.forEach(postIds, function (postId) {
-                    postVote = that.postvotes[postId];
+                    postVote = postvotes[postId];
                     post = that.posts[postId];
                     if (!post) return;
                     if (!postVote) {
