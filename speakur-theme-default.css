@@ -12,24 +12,35 @@
  */
 
 .speakur-container {
-    border-color: #a0c094;
-    background-color: #008800;
-    color: white;
+    border-width: 0;
+    background-color: transparent;
+    color: black;
 }
 
 speakur-toolbar /deep/ .toolbar-border {
-    background-color: #c8e8bd;
+    background-color: rgba(182, 176, 185, 0.2);
     color: #4a5746;
-    border-color: #a2c09c;
+    border-color: rgba(48, 47, 46, 0.77);
+
+    /*background-color: rgba(105, 104, 101, 0.84);*/
+    /*color: #f8f8ff;*/
+    /*border-color: #a2c09c;*/
+}
+
+speakur-toolbar /deep/ .speakur-header-titlebox {
+    text-shadow: 1px 1px rgba(20, 20, 22, 0.10);
+    font-size: 1.1em;
+    font-weight: bold;
 }
 
 .speakur-close-button {
-    color: #800004;
+    color: #403d44;
 }
 
 .speakur-body-container {
-    border-color: #cbefc4;
-    /*background-color: #6f8e69;*/
-    background-color: white;
+/*
+    background-color: transparent;
     color: black;
+*/
+    border-width: 0;
 }
