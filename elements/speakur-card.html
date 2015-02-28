@@ -11,7 +11,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <polymer-element
     name="speakur-card"
     extends="speakur-base"
-    attributes="collapsible shadowZ curved">
+    attributes="collapsible shadowZ curved wideHeader">
     <template>
         <style>
 
@@ -26,6 +26,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 font-size: 1.1em;
                 padding-top: 6px;
                 padding-bottom: 6px;
+                min-width: 250px;
             }
 
             .curved-header {
@@ -50,10 +51,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             <paper-shadow class="shadow" z="{{shadowZ}}">
                 <article vertical layout>
                     <template if="{{showheader}}">
-                        <header>
-                            <div class="card card-header {{ {'curved-header': curved} | tokenList }}" on-click="{{toggleCard}}">
-                                <content id="header" select=".header"></content>
-                            </div>
+                        <!--remove self-start to have header expand to entire...-->
+                        <header self-start?="{{ !wideHeader }}" class="card card-header {{ {'curved-header': curved} | tokenList }}" on-click="{{toggleCard}}">
+                            <content id="header" select=".header"></content>
                         </header>
                     </template>
                     <core-collapse opened id="bodycollapse">
@@ -77,6 +77,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             shadowZ: 0,
             collapsible: true,
             curved: false,
+            wideHeader: true,
 
             domReady: function () {
                 // Doesn't work in IE11...
