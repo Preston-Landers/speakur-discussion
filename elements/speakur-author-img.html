@@ -14,15 +14,16 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     <template>
         <style>
             core-image.profile-img {
-                border-radius: 48%;
+                border-radius: 50%;
                 border: 2px rgba(108, 122, 127, 0.3) solid; /* color! */
-                /*background-size: 110% 110%;*/   /* make it a bit bigger to avoid bad thingies around rounded corners */
+                background-color: rgba(193, 190, 190, 0.53);
             }
         </style>
 
         <!-- TODO: binding on img src may not work on all browers?
  https://www.polymer-project.org/docs/polymer/databinding-compat.html  -->
         <div class="profile-img-border">
+            <!--make it a bit bigger (zoomed in) to avoid bad thingies around rounded corners-->
             <core-image
                 sizing="110% 110%"
                 class="profile-img"
