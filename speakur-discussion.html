@@ -97,7 +97,11 @@ https://github.com/Polymer/core-component-page/issues/7
                         <paper-button flex on-click="{{toggle}}" class="speakur-toggle-button">
                             View Comments ({{postIds.length}})
                         </paper-button>
-                        <speakur-login-button user="{{user}}" statusKnown="{{statusKnown}}"></speakur-login-button>
+                        <speakur-login-button
+                            style="margin-right: 6px;"
+                            user="{{user}}" statusKnown="{{statusKnown}}">
+
+                        </speakur-login-button>
                     </template>
                     <template if="{{ !closed }}">
                         <paper-icon-button
@@ -146,7 +150,13 @@ https://github.com/Polymer/core-component-page/issues/7
                     <speakur-toolbar class="speakur-footer-bar">
                         <div flex style="margin-left: 8px;">
                             <!--Questionable where we want to put this, if anywhere.-->
-                            <content></content>
+                            <!--<content></content>-->
+                            <a
+                                class="powered-by-link"
+                                target="_blank"
+                                href="{{speakurSoftwareLink}}">
+                                Powered by Speakur
+                            </a>
 
                         </div>
                         <div class="speakur-copyright">

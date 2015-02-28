@@ -98,6 +98,15 @@ paper-icon-button /deep/ core-icon[role=img] {
     margin: 2px 2px 0;
 }
 
+.powered-by-link {
+    text-decoration: none;
+    margin-left: 4px;
+}
+
+.powered-by-link:visited {
+    color: inherit;
+}
+
 :host /deep/ article,
 :host /deep/ aside,
 :host /deep/ figure,

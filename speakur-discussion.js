@@ -128,6 +128,9 @@
 
         thread: null,
 
+        // Used in a few places to link to the software
+        speakurSoftwareLink: 'https://github.com/Preston-Landers/speakur-discussion',
+
         /**
          * The `global-tick` event is fired on a regular schedule
          * so that the globals.updateTick can be put in expressions to have
