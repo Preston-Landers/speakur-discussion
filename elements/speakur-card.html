@@ -27,7 +27,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 /* color to theme file? */
                 background-color: rgba(152, 151, 156, 0.7);
                 color: #f5f5f5;
-                font-size: 1.2em;
+                font-size: 1.1em;
                 padding-top: 6px;
                 padding-bottom: 6px;
             }
@@ -46,28 +46,29 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
         </style>
         <div class="card-container">
-            <section>
-                <paper-shadow class="shadow" z="1">
-                    <div class="speakur-card" vertical layout>
-                        <template if="{{showheader}}">
+            <paper-shadow class="shadow" z="1">
+                <article vertical layout>
+                    <template if="{{showheader}}">
+                        <header>
                             <div class="card card-header" on-click="{{toggleCard}}">
                                 <content id="header" select=".header"></content>
                             </div>
-                        </template>
-                        <core-collapse opened id="bodycollapse">
-                            <div class="card card-body">
-                                <content select=":not(.footer)"></content>
-                            </div>
-                            <template if="{{showfooter}}">
+                        </header>
+                    </template>
+                    <core-collapse opened id="bodycollapse">
+                        <div class="card card-body">
+                            <content select=":not(.footer)"></content>
+                        </div>
+                        <template if="{{showfooter}}">
+                            <footer>
                                 <div class="card card-footer">
                                     <content id="footer" select=".footer"></content>
                                 </div>
-                            </template>
-                        </core-collapse>
-                    </div>
-                </paper-shadow>
-
-            </section>
+                            </footer>
+                        </template>
+                    </core-collapse>
+                </article>
+            </paper-shadow>
         </div>
     </template>
     <script>

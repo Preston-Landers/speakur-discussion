@@ -98,6 +98,15 @@ paper-icon-button /deep/ core-icon[role=img] {
     margin: 2px 2px 0;
 }
 
-article, aside, figure, figcaption, footer, header, main, nav, section, summary {
+:host /deep/ article,
+:host /deep/ aside,
+:host /deep/ figure,
+:host /deep/ figcaption,
+:host /deep/ footer,
+:host /deep/ header,
+:host /deep/ main,
+:host /deep/ nav,
+:host /deep/ section,
+:host /deep/ summary {
     display: block;
 }

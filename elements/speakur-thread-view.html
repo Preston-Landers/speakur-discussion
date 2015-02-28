@@ -25,13 +25,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 font-size: 1.1em;
             }
 
-            #header > div.thread-favorite paper-icon-button {
+            #header > .thread-favorite paper-icon-button {
                 margin: 0;
                 padding-bottom: 4px;
                 color: #605805;
             }
 
-            #header > div.thread-favorite paper-icon-button /deep/ core-icon[role=img] {
+            #header > .thread-favorite paper-icon-button /deep/ core-icon[role=img] {
                 height: 24px;
                 width: 24px;
                 padding: 1px;
@@ -39,11 +39,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 color: #f4e700;
             }
 
-            #header > div.thread-title {
+            #header > .thread-title {
                 font-weight: bold;
+                /*font-size: 1.3em;*/
             }
 
-            #header > div.thread-age {
+            #header > .thread-age {
                 font-style: italic;
             }
         </style>
@@ -52,7 +53,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             id="dbThread" location="{{ fbLocation(firebaseLocation, 'threads', threadId) }}"
             data="{{thread}}"></firebase-element>
 
-        <div layout vertical>
+        <article layout vertical>
 
             <speakur-compose
                 id="threadCompose"
@@ -61,7 +62,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 firebaseLocation="{{firebaseLocation}}">
             </speakur-compose>
 
-            <div layout horizontal center id="header" class="thread-header">
+            <header layout horizontal center id="header" class="thread-header">
                 <div class="thread-favorite">
                     <paper-icon-button
                         icon="star-outline"
@@ -70,8 +71,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         title="Favorite">
                     </paper-icon-button>
                 </div>
-                <div class="thread-title">
-                    {{thread.title}}
+                <div>
+                    <h1 class="thread-title">
+                        {{thread.title}}
+                    </h1>
                 </div>
                 <div class="thread-link">
                     <small>
@@ -79,7 +82,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     </small>
                 </div>
                 <div class="thread-age" title="{{ thread.created | formatTimestamp }}">
-                    posted {{ thread.created | formatTimestampFromAgo }}
+                    posted
+                    <time>
+                        {{ thread.created | formatTimestampFromAgo }}
+                    </time>
                 </div>
 
                 <div flex></div>
@@ -104,7 +110,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     </paper-dropdown-menu>
 
                 </div>
-            </div>
+            </header>
 
             <speakur-post-set
                 firebaseLocation="{{firebaseLocation}}"
@@ -112,7 +118,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 sortOrder="{{sortOrder}}"
                 threadId="{{threadId}}"
                 parentId="{{threadId}}"></speakur-post-set>
-        </div>
+        </article>
     </template>
     <script>
         Polymer({
