@@ -8,6 +8,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="../../core-menu/core-menu.html">
 <link rel="import" href="../../core-icon/core-icon.html">
 <link rel="import" href="../../core-item/core-item.html">
+<link rel="import" href="../../core-style/core-style.html">
 <link rel="import" href="../../paper-item/paper-item.html">
 <link rel="import" href="../../paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../paper-dropdown/paper-dropdown.html">
@@ -21,74 +22,76 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     extends="speakur-base"
     attributes="user statusKnown width height">
     <template>
-        <style>
-            .username {
-                color: dimgray;
-                font-size: 0.9em;
-                padding: 5px;
-                text-align: center;
-                display: inline;
-            }
+        <core-style id="dropdownmenu">
+                .username {
+                    color: dimgray;
+                    font-size: 0.9em;
+                    padding: 5px;
+                    text-align: center;
+                    display: inline;
+                }
 
-            .provider {
-                font-size: 0.8em;
-                padding: 5px;
-                color: darkslategray;
-                text-align: center;
-                display: inline;
-            }
+                .provider {
+                    font-size: 0.8em;
+                    padding: 5px;
+                    color: darkslategray;
+                    text-align: center;
+                    display: inline;
+                    font-style: italic;
+                }
 
-            .icon {
-                margin-right: 8px;
-            }
-        </style>
+                .icon {
+                    margin-right: 8px;
+                }
+        </core-style>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
 
         <!-- duplicating the whole structure is the only way it seems to accommodate dynamic size changes due to login/logout status? -->
-        <template if="{{ statusKnown && user }}">
-            <paper-menu-button halign="right">
-                <div class="toolbar-icon toolbar-icon-author">
-                    <speakur-author-img
-                        width="{{width}}" height="{{height}}"
-                        author="{{globals.profile}}">
-                    </speakur-author-img>
-                </div>
+        <paper-menu-button halign="right" hidden?="{{ !statusKnown || !user }}">
+            <div class="toolbar-icon toolbar-icon-author">
+                <speakur-author-img
+                    width="{{width}}" height="{{height}}"
+                    author="{{globals.profile}}">
+                </speakur-author-img>
+            </div>
 
-                <paper-dropdown class="dropdown speakur-paper-dropdown" layered transition="">
-                    <core-menu class="menu" excludedLocalNames="div">
-                        <core-item>
-                            <div class="username">{{globals.profile.username}}</div>
-                            <div class="provider">{{ describeProvider(user.provider) }}</div>
-                        </core-item>
-                        <paper-item on-click="{{editProfile}}" title="Edit your profile">
-                            <core-icon icon="settings" class="icon"></core-icon>
-                            Edit Profile
-                        </paper-item>
-                        <paper-item on-click="{{logout}}" title="Sign out of Speakur">
-                            <core-icon icon="social:person-outline" class="icon"></core-icon>
-                            Sign Out
-                        </paper-item>
-                    </core-menu>
-                </paper-dropdown>
-            </paper-menu-button>
+            <paper-dropdown
+                class="dropdown speakur-paper-dropdown"
+                layered transition="">
+                <core-style ref="dropdownmenu"></core-style>
+                <core-menu class="menu" id="loggedInMenu" excludedLocalNames="div">
+                    <core-item>
+                        <div class="username">{{globals.profile.username}}</div>
+                        <div class="provider">{{ describeProvider(user.provider) }}</div>
+                    </core-item>
+                    <paper-item id="editProfile" title="Edit your profile" on-click="{{editProfile}}">
+                        <core-icon icon="settings" class="icon"></core-icon>
+                        Edit Profile
+                    </paper-item>
+                    <paper-item id='signOut' title="Sign out of Speakur" on-click="{{logout}}">
+                        <core-icon icon="social:person-outline" class="icon"></core-icon>
+                        Sign Out
+                    </paper-item>
+                </core-menu>
+            </paper-dropdown>
+        </paper-menu-button>
 
-        </template>
-        <template if="{{ !statusKnown || ! user }}">
-            <paper-menu-button halign="right">
-                <paper-icon-button icon="social:person" class="toolbar-icon toolbar-icon-anon">
-                </paper-icon-button>
+        <paper-menu-button halign="right" hidden?="{{ statusKnown && user }}">
+            <paper-icon-button icon="social:person" class="toolbar-icon toolbar-icon-anon">
+            </paper-icon-button>
 
-                <!--<paper-icon-button icon="social:person"></paper-icon-button>-->
-                <paper-dropdown class="dropdown speakur-paper-dropdown" transition="" layered>
-                    <core-menu class="menu">
-                        <paper-item on-click="{{login}}" hidden?="{{!statusKnown || user}}">
-                            <core-icon icon="social:person" class="icon toolbar-icon"></core-icon>
-                            Sign In
-                        </paper-item>
-                    </core-menu>
-                </paper-dropdown>
-            </paper-menu-button>
-        </template>
+            <paper-dropdown
+                class="dropdown speakur-paper-dropdown"
+                transition="" layered>
+                <core-style ref="dropdownmenu"></core-style>
+                <core-menu class="menu" valueattr="id" id="loggedOutMenu" selected="{{loggedOutMenu}}">
+                    <paper-item id="signIn" title="Sign in to Speakur" on-click="{{login}}">
+                        <core-icon icon="social:person" class="icon toolbar-icon"></core-icon>
+                        Sign In
+                    </paper-item>
+                </core-menu>
+            </paper-dropdown>
+        </paper-menu-button>
 
     </template>
     <script>
@@ -96,15 +99,15 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             width: 24,
             height: 24,
 
-            login: function () {
+            login: function (e) {
                 this.fire('loginButtonPressed');
             },
 
-            logout: function () {
+            logout: function (e) {
                 this.fire('logoutButtonPressed');
             },
 
-            editProfile: function () {
+            editProfile: function (e) {
                 this.fire('editProfileButtonPressed');
             },
 
