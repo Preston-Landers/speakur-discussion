@@ -83,7 +83,7 @@ https://github.com/Polymer/core-component-page/issues/7
             </speakur-dialog-profile-edit>
 
             <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
-            <speakur-i18next id="si18next" locale="{{globals.profile ? globals.profile.locale : null }}"></speakur-i18next>
+            <speakur-i18next id="si18next" locale="{{ currentLocale }}"></speakur-i18next>
 
             <!-- structural elements -->
             <div vertical layout class="speakur-layout">

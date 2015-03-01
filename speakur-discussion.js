@@ -353,12 +353,37 @@
             // Show some kind of error dialog / message?
         },
 
+        currentLocale: null,
+        localeChanged: function (e, details, sender) {
+            // this.log("locale changed event", details, sender);
+
+            // Tells the i18next element to change locales
+            this.currentLocale = details.newLocale;
+            e.stopPropagation();
+        },
+
+        editProfileButtonPressed: function () {
+            this.$.profileEditDialog.toggle();
+        },
+
         domReady: function () {
-            jQuery("body").on('core-overlay-open', function(e) {
+            var that = this;
+            var $body = jQuery("body");
+
+            // This is a fix for the fact that you can't seem to have multiple <core-overlay>
+            // elements b/c they have the same z-index
+            // https://github.com/Polymer/paper-dialog/issues/50#issuecomment-76563028
+            $body.on('core-overlay-open', function(e) {
                 var zi = 1000;
                 jQuery("core-overlay-layer").each(function (ei, elem) {
                     elem.style.zIndex = zi--;
                 });
+            });
+
+            // This locale change event occurs in an overlay, so we must attach the watcher to the body
+            // probably a way to do this without converting jQuery event to this other format?
+            $body.on("speakur-locale-change", function(e) {
+                that.localeChanged(e.originalEvent, e.originalEvent.detail, e.originalEvent.path[0]);
             });
         },
 
@@ -368,11 +393,6 @@
             '$.threadView.postIds': 'threadKeysChanged'
         },
 
-
-        editProfileButtonPressed: function () {
-            this.$.profileEditDialog.toggle();
-        },
-
         eventDelegates: {
             'core-collapse-open': 'openStatusChanged',
             'loginButtonPressed': 'login',
@@ -380,7 +400,8 @@
             'editProfileButtonPressed': 'editProfileButtonPressed',
             'not-yet-implemented': 'nyiClick',
             'toast': 'handleToastEvent',
-            'global-tick': 'globalTick'
+            'global-tick': 'globalTick',
+            'speakur-locale-change': 'localeChanged'
         }
 
     });

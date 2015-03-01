@@ -17,7 +17,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
   -->
 <polymer-element
     name="speakur-i18next"
-    extends="speakur-base"
     attributes="locale">
     <template>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
@@ -47,6 +46,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             var i18n_t = i18n.t;
 
             PolymerExpressions.prototype.$$ = i18n_t;
+/*
+            PolymerExpressions.prototype.$$ = function() {
+                console.log('x_locale', x_locale);
+                return i18n_t.apply(window, arguments)
+            };
+*/
 
             Polymer({
                 locale: null,
@@ -58,7 +63,16 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 localeChanged: function (oldval, newval) {
                     var that = this;
                     i18n.setLng(newval, function () {
-                        that.log('Language changed from ', oldval, ' to:', newval);
+                        // this needs to be done AFTER the i18n library has changed languages
+                        // because we have translated elements watching globals.currentLocale
+
+                        console.log('Language changed from ', oldval, ' to:', newval);
+                        if (that.globals.profile) {
+                            console.log("globals.profile.locale was :", that.globals.profile.locale);
+                            that.globals.profile.locale = newval;
+                            // Changing the profile.locale should in theory tell the i18next element to load a new language
+                            // TODO: filter rules? e.g. convert en-US to en?
+                        }
                         that.globals.currentLocale = newval;
 
                         // TODO: change 'moment' library's locale?

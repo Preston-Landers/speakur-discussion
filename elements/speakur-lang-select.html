@@ -1,4 +1,4 @@
-<!--
+    <!--
 Copyright (c) 2015 Preston Landers. All rights reserved.
 This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
 The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
@@ -11,8 +11,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="../../core-menu/core-menu.html">
 
 
-<link rel="import" href="../../pvc-globals/pvc-globals.html">
-
 <polymer-element
     name="speakur-lang-select"
     attributes="locale"
@@ -23,31 +21,16 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 color: red;
             }
         </style>
-        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
 
-        <div>
-            <span>
-                {{ 'language' | $$(_loc) }}:
+        <paper-dropdown-menu class="">
+            <paper-dropdown class="speakur-paper-dropdown dropdown" transition="" layered>
+                <core-menu id="menu" class="menu">
+                    <paper-item data-locale="en-US">English</paper-item>
+                    <paper-item data-locale="fr-FR">Français</paper-item>
+                </core-menu>
+            </paper-dropdown>
+        </paper-dropdown-menu>
 
-            </span>
-            <paper-dropdown-menu label="{{ 'language' | $$(_loc) }}">
-                <paper-dropdown class="speakur-paper-dropdown dropdown" layered>
-                    <core-menu id="menu" class="menu">
-                        <paper-item data-locale="en-US">English</paper-item>
-                        <paper-item data-locale="fr-FR">Français</paper-item>
-                    </core-menu>
-                </paper-dropdown>
-            </paper-dropdown-menu>
-        </div>
-
-        <p>
-            {{ 'greeting1' | $$(_loc) }}
-
-            locale: {{locale}} &mdash; profile locale: {{ globals.profile ? globals.profile.locale : '' }}
-        </p>
-        <p>
-            {{ 'apples_oranges' | $$({apples: 3, oranges: 4}, _loc) }}
-        </p>
     </template>
     <script>
         Polymer({
@@ -71,12 +54,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             },
 
             localeChanged: function (oldVal, newVal) {
-                this.log("locale changed from:", oldVal, " to: ", newVal);
-                if (this.globals.profile) {
-                    this.log("globals.profile.locale was :", this.globals.profile.locale);
-                    this.globals.profile.locale = newVal;
-                    // Changing the profile.locale should in theory tell the i18next element to load a new language
-                }
+                // this.log("locale changed from:", oldVal, " to: ", newVal);
+                this.fire('speakur-locale-change', {oldLocale: oldVal, newLocale: newVal});
             }
 
         });

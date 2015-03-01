@@ -6,9 +6,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 -->
 <link rel="import" href="../../polymer/polymer.html">
 
+<link rel="import" href="../../pvc-globals/pvc-globals.html">
+
 <polymer-element name="speakur-base">
     <template>
+        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
     </template>
+
     <script>
         var isFunction = function (obj) {
             return Object.prototype.toString.call(obj) === "[object Function]";
@@ -34,9 +38,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             computed: {
                 // when this property has changed, it reflects a fully loaded and changed locale
-                // can use it in expressions like {{ 'key' | $$({param1: 'foo'}, _loc) }}
-                // to ensure that the string is re-translated when _loc changes
-                "_loc": "globals.currentLocale ? globals.currentLocale : 'en-US'"
+                // can use it in expressions like {{ 'key' | $$({param1: 'foo'}, lc) }}
+                // to ensure that the string is re-translated when lc changes
+                "lc": "globals.currentLocale ? globals.currentLocale : 'en'"
             },
 
             /**
