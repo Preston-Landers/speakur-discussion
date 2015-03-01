@@ -353,6 +353,15 @@
             // Show some kind of error dialog / message?
         },
 
+        domReady: function () {
+            jQuery("body").on('core-overlay-open', function(e) {
+                var zi = 1000;
+                jQuery("core-overlay-layer").each(function (ei, elem) {
+                    elem.style.zIndex = zi--;
+                });
+            });
+        },
+
         observe: {
             // '$.dbThread.location': 'fbLocationChanged',
             thread: 'threadChanged',
