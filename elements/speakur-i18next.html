@@ -31,7 +31,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 resStore: i18nResources,
 */
                 // debug: true,
-                fallbackLng: 'en-US',
+                fallbackLng: 'en',
                 ns: 'speakur',
                 load: 'current',
                 resGetPath: 'locales/__ns__-__lng__.json'
@@ -67,7 +67,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         // because we have translated elements watching globals.currentLocale
 
                         console.log('Language changed from ', oldval, ' to:', newval);
-                        if (that.globals.profile) {
+                        if (that.globals.profile && that.globals.profile.locale !== newval) {
                             console.log("globals.profile.locale was :", that.globals.profile.locale);
                             that.globals.profile.locale = newval;
                             // Changing the profile.locale should in theory tell the i18next element to load a new language

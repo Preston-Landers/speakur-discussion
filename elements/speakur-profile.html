@@ -64,6 +64,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     }
                     // this.log("firebase profile: ", this.profile);
                     this.globals.profile = this.profile;
+                    // this.globals.currentLocale = this.profile.locale;
+                    this.fire('speakur-locale-change', {oldLocale: null, newLocale: this.profile.locale});
 
                     // TODO: whether or not the user is an admin is indeterminate at this point
                     // until adminsChanged is called;
@@ -93,6 +95,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
                     // Update image and email address from current values
                     // possibly locale?
+                    if (profile.locale === 'en-US') profile.locale = 'en';
+                    if (profile.locale === 'fr-FR') profile.locale = 'fr';
 
 
                     var email, xprof, displayName;

@@ -1,14 +1,14 @@
-    <!--
+<!--
 Copyright (c) 2015 Preston Landers. All rights reserved.
 This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
 The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
 -->
-<link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="../../paper-dropdown/paper-dropdown.html">
-<link rel="import" href="../../paper-item/paper-item.html">
-<link rel="import" href="../../core-menu/core-menu.html">
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../../paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../../paper-item/paper-item.html">
+<link rel="import" href="../../../core-menu/core-menu.html">
 
 
 <polymer-element
@@ -16,17 +16,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     attributes="locale"
     extends="speakur-base">
     <template>
-        <style>
-            paper-item.core-selected {
-                color: red;
-            }
-        </style>
-
-        <paper-dropdown-menu class="">
+        <paper-dropdown-menu label="{{ 'language' | $$(lc) }}">
             <paper-dropdown class="speakur-paper-dropdown dropdown" transition="" layered>
-                <core-menu id="menu" class="menu">
-                    <paper-item data-locale="en-US">English</paper-item>
-                    <paper-item data-locale="fr-FR">Français</paper-item>
+                <core-menu id="menu" class="menu" valueattr="id" >
+                    <paper-item id="en">English</paper-item>
+                    <paper-item id="fr">Français</paper-item>
                 </core-menu>
             </paper-dropdown>
         </paper-dropdown-menu>
@@ -37,14 +31,17 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             locale: null,
 
             domReady: function () {
-                var that = this;
+                // var that = this;
 
                 // I'm pretty sure there has to be a better way to do this?
                 this.$.menu.addEventListener('core-select', function (e) {
                     if (e.detail.isSelected) {
-                        var newLocale = e.detail.item.dataset['locale'];
-                        that.locale = newLocale;
+                        var oldLocale = this.locale;
+                        var newLocale = e.detail.item.id;
+                        // that.locale = newLocale;
                         // that.log("Changed locale to: ", newLocale);
+                        this.fire('speakur-locale-change', {oldLocale: oldLocale, newLocale: newLocale});
+
                     }
                 });
             },
@@ -54,8 +51,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             },
 
             localeChanged: function (oldVal, newVal) {
+                if (!newVal) return;
+                if (oldVal === newVal) return;
+                this.$.menu.selected = newVal;  // make sure the menu reflects current selection
                 // this.log("locale changed from:", oldVal, " to: ", newVal);
-                this.fire('speakur-locale-change', {oldLocale: oldVal, newLocale: newVal});
             }
 
         });

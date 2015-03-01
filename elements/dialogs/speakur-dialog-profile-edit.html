@@ -5,17 +5,25 @@ The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
 -->
 <link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../pvc-globals/pvc-globals.html">
 
 <link rel="import" href="speakur-dialog.html">
-<link rel="import" href="../speakur-lang-select.html">
+<link rel="import" href="speakur-lang-select.html">
 <link rel="import" href="../../imports/bootstrap.partial.html">
 
+<!--
+
+TODO: maybe don't let the language and theme changes take effect until
+you hit save like the rest of the profile.  Or at least make cancel undo it.
+
+-->
 <polymer-element
     name="speakur-dialog-profile-edit"
     extends="speakur-base"
     attributes="profile">
 
     <template>
+        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <speakur-dialog
             unsavedChanges="{{unsavedChanges}}"
             okButton="Save Changes"
@@ -40,8 +48,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             </B>
                         </div>
                         <div>
-                            <speakur-lang-select id="languageInput" >
-
+                            <speakur-lang-select
+                                locale="{{ lc }}"
+                                id="languageInput" >
                             </speakur-lang-select>
                         </div>
                     </div>
