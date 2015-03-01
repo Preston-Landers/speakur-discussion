@@ -33,13 +33,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
                 <form class="profile-form" id="profile-form">
 
-                    <div class="form-group" layout center horizontal="">
+                    <div class="form-group" layout center around-justified="" horizontal="">
                         <div>
-                            <label
-                                class="form-label"
-                                for="languageInput">{{ 'language' | $$(lc) }} </label>
+                            <B>
+                                {{ 'language' | $$(lc) }}
+                            </B>
                         </div>
-                        <div flex></div>
                         <div>
                             <speakur-lang-select id="languageInput" >
 
