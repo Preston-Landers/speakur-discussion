@@ -20,41 +20,35 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             id="dialog">
             <core-style ref="speakur-dialog-login"></core-style>
             <div class="header">
-                Sign in to Speakur
+                {{ 'Sign in to Speakur' | $$(lc) }}
             </div>
 
             <div class="body">
-
-                <p>Please sign in with one of the following identity providers. You will be able to change
-                    the name you post under.
+                <p>
+                    {{ 'pls_sign_in' | $$(lc) }}
                 </p>
 
                 <p>
-                    Your email address will be shared with Speakur but no other private data will be shared. Your email
-                    will <em>not</em> be visible to other users.
+                    {{ 'login_private_data' | $$(lc) }}
                 </p>
 
                 <p>
-                    You can only be signed in with one service at a time.
+                    {{ 'one_login_svc' | $$(lc) }}
+
                 </p>
 
                 <div layout horizontal>
                     <div
                         class="login-button login-button-facebook"
-                        title="Sign in with Facebook"
-                        on-click="{{loginFacebook}}"
-                        >
-
+                        title="{{ 'sign_in_facebook' | $$(lc) }}"
+                        on-click="{{loginFacebook}}">
                     </div>
                     <div
                         class="login-button login-button-google"
-                        title="Sign in with Google"
-                        on-click="{{loginGoogle}}"
-                        >
+                        title="{{ 'sign_in_google' | $$(lc) }}"
+                        on-click="{{loginGoogle}}">
                     </div>
-
                 </div>
-
             </div>
         </speakur-dialog>
 

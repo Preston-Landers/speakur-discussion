@@ -127,10 +127,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         </style>
                         <div layout horizontal center class="header">
                             <template if="{{ previewing && previewingEdit}}">
-                                Preview - Edit Post
+                                {{ 'preview_edit_post' | $$(lc) }}
                             </template>
                             <template if="{{previewing && ! previewingEdit }}">
-                                Preview
+                                {{ 'Preview' | $$(lc) }}
                             </template>
                             <template if="{{ !previewing }}">
                                 <speakur-author-slug showPicture="false" author="{{post.author}}"></speakur-author-slug>
@@ -145,7 +145,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                                 <template if="{{ post.lastModified && post.lastModified !== post.timestamp }}">
                                     <div class="edited-time" title="{{post.lastModified | formatTimestamp}}">
                                         &mdash;
-                                        Edited:
+                                        {{ 'Edited' | $$(lc) }}:
                                         <time>
                                             {{globals.updateTick && post.lastModified | formatTimestampFromAgo}}
                                         </time>
@@ -161,7 +161,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             </template>
                             <template if="{{ post.deleted}}">
                                 <div class="deleted-post-body">
-                                    <em>[deleted]</em>
+                                    <em>[{{ 'deleted' | $$(lc) }}]</em>
                                 </div>
                             </template>
                         </div>
@@ -274,7 +274,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     this.fire('post-deleted', post_copy);
 
                 }
-                this.toast("Post deleted.");
+                this.toast(this.$$('post_deleted'));
 
             },
 

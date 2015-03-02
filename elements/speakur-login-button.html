@@ -60,18 +60,32 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 layered transition="">
                 <core-style ref="dropdownmenu"></core-style>
                 <core-menu class="menu" id="loggedInMenu" excludedLocalNames="div">
+
                     <core-item>
                         <div class="username">{{globals.profile.username}}</div>
                         <div class="provider">{{ describeProvider(user.provider) }}</div>
                     </core-item>
-                    <paper-item id="editProfile" title="Edit your profile" on-click="{{editProfile}}">
+
+                    <paper-item
+                        id="editProfile"
+                        title="{{ 'edit_profile_title' | $$(lc) }}"
+                        on-click="{{editProfile}}">
+
                         <core-icon icon="settings" class="icon"></core-icon>
-                        Edit Profile
+                        {{ 'Edit Profile' | $$(lc) }}
+
                     </paper-item>
-                    <paper-item id='signOut' title="Sign out of Speakur" on-click="{{logout}}">
+
+                    <paper-item
+                        id='signOut'
+                        title="{{ 'sign_out_title' | $$(lc) }}"
+                        on-click="{{logout}}">
+
                         <core-icon icon="social:person-outline" class="icon"></core-icon>
-                        Sign Out
+                        {{ 'sign_out' | $$(lc) }}
+
                     </paper-item>
+
                 </core-menu>
             </paper-dropdown>
         </paper-menu-button>
@@ -85,9 +99,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 transition="" layered>
                 <core-style ref="dropdownmenu"></core-style>
                 <core-menu class="menu" valueattr="id" id="loggedOutMenu" selected="{{loggedOutMenu}}">
-                    <paper-item id="signIn" title="Sign in to Speakur" on-click="{{login}}">
+                    <paper-item id="signIn" title="{{ 'sign_in_title' | $$(lc) }}" on-click="{{login}}">
                         <core-icon icon="social:person" class="icon toolbar-icon"></core-icon>
-                        Sign In
+                        {{ 'sign_in' | $$(lc) }}
                     </paper-item>
                 </core-menu>
             </paper-dropdown>
@@ -116,9 +130,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     return '';
                 }
                 if (provider === "facebook") {
-                    return "(Facebook)";
+                    return "(" + this.$$('Facebook') + ")";
                 } else if (provider === "google") {
-                    return "(Google)";
+                    return "(" + this.$$('Google') + ")";
                 } else {
                     return "";
                 }

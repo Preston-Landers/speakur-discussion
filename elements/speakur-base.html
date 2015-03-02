@@ -40,8 +40,15 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 // when this property has changed, it reflects a fully loaded and changed locale
                 // can use it in expressions like {{ 'key' | $$({param1: 'foo'}, lc) }}
                 // to ensure that the string is re-translated when lc changes
-                "lc": "globals.currentLocale ? globals.currentLocale : 'en'"
+                "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
+                "anon_name": "'Anonymous' | $$(lc)"
             },
+
+            $$: function () {
+                // 'kosher' ?
+                return i18n.t.apply(window, arguments);
+            },
+
 
             /**
              * Provide the location of the firebase element given an arguments array

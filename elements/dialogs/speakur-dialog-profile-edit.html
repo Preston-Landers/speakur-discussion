@@ -26,14 +26,14 @@ you hit save like the rest of the profile.  Or at least make cancel undo it.
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <speakur-dialog
             unsavedChanges="{{unsavedChanges}}"
-            okButton="Save Changes"
-            okTitle="Save Changes"
-            cancelButton="Cancel"
-            cancelTitle="Discard Changes"
+            okButton="{{ 'Save Changes' | $$(lc) }}"
+            okTitle="{{ 'Save Changes' | $$(lc) }}"
+            cancelButton="{{ 'Cancel' | $$(lc) }}"
+            cancelTitle="{{ 'Discard Changes' | $$(lc) }}"
             id="dialog">
 
             <div class="header">
-                Edit your Speakur Profile
+                {{ 'Edit your Speakur Profile' | $$(lc) }}
             </div>
 
             <div class="body">
@@ -58,31 +58,31 @@ you hit save like the rest of the profile.  Or at least make cancel undo it.
                     <div class="form-group">
                         <label
                             class="form-label"
-                            for="usernameInput">Public Username</label>
+                            for="usernameInput">{{ 'Public Username' | $$(lc) }}</label>
                         <input
                             type="text" class="form-control" id="usernameInput"
                             value="{{username}}"
-                            placeholder="Username">
+                            placeholder="{{ 'Username' | $$(lc) }}">
                     </div>
 
                     <div class="form-group">
                         <label
                             class="form-label"
-                            for="aboutlinkInput">Public Link</label>
+                            for="aboutlinkInput">{{ 'Public Link' | $$(lc) }}</label>
                         <input
                             type="text" class="form-control" id="aboutlinkInput"
                             value="{{about_link}}"
-                            placeholder="Public link - your blog or site here">
+                            placeholder="{{ 'public_link_placeholder' | $$(lc) }}">
                     </div>
 
                     <div class="form-group">
                         <label
                             class="form-label"
-                            for="aboutInput">Public Biography</label>
+                            for="aboutInput">{{ 'Public Biography' | $$(lc) }}</label>
                         <textarea
                             id="aboutInput"
                             value="{{about}}"
-                            placeholder="Public bio or about yourself..."
+                            placeholder="{{ 'public_bio_placeholder' | $$(lc) }}"
                             class="form-control" rows="3"></textarea>
                     </div>
 
@@ -96,8 +96,6 @@ you hit save like the rest of the profile.  Or at least make cancel undo it.
     <script>
         (function () {
             Polymer({
-                okButton: "Save Changes",
-                cancelButton: "Cancel",
                 unsavedChanges: false,
                 username: null,
                 about: null,

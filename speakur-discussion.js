@@ -153,7 +153,7 @@
 
             this.globals.anon_author = {
                 uid: 'anon',
-                username: 'Anonymous'
+                username: 'Anonymous'  // this may not get displayed anywhere...
             };
 
             // maximum number of old post revisions to keep
@@ -188,7 +188,7 @@
 
         nyiClick: function() {
             this.errorLog("Not yet implemented.");
-            this.toast("This feature is not implemented yet.");
+            this.toast(this.$$('not_yet_implemented'));
         },
 
         handleToastEvent: function (e, detail, sender) {

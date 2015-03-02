@@ -28,7 +28,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
         <template if="{{level==0 && !postIds.length}}">
             <div>
-                <h2>No one has written anything yet. Be the first to comment.</h2>
+                <h2>{{ 'no_comments_yet' | $$(lc) }}</h2>
             </div>
         </template>
 

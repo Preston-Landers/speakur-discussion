@@ -47,12 +47,14 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <form>
             <div class="body">
                 <div class="form-group">
-                    <label class="sr-only" for="commentText">Leave a comment:</label>
+                    <label class="sr-only" for="commentText">
+                        {{ 'leave_comment' | $$(lc) }}
+                    </label>
                         <!--value="{{newText}}"-->
                         <textarea
                             rows="3"
                             class="form-control"
-                            placeholder="Leave a comment here."
+                            placeholder="{{ 'leave_comment_placeholder' | $$(lc) }}"
                             id="commentText"></textarea>
                 </div>
             </div>
@@ -60,38 +62,38 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 <template if="{{newText.length}}">
                     <div horizontal layout center>
                         <div style="margin-left: 12px;" on-click="{{editingHelp}}">
-                            Editing Help
+                            {{ 'Editing Help' | $$(lc) }}
                         </div>
                         <div flex></div>
                         <div horizontal layout end-justified center class="posting-as">
                             <span style="margin-right: 4px;">
-                                Posting as:
+                                {{ 'posting_as' | $$(lc) }}
                             </span>
                             <speakur-author-slug author="{{globals.profile}}"></speakur-author-slug>
                         </div>
                         <div
                             on-click="{{resetEditText}}"
-                            title="Undo changes - reset text to original"
+                            title="{{ 'undo_changes_title' | $$(lc) }}"
                             hidden?="{{ !editing }}"
                             class="btn btn-sm btn-warning reset-btn tool-btn">
-                            Undo Changes
+                            {{ 'Undo Changes' | $$(lc) }}
                         </div>
                         <div
                             on-click="{{cancel}}"
-                            title="Cancel {{ topLevelComment ? '(Clear Text)' : '(Hide Text)' }}"
+                            title="{{ 'Cancel' | $$(lc) }} {{ topLevelComment ? '({{ 'Clear Text' | $$(lc) }})' : '({{ 'Hide Text' | $$(lc) }})' }}"
                             class="btn btn-sm btn-danger cancel-btn tool-btn">
-                            Cancel
+                            {{ 'Cancel' | $$(lc) }}
                         </div>
                         <template if="{{ !editing }}">
                             <div on-click="{{submit}}" title="Publish Comment"
                                  class="btn btn-sm btn-primary tool-btn">
-                                Publish Comment
+                                {{ 'Publish Comment' | $$(lc) }}
                             </div>
                         </template>
                         <template if="{{ editing }}">
                             <div on-click="{{saveEdit}}" title="Save Changes"
                                  class="btn btn-sm btn-primary tool-btn">
-                                Save Changes
+                                {{ 'Save Changes' | $$(lc) }}
                             </div>
                         </template>
                     </div>
@@ -190,7 +192,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 // write it
                 this.posts[this.editing] = editingPost;
 
-                this.toast("Changes saved.");
+                this.toast(this.$$('changes_saved'));
                 this.fire('submitted-edit', editingPost);
             },
 
@@ -210,7 +212,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     return false;
                 }
                 if (!this.newText.length) {
-                    this.errorToast('Please write something.');
+                    this.errorToast(this.$$('pls_write_something'));
                     return false;
                 }
 
@@ -232,7 +234,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 this.setNewText();
                 post['postId'] = post_id;
 
-                this.toast("Post saved.");
+                this.toast(this.$$('post_saved'));
                 this.fire('submitted-post', post);
             },
 

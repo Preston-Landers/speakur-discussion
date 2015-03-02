@@ -88,11 +88,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 // This is basically just converting one event (core-overlay-open)
                 // to another (dialog-toggle) - not sure if I really need/want this.
                 wasToggled: function (e, detail, sender) {
-//                    if (detail) {
-//                        console.log("was opened.");
-//                    } else {
-//                        console.log("was closed.");
-//                    }
                     e.stopPropagation();
                     this.fire('dialog-toggle', detail);
                 },

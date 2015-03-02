@@ -92,10 +92,11 @@ https://github.com/Polymer/core-component-page/issues/7
                         <paper-icon-button
                                 if="{{ closed }}"
                                 icon="speaker-notes"
+                                title="{{ 'Close' | $$(lc) }}"
                                 on-click="{{toggle}}">
                         </paper-icon-button>
                         <paper-button flex on-click="{{toggle}}" class="speakur-toggle-button">
-                            View Comments ({{postIds.length}})
+                            {{ 'View Comments' | $$(lc) }} ({{postIds.length}})
                         </paper-button>
                         <speakur-login-button
                             style="margin-right: 6px;"
@@ -106,7 +107,7 @@ https://github.com/Polymer/core-component-page/issues/7
                     <template if="{{ !closed }}">
                         <paper-icon-button
                                 if="{{ !closed }}"
-                                title="Hide"
+                                title="{{ 'Hide' | $$(lc) }}"
                                 icon="remove-circle"
                                 on-click="{{toggle}}" class="speakur-toggle-button speakur-close-button">
                         </paper-icon-button>
@@ -116,7 +117,7 @@ https://github.com/Polymer/core-component-page/issues/7
 
                         <template if="{{statusKnown && globals.isAdmin}}">
                             <span style="margin-right: 6px;">
-                                <b>Admin Mode</b>
+                                <b>{{ 'Admin Mode' | $$(lc) }}</b>
                             </span>
                         </template>
 
@@ -155,19 +156,19 @@ https://github.com/Polymer/core-component-page/issues/7
                                 class="powered-by-link"
                                 target="_blank"
                                 href="{{speakurSoftwareLink}}">
-                                Powered by Speakur
+                                {{ 'powered_by' | $$(lc) }}
                             </a>
 
                         </div>
                         <div class="speakur-copyright">
                             <small>
-                                Copyright &copy; 2015 Preston Landers
+                                {{ 'copyright_stmt' | $$(lc) }}
                             </small>
                         </div>
                         <paper-icon-button
                                 id="reportbutton"
                                 on-click="{{reportProblem}}"
-                                title="Report a problem."
+                                title="{{ 'report_a_problem' | $$(lc) }}"
                                 icon="report-problem">
                         </paper-icon-button>
                     </speakur-toolbar>

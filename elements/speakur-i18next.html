@@ -76,7 +76,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         that.globals.currentLocale = newval;
 
                         // TODO: change 'moment' library's locale?
-
+                        if (moment && moment.locale) {
+                            moment.locale(newval);
+                        }
                     });
                 }
 

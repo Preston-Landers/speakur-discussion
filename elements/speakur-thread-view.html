@@ -77,11 +77,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 </div>
                 <div class="thread-link">
                     <small>
-                        <a target="_blank" href="{{thread.href}}">/new window/</a>
+                        <a target="_blank" href="{{thread.href}}">/{{ 'new_window' | $$(lc) }}/</a>
                     </small>
                 </div>
                 <div class="thread-age" title="{{ thread.created | formatTimestamp }}">
-                    posted
+                    {{ 'post_posted' | $$(lc) }}
                     <time>
                         {{ thread.created | formatTimestampFromAgo }}
                     </time>
@@ -89,20 +89,20 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
                 <div flex></div>
                 <div class="thread-sort">
-                    <paper-dropdown-menu label="{{sortDescription}}">
+                    <paper-dropdown-menu label="{{ 'sort_order_desc' | $$(lc) }}">
                         <paper-dropdown layered class="speakur-paper-dropdown dropdown" transition="">
                             <core-menu id="sortMenu" class="menu">
                                 <paper-item data-sorting="newest">
-                                    {{sortDesc['newest']}}
+                                    {{ 'sort_newest' | $$(lc) }}
                                 </paper-item>
                                 <paper-item data-sorting="oldest">
-                                    {{sortDesc['oldest']}}
+                                    {{ 'sort_oldest' | $$(lc) }}
                                 </paper-item>
                                 <paper-item data-sorting="high">
-                                    {{sortDesc['high']}}
+                                    {{ 'sort_votes_high' | $$(lc) }}
                                 </paper-item>
                                 <paper-item data-sorting="low">
-                                    {{sortDesc['low']}}
+                                    {{ 'sort_votes_low' | $$(lc) }}
                                 </paper-item>
                             </core-menu>
                         </paper-dropdown>
@@ -122,16 +122,18 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     <script>
         Polymer({
             sortOrder: 'oldest',
-            sortDesc: {
-                oldest: 'Oldest First',
-                newest: 'Newest First',
-                high: 'Upvotes',
-                low: 'Downvotes'
-            },
+            /*
+                        sortDesc: {
+                            oldest: 'Oldest First',
+                            newest: 'Newest First',
+                            high: 'Upvotes',
+                            low: 'Downvotes'
+                        },
 
-            computed: {
-                'sortDescription': 'sortDesc[sortOrder]'
-            },
+                        computed: {
+                            'sortDescription': 'sortDesc[sortOrder]'
+                        },
+            */
 
             domReady: function () {
                 var that = this;
