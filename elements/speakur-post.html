@@ -137,17 +137,17 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                                 <div class="netVotesTitleDisplay">
                                     {{netVotesText}}
                                 </div>
-                                <div class="post-time" title="{{post.timestamp | formatTimestamp}}">
+                                <div class="post-time" title="{{post.timestamp | formatTimestamp(lc) }}">
                                     <time>
-                                        {{globals.updateTick && post.timestamp | formatTimestampFromAgo}}
+                                        {{globals.updateTick && post.timestamp | formatTimestampFromAgo(lc) }}
                                     </time>
                                 </div>
                                 <template if="{{ post.lastModified && post.lastModified !== post.timestamp }}">
-                                    <div class="edited-time" title="{{post.lastModified | formatTimestamp}}">
+                                    <div class="edited-time" title="{{post.lastModified | formatTimestamp(lc) }}">
                                         &mdash;
                                         {{ 'Edited' | $$(lc) }}:
                                         <time>
-                                            {{globals.updateTick && post.lastModified | formatTimestampFromAgo}}
+                                            {{globals.updateTick && post.lastModified | formatTimestampFromAgo(lc) }}
                                         </time>
                                     </div>
                                 </template>

@@ -109,7 +109,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 </template>
 
                 <!--<div flex></div>-->
-                <div class="report-post-button" title="Report spam, harassment or illegal content."
+                <div class="report-post-button" title="{{ 'report_spam_title' | $$(lc) }}"
                      on-click="{{reportPost}}">
                     {{ 'Report' | $$(lc) }}
                 </div>

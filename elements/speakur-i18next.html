@@ -62,6 +62,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
                 localeChanged: function (oldval, newval) {
                     var that = this;
+
+                    // TODO: change 'moment' library's locale?
+                    if (moment && moment.locale) {
+                        moment.locale(newval); // global...
+                    }
+
                     i18n.setLng(newval, function () {
                         // this needs to be done AFTER the i18n library has changed languages
                         // because we have translated elements watching globals.currentLocale
@@ -75,10 +81,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         }
                         that.globals.currentLocale = newval;
 
-                        // TODO: change 'moment' library's locale?
-                        if (moment && moment.locale) {
-                            moment.locale(newval);
-                        }
                     });
                 }
 

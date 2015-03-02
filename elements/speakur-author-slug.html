@@ -57,7 +57,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 if (author && author.uid !== 'anon' && author.uid !== 'anonymous') {
                     if (author.uid === "_del") {
                         this.is_del = true;
-                        return '[deleted]';
+                        return '[' + this.$$('deleted') + ']';
                     }
                     if (author.username) {
                         return author.username;

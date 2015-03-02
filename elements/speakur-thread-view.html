@@ -80,10 +80,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         <a target="_blank" href="{{thread.href}}">/{{ 'new_window' | $$(lc) }}/</a>
                     </small>
                 </div>
-                <div class="thread-age" title="{{ thread.created | formatTimestamp }}">
+                <div class="thread-age" title="{{ thread.created | formatTimestamp(lc) }}">
                     {{ 'post_posted' | $$(lc) }}
                     <time>
-                        {{ thread.created | formatTimestampFromAgo }}
+                        {{ thread.created | formatTimestampFromAgo(lc) }}
                     </time>
                 </div>
 
@@ -142,7 +142,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 this.$.sortMenu.addEventListener('core-select', function (e) {
                     if (e.detail.isSelected) {
                         that.sortOrder = e.detail.item.dataset['sorting'];
-                        console.log('Sort changed to ', that.sortDesc[that.sortOrder]);
+                        console.log('Sort changed to ', that.sortOrder);
                     }
                 });
             },

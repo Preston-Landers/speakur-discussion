@@ -406,19 +406,26 @@
 
     });
 
-    PolymerExpressions.prototype.formatTimestampFromAgo = function (value) {
+    PolymerExpressions.prototype.formatTimestampFromAgo = function (value, lc) {
         // TODO: what if there's some other component on the page that defines a global filter of same name?
         if (!value) {
             return "(unknown)";
         }
+        if (lc) {
+            return moment(value).locale(lc).fromNow();
+        }
         return moment(value).fromNow();
     };
 
-    PolymerExpressions.prototype.formatTimestamp = function (value) {
+    PolymerExpressions.prototype.formatTimestamp = function (value, lc) {
         if (!value) {
             return "(unknown)";
         }
-        return moment(value).format("dddd, MMMM Do YYYY, h:mm:ss a Z");
+        var format = "dddd, MMMM Do YYYY, h:mm:ss a Z";
+        if (lc) {
+            return moment(value).locale(lc).format(format);
+        }
+        return moment(value).format(format);
     };
 
 // wrap document so it plays nice with other libraries
