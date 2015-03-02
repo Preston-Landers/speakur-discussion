@@ -82,7 +82,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 unsavedChangesTitle: 'Unsaved Changes',
 
                 computed: {
-                    'showStandardButtons': "okButton || cancelButton || unsavedChanges"
+                    'showStandardButtons': "okButton || cancelButton || unsavedChanges",
+
+                    // TODO: see comment in speakur-base
+                    "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
+                    "anon_name": "'Anonymous' | $$(globals.currentLocale ? globals.currentLocale : 'en')"
                 },
 
                 // This is basically just converting one event (core-overlay-open)

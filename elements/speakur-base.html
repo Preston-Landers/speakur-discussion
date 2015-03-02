@@ -36,12 +36,15 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 this.toast(message);
             },
 
+            // Important! If you extend this element, as most speakur elements do, and the child element
+            // has computed properties, you must COPY these base properties over b/c they won't be merged!!
+            // https://github.com/Polymer/polymer/issues/933
             computed: {
                 // when this property has changed, it reflects a fully loaded and changed locale
                 // can use it in expressions like {{ 'key' | $$({param1: 'foo'}, lc) }}
                 // to ensure that the string is re-translated when lc changes
                 "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
-                "anon_name": "'Anonymous' | $$(lc)"
+                "anon_name": "'Anonymous' | $$(globals.currentLocale ? globals.currentLocale : 'en')"
             },
 
             $$: function () {

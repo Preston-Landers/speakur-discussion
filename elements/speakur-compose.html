@@ -80,18 +80,18 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         </div>
                         <div
                             on-click="{{cancel}}"
-                            title="{{ 'Cancel' | $$(lc) }} {{ topLevelComment ? '({{ 'Clear Text' | $$(lc) }})' : '({{ 'Hide Text' | $$(lc) }})' }}"
+                            title="{{ 'Cancel' | $$(lc) }} ({{ cancelTitle(lc) }})"
                             class="btn btn-sm btn-danger cancel-btn tool-btn">
                             {{ 'Cancel' | $$(lc) }}
                         </div>
                         <template if="{{ !editing }}">
-                            <div on-click="{{submit}}" title="Publish Comment"
+                            <div on-click="{{submit}}" title="{{ 'publish_comment_title' | $$(lc) }}"
                                  class="btn btn-sm btn-primary tool-btn">
                                 {{ 'Publish Comment' | $$(lc) }}
                             </div>
                         </template>
                         <template if="{{ editing }}">
-                            <div on-click="{{saveEdit}}" title="Save Changes"
+                            <div on-click="{{saveEdit}}" title="{{ 'Save Changes' | $$(lc) }}"
                                  class="btn btn-sm btn-primary tool-btn">
                                 {{ 'Save Changes' | $$(lc) }}
                             </div>
@@ -119,6 +119,15 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             // original post text before editing (if any)
             originalEditText: null,
+
+            ready: function () {
+                _.merge(this.computed, this.base_computed);  // TODO: see comment in speakur-base
+            },
+
+            cancelTitle: function(lc) {
+                if (this.topLevelComment) return this.$$('Clear Text', lc);
+                return this.$$('Hide Text', lc);
+            },
 
             domReady: function () {
                 // this.updatePreviewText();
@@ -287,7 +296,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             },
 
             computed: {
-                topLevelComment: "threadId == replyTo"
+                topLevelComment: "threadId == replyTo",
+                "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
+                "anon_name": "'Anonymous' | $$(globals.currentLocale ? globals.currentLocale : 'en')"
             }
         });
     </script>

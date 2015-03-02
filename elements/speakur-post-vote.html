@@ -29,7 +29,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 'votedUp': 'vote && vote["up"] ? true: false',
                 'votedDown': 'vote && vote["down"]  ? true: false',
                 'postVotesUp': '!postVotes ? 0 : postVotes["up"] || 0',
-                'postVotesDown': '!postVotes ? 0 : postVotes["down"] || 0'
+                'postVotesDown': '!postVotes ? 0 : postVotes["down"] || 0',
+
+                // TODO: see comment in speakur-base
+                "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
+                "anon_name": "'Anonymous' | $$(globals.currentLocale ? globals.currentLocale : 'en')"
             },
 
             logVoteStatus: function (up) {

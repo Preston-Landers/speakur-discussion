@@ -430,8 +430,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             computed: {
                 'netVotesText': 'getNetVotesText(postVotes, $.vote.votedUp, $.vote.votedDown)',
                 'indentWidthForLevel': 'level+1 * indentWidth',
-                'indentClass': '"indent-" + ( ( ( level ) % 3 ) + 1)'
-            }
+                'indentClass': '"indent-" + ( ( ( level ) % 3 ) + 1)',
+
+                // TODO: see comment in speakur-base
+                "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
+                "anon_name": "'Anonymous' | $$(globals.currentLocale ? globals.currentLocale : 'en')"
+            },
 
         });
     </script>

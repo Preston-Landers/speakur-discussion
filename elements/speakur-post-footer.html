@@ -67,54 +67,52 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             }
         </style>
         <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
-        <template if="{{ ! post.deleted }}">
-            <div horizontal center layout class="speakur-post-toolbar">
-                <span class="vote-block">
-                    <div class="vote-up-block">
-                        <core-icon
-                            title="{{ 'vote_up_title' | $$(lc) }}"
-                            id="voteUp"
-                            class="vote vote-up {{ {'not-voted': notVoted, 'voted-up': votedUp} | tokenList }}  "
-                            on-click="{{voteUp}}"
-                            icon="thumb-up"></core-icon>
-                        ({{numUpvotes}})
-                    </div>
-                    &vert;
-                    <div class="vote-down-block">
-                        <core-icon
-                            title="{{ 'vote_down_title' | $$(lc) }}"
-                            id="voteDown"
-                            class="vote vote-down {{ {'not-voted': notVoted, 'voted-down': votedDown} | tokenList }} "
-                            on-click="{{voteDown}}"
-                            icon="thumb-down"></core-icon>
-
-                        ({{numDownvotes}})
-                    </div>
-                </span>
-
-                <div title="{{ 'reply_to_comment' | $$(lc) }}" on-click="{{replyToPost}}">
-                    {{ 'Reply' | $$(lc) }}
+        <div horizontal center layout class="speakur-post-toolbar" hidden?="{{ post.deleted }}">
+            <div class="vote-block">
+                <div class="vote-up-block">
+                    <core-icon
+                        title="{{ 'vote_up_title' | $$(lc) }}"
+                        id="voteUp"
+                        class="vote vote-up {{ {'not-voted': notVoted, 'voted-up': votedUp} | tokenList }}  "
+                        on-click="{{voteUp}}"
+                        icon="thumb-up"></core-icon>
+                    ({{numUpvotes}})
                 </div>
+                &vert;
+                <div class="vote-down-block">
+                    <core-icon
+                        title="{{ 'vote_down_title' | $$(lc) }}"
+                        id="voteDown"
+                        class="vote vote-down {{ {'not-voted': notVoted, 'voted-down': votedDown} | tokenList }} "
+                        on-click="{{voteDown}}"
+                        icon="thumb-down"></core-icon>
 
-                <template if="{{canEditPost(post, globals.profile, globals.isAdmin)}}">
-                    <div title="{{ 'edit_this_comment' | $$(lc) }}" on-click="{{editPost}}">
-                        {{ 'Edit' | $$(lc) }}
-                    </div>
-                </template>
-
-                <template if="{{canDeletePost(post, globals.profile, globals.isAdmin)}}">
-                    <div title="{{ 'delete_this_comment' | $$(lc) }}" on-click="{{deletePost}}">
-                        {{ 'Delete' | $$(lc) }}
-                    </div>
-                </template>
-
-                <!--<div flex></div>-->
-                <div class="report-post-button" title="{{ 'report_spam_title' | $$(lc) }}"
-                     on-click="{{reportPost}}">
-                    {{ 'Report' | $$(lc) }}
+                    ({{numDownvotes}})
                 </div>
             </div>
-        </template>
+
+            <div title="{{ 'reply_to_comment' | $$(lc) }}" on-click="{{replyToPost}}">
+                {{ 'Reply' | $$(lc) }}
+            </div>
+
+            <template if="{{canEditPost(post, globals.profile, globals.isAdmin)}}">
+                <div title="{{ 'edit_this_comment' | $$(lc) }}" on-click="{{editPost}}">
+                    {{ 'Edit' | $$(lc) }}
+                </div>
+            </template>
+
+            <template if="{{canDeletePost(post, globals.profile, globals.isAdmin)}}">
+                <div title="{{ 'delete_this_comment' | $$(lc) }}" on-click="{{deletePost}}">
+                    {{ 'Delete' | $$(lc) }}
+                </div>
+            </template>
+
+            <!--<div flex></div>-->
+            <div class="report-post-button" title="{{ 'report_spam_title' | $$(lc) }}"
+                 on-click="{{reportPost}}">
+                {{ 'Report' | $$(lc) }}
+            </div>
+        </div>
     </template>
     <script>
         Polymer({
@@ -138,7 +136,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 numDownvotes: "getNumDownvotes(postVotes, voteElem.votedUp, voteElem.votedDown)",
                 votedUp: "globals.profile && voteElem && voteElem.votedUp ? true: false",
                 votedDown: "globals.profile && voteElem && voteElem.votedDown ? true: false",
-                notVoted: "!globals.profile || !voteElem || (!voteElem.votedDown && !voteElem.votedUp) ? true: false"
+                notVoted: "!globals.profile || !voteElem || (!voteElem.votedDown && !voteElem.votedUp) ? true: false",
+
+                // TODO: see comment in speakur-base
+                "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
+                "anon_name": "'Anonymous' | $$(globals.currentLocale ? globals.currentLocale : 'en')"
+
             },
 
             canDeletePost: function (post, my_profile, isAdmin) {

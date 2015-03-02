@@ -38,7 +38,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 </speakur-author-img>
             </template>
             <span class="username {{ {anon: is_anon, deleted: is_del } | tokenList }}">
-                {{ showUsername(author) }}
+                {{ showUsername(author, lc) }}
             </span>
         </div>
 
@@ -50,7 +50,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             showPicture: false,
             is_anon: false,
             is_del: false,
-            showUsername: function (author) {
+            showUsername: function (author, lc) {
                 // this seems like a bad way to do it since this involves side effects
                 this.is_del = false;
                 this.is_anon = false;
