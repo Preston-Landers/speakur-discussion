@@ -66,6 +66,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     this.globals.profile = this.profile;
                     // this.globals.currentLocale = this.profile.locale;
                     this.fire('speakur-locale-change', {oldLocale: null, newLocale: this.profile.locale});
+                    if (this.profile.theme) {
+                        this.fire('speakur-theme-change', {theme: this.profile.theme});
+                    }
 
                     // TODO: whether or not the user is an admin is indeterminate at this point
                     // until adminsChanged is called;

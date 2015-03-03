@@ -1,0 +1,51 @@
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../core-style/core-style.html">
+
+<core-style id="speakur-theme-grey">
+    .speakur-container {
+        border-width: 0;
+        background-color: transparent;
+        color: black;
+    }
+
+    speakur-toolbar /deep/ .toolbar-border {
+        background-color: rgba(182, 176, 185, 0.2);
+        color: #4a5746;
+        border-color: rgba(48, 47, 46, 0.77);
+    }
+
+    speakur-toolbar /deep/ .speakur-header-titlebox {
+        text-shadow: 1px 1px rgba(20, 20, 22, 0.10);
+        font-size: 1.1em;
+        font-weight: bold;
+    }
+
+    .speakur-close-button {
+        color: #403d44;
+    }
+
+    .speakur-body-container {
+    /*
+        background-color: transparent;
+        color: black;
+    */
+        border-width: 0;
+    }
+
+    :host /deep/ speakur-post /deep/ .indent-1 speakur-card /deep/ .card-header {
+        background-color: rgba(101, 99, 105, 0.40);
+        /*color: rgba(0, 4, 39, 1);*/
+        color: #0c0c15;
+    }
+
+    :host /deep/ speakur-post /deep/ .indent-3 speakur-card /deep/ .card-header {
+        background-color: rgba(65, 62, 67, 0.6);
+        color: white; /*#bbb6b5;*/
+    }
+
+    :host /deep/ speakur-post /deep/ .indent-2 speakur-card /deep/ .card-header {
+        background-color: rgba(78, 77, 82, 0.50);
+        color: white; /*#3d3e5a;*/
+    }
+
+</core-style>

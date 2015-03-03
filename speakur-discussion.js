@@ -49,13 +49,13 @@
 
         /**
          * The `theme` attribute determines the style or look and feel of the discussion box.
-         * Available themes are: default (TODO)
+         * Currently available themes are: grey blue red
          *
          * @attribute theme
          * @type string
          * @default {a default theme}
          */
-        theme: 'default',
+        theme: 'grey',
 
         /**
          * Determines whether the comment box is open (expanded) by default.
@@ -353,6 +353,25 @@
             // Show some kind of error dialog / message?
         },
 
+        themeChanged: function () {
+/*
+            var newRef = 'speakur-theme-grey';
+            if (this.theme === "blue") {
+                newRef = 'speakur-theme-blue';
+            } else if (this.theme === "red") {
+                newRef = 'speakur-theme-red';
+            }
+            this.$.theme.ref = newRef;
+*/
+            console.log('do nothing');
+        },
+
+        respondToThemeEvent: function (e, detail, sender) {
+            var newTheme = detail.theme;
+            console.log("Theme switching to ", newTheme);
+            this.theme = newTheme;
+        },
+
         currentLocale: null,
         localeChanged: function (e, details, sender) {
             // this.log("locale changed event", details, sender);
@@ -385,6 +404,9 @@
             $body.on("speakur-locale-change", function(e) {
                 that.localeChanged(e.originalEvent, e.originalEvent.detail, e.originalEvent.path[0]);
             });
+            $body.on("speakur-theme-change", function(e) {
+                that.respondToThemeEvent(e.originalEvent, e.originalEvent.detail, e.originalEvent.path[0]);
+            });
         },
 
         observe: {
@@ -401,7 +423,8 @@
             'not-yet-implemented': 'nyiClick',
             'toast': 'handleToastEvent',
             'global-tick': 'globalTick',
-            'speakur-locale-change': 'localeChanged'
+            'speakur-locale-change': 'localeChanged',
+            'speakur-theme-change': 'respondToThemeEvent'
         }
 
     });

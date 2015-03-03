@@ -20,13 +20,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <paper-dropdown-menu label="{{ 'Theme' | $$(lc) }}" >
             <paper-dropdown class="speakur-paper-dropdown dropdown" transition="" layered>
                 <core-menu id="menu" class="menu" valueattr="id" selected="{{theme}}">
-                    <paper-item id="grey">
+                    <paper-item id="speakur-theme-grey">
                         {{ 'theme_grey' | $$(lc) }}
                     </paper-item>
-                    <paper-item id="blue">
+                    <paper-item id="speakur-theme-blue">
                         {{ 'theme_blue' | $$(lc) }}
                     </paper-item>
-                    <paper-item id="red">
+                    <paper-item id="speakur-theme-red">
                         {{ 'theme_red' | $$(lc) }}
                     </paper-item>
                 </core-menu>
@@ -38,11 +38,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             theme: null,
 
             themeChanged: function (oldVal, newVal) {
+                console.log(oldVal, "Theme changed", newVal);
                 var profile = this.globals.profile;
                 if (profile) {
                     profile.theme = newVal;
                 }
-                console.log(oldVal, "Theme changed", newVal);
+                this.fire('speakur-theme-change', {theme: newVal});
             },
 
             profileChanged: function () {

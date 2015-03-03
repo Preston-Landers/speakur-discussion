@@ -57,7 +57,18 @@ https://github.com/Polymer/core-component-page/issues/7
         <!-- Congratulations, you have found the secret message. -->
 
         <link rel="stylesheet" href="speakur-discussion.css"/>
-        <link id="speakur-theme" rel="stylesheet" href="speakur-theme-default.css"/>
+
+        <!-- probably should be a better way to do this...? -->
+        <template if="{{ theme == 'speakur-theme-grey'}}">
+            <core-style ref="speakur-theme-grey"></core-style>
+        </template>
+        <template if="{{ theme == 'speakur-theme-blue'}}">
+            <core-style ref="speakur-theme-blue"></core-style>
+        </template>
+        <template if="{{ theme == 'speakur-theme-red'}}">
+            <core-style ref="speakur-theme-red"></core-style>
+        </template>
+
 
         <div id="speakur-container" class="speakur-container {{ closed ? 'closed' : '' }}">
 
