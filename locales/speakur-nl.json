@@ -26,6 +26,7 @@
     "Save Changes": "Wijzigingen opslaan",
     "Search": "Zoeken",
     "Sign in to Speakur": "Inloggen om door te Speakur",
+    "Theme": "Thema",
     "Undo Changes": "Wijzigingen ongedaan maken",
     "Username": "Gebruikersnaam",
     "View Comments": "Reacties bekijken",
@@ -70,6 +71,7 @@
     "sort_order_desc": "Sorteervolgorde",
     "sort_votes_high": "Up stemmen",
     "sort_votes_low": "Down stemmen",
+    "theme_title": "Kies uw stijl.",
     "undo_changes_title": "Wijzigingen - reset tekst naar oorspronkelijke ongedaan maken",
     "vote_down_title": "Niet een 'Disagree' knop!",
     "vote_up_title": "Wordt toegevoegd aan de discussie"

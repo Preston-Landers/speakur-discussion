@@ -28,6 +28,7 @@
   "Save Changes": null,
   "Search": null,
   "Sign in to Speakur": null,
+  "Theme": null,
   "Undo Changes": null,
   "Username": null,
   "View Comments": null,
@@ -72,6 +73,10 @@
   "sort_newest": "Newest First",
   "sort_votes_high": "Up votes",
   "sort_votes_low": "Down votes",
+  "theme_title": "Choose your style.",
+  "theme_grey": "Greyscale",
+  "theme_blue": "Blue",
+  "theme_red": "Red",
   "undo_changes_title": "Undo changes - reset text to original",
   "vote_down_title": "Not a 'Disagree' button!",
   "vote_up_title": "Adds to discussion"

@@ -28,6 +28,7 @@
     "Save Changes": "변경 사항을 저장합니다",
     "Search": "검색",
     "Sign in to Speakur": "Speakur에 로그인",
+    "Theme": "테마",
     "Undo Changes": "변경 내용 취소",
     "Username": "사용자 이름",
     "View Comments": "보기 댓글",
@@ -72,6 +73,7 @@
     "sort_order_desc": "정렬 순서",
     "sort_votes_high": "표를",
     "sort_votes_low": "표 다운",
+    "theme_title": "당신의 스타일을 선택 하십시오.",
     "undo_changes_title": "변경-원래 리셋 텍스트 취소",
     "vote_down_title": "아니라 '동의' 버튼!",
     "vote_up_title": "토론에 추가"

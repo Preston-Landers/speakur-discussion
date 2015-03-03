@@ -26,6 +26,7 @@
     "Save Changes": "変更を保存します。",
     "Search": "検索",
     "Sign in to Speakur": "Speakur にサインイン",
+    "Theme": "テーマ",
     "Undo Changes": "変更を元に戻す",
     "Username": "ユーザー名",
     "View Comments": "コメントの表示",
@@ -70,6 +71,7 @@
     "sort_order_desc": "並べ替え順序",
     "sort_votes_high": "票を",
     "sort_votes_low": "票ダウン",
+    "theme_title": "あなたのスタイルを選択します。",
     "undo_changes_title": "オリジナルにリセット テキストの変更を元に戻す",
     "vote_down_title": "「同意しない」ボタンではありません ！",
     "vote_up_title": "ディスカッションを追加します"

@@ -9,6 +9,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
 <link rel="import" href="speakur-dialog.html">
 <link rel="import" href="speakur-lang-select.html">
+<link rel="import" href="speakur-theme-select.html">
 <link rel="import" href="../../imports/bootstrap.partial.html">
 
 <!--
@@ -32,6 +33,13 @@ you hit save like the rest of the profile.  Or at least make cancel undo it.
             cancelTitle="{{ 'Discard Changes' | $$(lc) }}"
             id="dialog">
 
+            <style>
+                .flabel {
+                    font-weight: bold;
+                    margin-left: 6em;
+                }
+            </style>
+
             <div class="header">
                 {{ 'Edit your Speakur Profile' | $$(lc) }}
             </div>
@@ -41,17 +49,26 @@ you hit save like the rest of the profile.  Or at least make cancel undo it.
 
                 <form class="profile-form" id="profile-form">
 
-                    <div class="form-group" layout center around-justified="" horizontal="">
-                        <div>
-                            <B>
-                                {{ 'language' | $$(lc) }}
-                            </B>
+                    <div class="form-group" layout center horizontal="">
+                        <div class="flabel" flex>
+                            {{ 'language' | $$(lc) }}
                         </div>
-                        <div>
+                        <div flex>
                             <speakur-lang-select
                                 locale="{{ lc }}"
                                 id="languageInput" >
                             </speakur-lang-select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" layout center horizontal="">
+                        <div class="flabel" flex>
+                            {{ 'Theme' | $$(lc) }}
+                        </div>
+                        <div flex>
+                            <speakur-theme-select
+                                id="themeInput" >
+                            </speakur-theme-select>
                         </div>
                     </div>
 

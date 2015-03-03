@@ -25,6 +25,7 @@
     "Save Changes": "Αποθηκεύστε τις αλλαγές",
     "Search": "Αναζήτηση",
     "Sign in to Speakur": "Συνδεθείτε στο Speakur",
+    "Theme": "Θέμα",
     "Undo Changes": "Αναίρεση αλλαγών",
     "Username": "Όνομα χρήστη",
     "View Comments": "Δείτε σχόλια",
@@ -69,6 +70,7 @@
     "sort_order_desc": "Σειρά ταξινόμησης",
     "sort_votes_high": "Επάνω ψήφους",
     "sort_votes_low": "Κάτω ψήφους",
+    "theme_title": "Επιλέξτε το στυλ σας.",
     "undo_changes_title": "Αναίρεση αλλαγών - κείμενο επαναφορά στην αρχική",
     "vote_down_title": "Δεν είναι ένα κουμπί «Διαφωνώ»!",
     "vote_up_title": "Προσθέτει στη συζήτηση"

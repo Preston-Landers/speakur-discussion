@@ -26,6 +26,7 @@
     "Save Changes": "Сохранить изменения",
     "Search": "Поиск",
     "Sign in to Speakur": "Вход в Speakur",
+    "Theme": "Тема",
     "Undo Changes": "Отменить изменения",
     "Username": "Имя пользователя",
     "View Comments": "Посмотреть комментарии",
@@ -70,6 +71,7 @@
     "sort_order_desc": "Порядок сортировки",
     "sort_votes_high": "Вверх голосов",
     "sort_votes_low": "Вниз голосов",
+    "theme_title": "Выберите свой стиль.",
     "undo_changes_title": "Отменить изменения - сброс текст оригинала",
     "vote_down_title": "Не не «согласен» кнопку!",
     "vote_up_title": "Добавляет к обсуждению"

@@ -24,6 +24,7 @@
     "Save Changes": "Salvare le modifiche",
     "Search": "Ricerca",
     "Sign in to Speakur": "Accedi a Speakur",
+    "Theme": "Tema",
     "Undo Changes": "Annullare le modifiche",
     "Username": "Nome utente",
     "View Comments": "Visualizza commenti",
@@ -68,6 +69,7 @@
     "sort_order_desc": "Ordinamento",
     "sort_votes_high": "Fino voti",
     "sort_votes_low": "Giù voti",
+    "theme_title": "Scegli il tuo stile.",
     "undo_changes_title": "Annulla modifiche - reset testo originale",
     "vote_down_title": "Non è un pulsante 'Non accetto'!",
     "vote_up_title": "Aggiunge alla discussione"

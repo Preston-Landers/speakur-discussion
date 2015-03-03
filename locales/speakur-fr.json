@@ -25,6 +25,7 @@
     "Save Changes": "Enregistrer les modifications",
     "Search": "Rechercher",
     "Sign in to Speakur": "Connectez-vous à Speakur",
+    "Theme": "Thème",
     "Undo Changes": "Annuler les modifications",
     "Username": "Nom d'utilisateur",
     "View Comments": "Voir les commentaires",
@@ -69,6 +70,7 @@
     "sort_order_desc": "Ordre de tri",
     "sort_votes_high": "Votes",
     "sort_votes_low": "Vers le bas de la voix",
+    "theme_title": "Choisissez votre style.",
     "undo_changes_title": "Annuler les modifications - remise à zéro du texte original",
     "vote_down_title": "Pas un bouton « En désaccord » !",
     "vote_up_title": "Ajoute à la discussion"

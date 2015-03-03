@@ -28,6 +28,7 @@
     "Save Changes": "حفظ التغييرات",
     "Search": "البحث",
     "Sign in to Speakur": "قم بتسجيل الدخول إلى سبيكور",
+    "Theme": "الموضوع",
     "Undo Changes": "التراجع عن التغييرات",
     "Username": "اسم المستخدم",
     "View Comments": "عرض التعليقات",
@@ -72,6 +73,7 @@
     "sort_order_desc": "ترتيب الفرز",
     "sort_votes_high": "أعلى الأصوات",
     "sort_votes_low": "أسفل التصويت",
+    "theme_title": "اختر النمط الخاص بك.",
     "undo_changes_title": "التراجع عن التغييرات--إعادة تعيين النص إلى النص الأصلي",
     "vote_down_title": "لا على زر 'أوافق'!",
     "vote_up_title": "إضافة إلى مناقشة"

@@ -26,6 +26,7 @@
     "Save Changes": "Spara ändringar",
     "Search": "Sök",
     "Sign in to Speakur": "Logga in på Speakur",
+    "Theme": "Tema",
     "Undo Changes": "Ångra ändringar",
     "Username": "Användarnamn",
     "View Comments": "Visa kommentarer",
@@ -70,6 +71,7 @@
     "sort_order_desc": "Sorteringsordning",
     "sort_votes_high": "Upp röster",
     "sort_votes_low": "Ner röster",
+    "theme_title": "Välj din stil.",
     "undo_changes_title": "Ångra ändringar - återställa texten till original",
     "vote_down_title": "Inte en \"Disagree\"-knapp!",
     "vote_up_title": "Lägger till diskussion"
