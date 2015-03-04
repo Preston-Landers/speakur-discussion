@@ -49,13 +49,19 @@
 
         /**
          * The `theme` attribute determines the style or look and feel of the discussion box.
-         * Currently available themes are: grey blue red
+         * Setting the attribute only affects users who are not logged in, otherwise it
+         * uses the theme setting from the user profile.
+         *
+         * Currently available themes are:
+         *      speakur-theme-grey
+         *      speakur-theme-blue
+         *      speakur-theme-red
          *
          * @attribute theme
          * @type string
          * @default {a default theme}
          */
-        theme: 'grey',
+        theme: 'speakur-theme-grey',
 
         /**
          * Determines whether the comment box is open (expanded) by default.
@@ -353,20 +359,8 @@
             // Show some kind of error dialog / message?
         },
 
-        themeChanged: function () {
-/*
-            var newRef = 'speakur-theme-grey';
-            if (this.theme === "blue") {
-                newRef = 'speakur-theme-blue';
-            } else if (this.theme === "red") {
-                newRef = 'speakur-theme-red';
-            }
-            this.$.theme.ref = newRef;
-*/
-            console.log('do nothing');
-        },
-
         respondToThemeEvent: function (e, detail, sender) {
+            // there's no validation or anything here
             var newTheme = detail.theme;
             console.log("Theme switching to ", newTheme);
             this.theme = newTheme;

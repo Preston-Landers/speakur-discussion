@@ -75,13 +75,6 @@ paper-icon-button /deep/ core-icon[role=img] {
 
 }
 
-#helpbutton {
-    color: blue;
-}
-
-#reportbutton {
-    color: #807507;
-}
 
 :host /deep/ paper-icon-button.toolbar-icon {
     /*padding: 0;*/
@@ -105,6 +98,10 @@ paper-icon-button /deep/ core-icon[role=img] {
 
 .powered-by-link:visited {
     color: inherit;
+}
+
+.powered-by-link:hover {
+    text-decoration: underline;
 }
 
 :host /deep/ article,

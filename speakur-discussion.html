@@ -16,7 +16,7 @@ a dedicated server.
 
     <speakur-discussion
         xtitle="12 Crazy Tricks That Cable Companies Hate!"
-        theme="dark"
+        theme="speakur-theme-blue"
         moderator="example_moderator_1">
     </speakur-discussion>
 
@@ -59,16 +59,19 @@ https://github.com/Polymer/core-component-page/issues/7
         <link rel="stylesheet" href="speakur-discussion.css"/>
 
         <!-- probably should be a better way to do this...? -->
-        <template if="{{ theme == 'speakur-theme-grey'}}">
-            <core-style ref="speakur-theme-grey"></core-style>
+        <template if="{{ !theme || theme == 'speakur-theme-grey'}}">
+            <speakur-theme-grey></speakur-theme-grey>
         </template>
         <template if="{{ theme == 'speakur-theme-blue'}}">
-            <core-style ref="speakur-theme-blue"></core-style>
+            <speakur-theme-blue></speakur-theme-blue>
         </template>
         <template if="{{ theme == 'speakur-theme-red'}}">
-            <core-style ref="speakur-theme-red"></core-style>
+            <speakur-theme-red></speakur-theme-red>
         </template>
+        <core-style ref="speakur-theme"></core-style>
 
+        <!--Doesn't work: http://stackoverflow.com/questions/28834545/switching-themes-with-polymer-core-style-->
+        <!--<core-style ref="speakur-theme"></core-style>&ndash;&gt;-->
 
         <div id="speakur-container" class="speakur-container {{ closed ? 'closed' : '' }}">
 
@@ -210,3 +213,4 @@ https://github.com/Polymer/core-component-page/issues/7
     }
 </core-style>
 <core-style ref="speakur-discussion"></core-style>
+<core-style ref="speakur-theme-page"></core-style>

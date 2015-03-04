@@ -11,7 +11,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <polymer-element
     name="speakur-card"
     extends="speakur-base"
-    attributes="collapsible shadowZ curved wideHeader">
+    attributes="collapsible shadowZ curved wideHeader level">
     <template>
         <style>
 
@@ -52,7 +52,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 <article vertical layout>
                     <template if="{{showheader}}">
                         <!--remove self-start to have header expand to entire...-->
-                        <header self-start?="{{ !wideHeader }}" class="card card-header {{ {'curved-header': curved} | tokenList }}" on-click="{{toggleCard}}">
+                        <header
+                            self-start?="{{ !wideHeader }}"
+                            class="card card-header {{headerClass(level)}} {{ {'curved-header': curved} | tokenList }}"
+                            on-click="{{toggleCard}}">
                             <content id="header" select=".header"></content>
                         </header>
                     </template>
@@ -99,6 +102,19 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 showfooter: {
                     value: false,
                     reflect: true
+                }
+            },
+
+            headerClass: function (level) {
+                var modlevel = level % 4;
+                if (modlevel == 0) {
+                    return 'st-primary-dark header-indent-' + modlevel;
+                } else if (modlevel == 2) {
+                    return 'st-primary header-indent-' + modlevel;
+                } else if (modlevel == 3) {
+                    return 'st-accent header-indent-' + modlevel;
+                } else {
+                    return 'st-primary-light header-indent-' + modlevel;
                 }
             },
 

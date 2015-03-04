@@ -1,0 +1,135 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../core-style/core-style.html">
+
+
+<polymer-element
+    name="speakur-theme"
+    extends="speakur-base">
+    <template>
+        <core-style id="speakur-theme">
+        :host /deep/ .speakur-container {
+            border-width: 0;
+             background-color: transparent;
+            /*background-color: {{ textSecBg }};*/
+            color: {{ textSec }};
+        }
+
+        :host .speakur-body-container {
+            border-width: 0;
+        }
+
+        :host speakur-toolbar /deep/ .toolbar-border {
+
+            background-color: {{ primary }};
+            color: {{ primaryText }};
+            border-color: {{ primaryDark }};
+
+        }
+
+        :host speakur-toolbar /deep/ .speakur-header-titlebox {
+            text-shadow: 1px 1px rgba(20, 20, 22, 0.10);
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        :host /deep/ .speakur-close-button {
+            color: {{ primaryLight }};
+        }
+
+        :host /deep/ core-image.profile-img {
+            border-radius: 50%;
+            border: 2px rgba(108, 122, 127, 0.3) solid; /* color! */
+            border-color: {{ primaryDark }};
+            background-color: {{ primaryLightA }};
+        }
+
+        :host /deep/ textarea, :host /deep/ textarea.form-control {
+            background-color: {{ textSecBg }};
+            color: {{ textSec }};
+        }
+
+        :host /deep/ #helpbutton {
+            color: blue;
+        }
+
+        :host /deep/ #reportbutton {
+            color: rgba(252, 247, 36, 0.89);
+        }
+
+        /*  http://www.materialpalette.com/grey/blue-grey  */
+
+        :host /deep/ .st-primary-dark {
+            background-color: {{primaryDark}};
+            color: {{ primaryDarkText }};
+        }
+
+        :host /deep/ .st-primary {
+            background-color: {{primary}};
+            color: {{ primaryText }};
+        }
+
+        :host /deep/ .st-primary-light {
+            background-color: {{primaryLight}};
+            color: {{ primaryLightText }};
+        }
+
+        :host /deep/ .st-icons {
+            background-color: {{ divider }};
+            color: {{ icons }};
+        }
+
+        :host /deep/ .st-accent {
+            background-color: {{accent}};
+            color: {{ accentText }};
+        }
+
+        :host /deep/ .st-text {
+            background-color: {{textBg}};
+            color: {{text}};
+        }
+
+        :host /deep/ .st-text-sec {
+            background-color: {{textSecBg}};
+            color: {{textSec}};
+        }
+
+        :host /deep/ .st-divider {
+            color: {{divider}};
+        }
+        </core-style>
+
+        <!-- stuff that must be applied at the page level -->
+        <core-style id="speakur-theme-page">
+            html /deep/ paper-dropdown.speakur-paper-dropdown,
+            html /deep/ paper-dialog.speakur-dialog
+            {
+                background-color: {{ textSecBg }};
+                color: {{ textSec }};
+            }
+
+            html /deep/ #speakur-toast {
+                background-color: {{ accent }};
+                color: {{ accentText }};
+            }
+
+        </core-style>
+    </template>
+    <script>
+        Polymer({
+            primaryDark: '#616161',
+            primary: '#9E9E9E',
+            primaryLight: '#F5F5F5',
+            background: '#212121',
+            accent: '#607D8B',
+            text: '#212121',
+            textSec: '#727272',
+            divider: '#B6B6B6'
+        });
+    </script>
+</polymer-element>

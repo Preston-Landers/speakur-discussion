@@ -76,8 +76,16 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     </core-collapse>
                 </div>
                 <div flex class="post-card-container">
+
                     <!--<speakur-card id="card" collapsible="true" curved="true" wideHeader="false" shadowZ="0">-->
-                    <speakur-card id="card" collapsible="true" curved="true" wideHeader="true" shadowZ="0">
+                    <speakur-card
+                        id="card"
+                        collapsible="true"
+                        curved="true"
+                        wideHeader="true"
+                        shadowZ="0"
+                        level="{{level}}">
+
                         <style>
 
                             .edited-time {
@@ -116,7 +124,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                                 {{ 'Preview' | $$(lc) }}
                             </template>
                             <template if="{{ !previewing }}">
-                                <speakur-author-slug showPicture="false" author="{{post.author}}"></speakur-author-slug>
+
+                                <speakur-author-slug
+                                    showPicture="false"
+                                    author="{{post.author}}"></speakur-author-slug>
+
                                 <div class="netVotesTitleDisplay">
                                     {{netVotesText}}
                                 </div>
