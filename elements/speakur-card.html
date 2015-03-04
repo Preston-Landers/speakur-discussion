@@ -107,15 +107,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             headerClass: function (level) {
                 var modlevel = level % 4;
-                if (modlevel == 0) {
-                    return 'st-primary-dark header-indent-' + modlevel;
-                } else if (modlevel == 2) {
-                    return 'st-primary header-indent-' + modlevel;
-                } else if (modlevel == 3) {
-                    return 'st-accent header-indent-' + modlevel;
-                } else {
-                    return 'st-primary-light header-indent-' + modlevel;
-                }
+                return 'header-indent-' + modlevel;
             },
 
             toggleCard: function (e) {
