@@ -13,7 +13,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="../../paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../../paper-dropdown/paper-dropdown.html">
 <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../pvc-globals/pvc-globals.html">
 
 <link rel="import" href="speakur-author-img.html">
 
@@ -44,7 +43,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     margin-right: 8px;
                 }
         </core-style>
-        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
 
         <!-- duplicating the whole structure is the only way it seems to accommodate dynamic size changes due to login/logout status? -->
         <paper-menu-button halign="right" hidden?="{{ !statusKnown || !user }}">

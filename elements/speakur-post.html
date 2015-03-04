@@ -10,7 +10,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <link rel="import" href="../../firebase-element/firebase-element.html">
 <link rel="import" href="../../marked-element/marked-element.html">
 <link rel="import" href="../../highlightjs-element/highlightjs-element.html">
-<link rel="import" href="../../pvc-globals/pvc-globals.html">
 <link rel="import" href="../../core-collapse/core-collapse.html">
 
 <link rel="import" href="speakur-author-img.html">
@@ -44,7 +43,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             }
 
         </style>
-        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <speakur-post-vote
             id="vote"
             uid="{{globals.currentUser.uid}}"
@@ -430,7 +428,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 // TODO: see comment in speakur-base
                 "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
                 "anon_name": "'Anonymous' | $$(globals.currentLocale ? globals.currentLocale : 'en')"
-            },
+            }
 
         });
     </script>

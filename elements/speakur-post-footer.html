@@ -6,7 +6,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 -->
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../core-icon/core-icon.html">
-<link rel="import" href="../../pvc-globals/pvc-globals.html">
 
 <!--
     Present a UI for the post display footer with actions like vote, edit, delete, etc.
@@ -66,7 +65,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 opacity: 0.2;
             }
         </style>
-        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <div horizontal center layout class="speakur-post-toolbar" hidden?="{{ post.deleted }}">
             <div class="vote-block">
                 <div class="vote-up-block">

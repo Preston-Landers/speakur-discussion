@@ -5,12 +5,10 @@ The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
 -->
 <link rel="import" href="../../../polymer/polymer.html">
-<link rel="import" href="../../../pvc-globals/pvc-globals.html">
-
+<link rel="import" href="../../imports/bootstrap.partial.html">
 <link rel="import" href="speakur-dialog.html">
 <link rel="import" href="speakur-lang-select.html">
 <link rel="import" href="speakur-theme-select.html">
-<link rel="import" href="../../imports/bootstrap.partial.html">
 
 <!--
 
@@ -24,7 +22,6 @@ you hit save like the rest of the profile.  Or at least make cancel undo it.
     attributes="profile">
 
     <template>
-        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
         <speakur-dialog
             unsavedChanges="{{unsavedChanges}}"
             okButton="{{ 'Save Changes' | $$(lc) }}"
@@ -105,9 +102,7 @@ you hit save like the rest of the profile.  Or at least make cancel undo it.
 
                 </form>
             </div>
-
         </speakur-dialog>
-
 
     </template>
     <script>

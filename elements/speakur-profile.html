@@ -5,7 +5,6 @@ The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
 -->
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../../pvc-globals/pvc-globals.html">
 <link rel="import" href="../../firebase-element/firebase-element.html">
 <polymer-element
     name="speakur-profile"
@@ -16,7 +15,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                           data="{{profile}}"></firebase-element>
         <firebase-element id="admins" location="{{ fbLocation(firebaseLocation, 'admins', uid) }}"
                           data="{{admins}}"></firebase-element>
-        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
     </template>
     <script>
         (function () {
