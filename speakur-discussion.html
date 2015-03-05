@@ -96,7 +96,6 @@ https://github.com/Polymer/core-component-page/issues/7
                 id="profileEditDialog">
             </speakur-dialog-profile-edit>
 
-            <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
             <speakur-i18next id="si18next" locale="{{ currentLocale }}"></speakur-i18next>
 
             <!-- structural elements -->
@@ -104,13 +103,12 @@ https://github.com/Polymer/core-component-page/issues/7
                 <speakur-toolbar class="speakur-header-bar {{ closed ? 'speakur-header-bar-closed' : '' }}">
                     <template if="{{ closed }}">
                         <paper-icon-button
-                                if="{{ closed }}"
                                 icon="speaker-notes"
                                 title="{{ 'Close' | $$(lc) }}"
                                 on-click="{{toggle}}">
                         </paper-icon-button>
                         <paper-button flex on-click="{{toggle}}" class="speakur-toggle-button">
-                            {{ 'View Comments' | $$(lc) }} ({{postIds.length}})
+                            {{ 'View Comments' | $$(lc) }} ({{ $.threadView.replyCountDeep }})
                         </paper-button>
                         <speakur-login-button
                             style="margin-right: 6px;"

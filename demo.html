@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <!--
 Copyright (c) 2015 Preston Landers. All rights reserved.
 This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
@@ -26,17 +26,23 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <p>This page represents some web content such as an article, a blog post, or any other resource with a URL. It can be a
     either a static resource or a place within a dynamic web app.</p>
 
+<P>The reason this page uses Comic Sans font is mainly to test that Speakur is largely independent of the page style.</P>
+
 <p>Inside the page we wish to embed a discussion forum so users can post their reactions, feedback, etc. That is where
     Speakur comes in. It provides an easily embeddable discussion forum by providing a custom HTML tag that can be
     inserted anywhere in the page.</p>
 
 <div>
-    Here's an example of how it works:
+    <p>
+        Here's an example of how it works:
+    </p>
 </div>
 
-<div style="margin: 20px;">
-    <speakur-discussion theme="speakur-theme-red" initiallyOpen="true">
-        Your custom footer goes here
+
+<!--margin: 20px;-->
+<div style="">
+    <!--theme="speakur-theme-red" initiallyOpen="true"-->
+    <speakur-discussion initiallyOpen="true">
     </speakur-discussion>
 </div>
 

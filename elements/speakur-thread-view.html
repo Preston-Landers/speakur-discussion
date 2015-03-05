@@ -17,7 +17,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <polymer-element
     name="speakur-thread-view"
     extends="speakur-base"
-    attributes="firebaseLocation threadId postCount sortOrder">
+    attributes="firebaseLocation threadId sortOrder replyCount replyCountDeep">
     <template>
         <style>
             #header > div {
@@ -112,6 +112,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             </header>
 
             <speakur-post-set
+                id="topLevelPosts"
                 firebaseLocation="{{firebaseLocation}}"
                 level="0"
                 sortOrder="{{sortOrder}}"
@@ -137,7 +138,17 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             favoriteToggle: function () {
                 this.fire('not-yet-implemented');
+            },
+
+            computed: {
+                'replyCount': '$.topLevelPosts.postCount',
+                'replyCountDeep': '$.topLevelPosts.postCountDeep',
+
+                // COPIED FROM BASE! https://github.com/Polymer/polymer/issues/933
+                "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
+                "anon_name": "'Anonymous' | $$(globals.currentLocale ? globals.currentLocale : 'en')"
             }
+
 
         });
     </script>

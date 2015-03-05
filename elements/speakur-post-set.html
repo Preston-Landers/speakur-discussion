@@ -11,14 +11,16 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <polymer-element 
     name="speakur-post-set"
     extends="speakur-base"
-    attributes="threadId parentId level firebaseLocation posts postIds sortOrder">
+    attributes="threadId parentId level firebaseLocation posts postIds sortOrder postCount postCountDeep">
     <template>
         <style>
         </style>
 
+        <!--on-child-removed="{{childRemoved}}"-->
+        <!--on-child-added="{{childAdded}}"-->
+
         <firebase-element
             childEvents
-            on-child-removed="{{childRemoved}}"
             id="dbPosts" location="{{fbLocation(firebaseLocation, 'posts', parentId)}}"
             data="{{posts}}" keys="{{postIds}}"></firebase-element>
         <firebase-element
@@ -32,25 +34,36 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             </div>
         </template>
 
+        <div id="postListContainer">
         <template if="{{posts && postIds.length}}" repeat="{{postId in sortedPostIds(postIds, sortOrder)}}">
             <speakur-post
                 firebaseLocation="{{firebaseLocation}}"
                 threadId="{{threadId}}"
                 parentId="{{parentId}}"
                 sortOrder="{{sortOrder}}"
+                on-reply-count-changed="{{childPostCountUpdated}}"
+                on-post-removed="{{childPostRemoved}}"
+                id="{{postId}}"
                 level="{{level}}"
                 postId="{{postId}}">
             </speakur-post>
         </template>
+        </div>
 
     </template>
     <script>
         Polymer({
             level: 0,
+/*
             childRemoved: function (event) {
                 this.log('child removed ', event.detail.name, ':', event.detail.value);
                 // this.fire('data-changed');
             },
+            childAdded: function (event) {
+                this.log('child added ', event.detail.name, ':', event.detail.value);
+                // this.fire('data-changed');
+            },
+*/
             voteOrderKey: function (sortOrder) {
                 if (sortOrder === 'low') {
                     return 'down';
@@ -129,7 +142,45 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 var sortedIds = _.pluck(voteSorted, 'id');
                 // console.log("plucked", sortedIds);
                 return sortedIds;
+            },
+
+            computed: {
+                'postCount': 'postIds.length ? postIds.length : 0'
+            },
+
+            ready: function () {
+                this.postCountDeep = 0;
+                this.postCount = 0;
+            },
+
+            getPostCountDeep: function () {
+                var deepCount = 0;
+                var postEls = this.$.postListContainer.querySelectorAll("speakur-post");
+                _.forEach(postEls, function (postEl, idx, col) {
+                    var thisCount = postEl.getPostCountDeep();
+                    // console.log("getPostCountDeep: ", postEl, " count: ", thisCount);
+                    deepCount += thisCount;
+                });
+                this.postCountDeep = deepCount + this.postCount;
+                return this.postCountDeep;
+            },
+
+            postIdsChanged: function (oldval, newval) {
+                this.postCount = newval.length;
+                console.log(this.parentId + " telling parent I have " + this.postCount + " replies. ");
+                this.fire('reply-count-changed', {
+                    parentId: this.parentId,
+                    count: newval.length,
+                    postIds: newval
+                });
+            },
+
+            childPostCountUpdated: function (e, detail, send) {
+                // A child (direct or indirect) has informed us that their posts changed
+                // so recalculate our deep post count and allow this event to continue to propagate up
+                this.getPostCountDeep();
             }
+
         });
     </script>
 </polymer-element>

@@ -23,7 +23,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <polymer-element
     name="speakur-post"
     extends="speakur-base"
-    attributes="firebaseLocation threadId parentId postId previewing previewText previewingEdit level sortOrder">
+    attributes="firebaseLocation threadId parentId postId previewing previewText previewingEdit level sortOrder replyCount replyCountDeep parentCounts">
     <template>
         <link rel="stylesheet" href="../../highlightjs/styles/default.css">
         <style>
@@ -114,6 +114,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             }
 
                         </style>
+
+                        <!-- post HEADER -->
                         <div layout horizontal center class="header">
                             <template if="{{ previewing && previewingEdit}}">
                                 {{ 'preview_edit_post' | $$(lc) }}
@@ -129,6 +131,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
                                 <div class="netVotesTitleDisplay">
                                     {{netVotesText}}
+                                </div>
+                                <div class="replyInfo">
+                                    {{ formatReplyHeader(replyCount, replyCountDeep, lc) }}
                                 </div>
                                 <div class="post-time" title="{{post.timestamp | formatTimestamp(lc) }}">
                                     <time>
@@ -146,6 +151,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                                 </template>
                             </template>
                         </div>
+
+                        <!-- post BODY -->
                         <div class="body" on-marked-js-highlight="{{hilight}}">
                             <template if="{{ !post.deleted && !isCollapsed }}">
                                 <marked-element
@@ -158,6 +165,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                                 </div>
                             </template>
                         </div>
+
+                        <!-- post FOOTER -->
                         <template if="{{!previewing}}">
                             <speakur-post-footer
                                 id="postFooter"
@@ -405,6 +414,26 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             },
 
+            getPostCountDeep: function () {
+                // Pass this method through to the reply set
+                return this.$.replySet.getPostCountDeep();
+            },
+
+            formatReplyHeader: function (replies, repliesDeep, lc) {
+                // XXX TODO: localize
+                if (!replies) return '';
+                var replyTxt;
+                if (replies === 1) {
+                    replyTxt = '1 reply';
+                } else {
+                    replyTxt = replies + ' replies';
+                }
+                if (repliesDeep > replies) {
+                    return replyTxt + ' (+' + (repliesDeep - replies) + ' more)';
+                }
+                return replyTxt;
+            },
+
             eventDelegates: {
                 'reply-to-post': 'replyToPost',
                 'edit-post': 'editPost',
@@ -424,6 +453,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 'netVotesText': 'getNetVotesText(postVotes, $.vote.votedUp, $.vote.votedDown)',
                 'indentWidthForLevel': 'level+1 * indentWidth',
                 'indentClass': '"indent-" + ( ( ( level ) % 3 ) + 1)',
+                'replyCount': '$.replySet.postCount',
+                'replyCountDeep': '$.replySet.postCountDeep',
 
                 // TODO: see comment in speakur-base
                 "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
