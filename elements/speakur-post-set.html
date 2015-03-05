@@ -167,7 +167,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             postIdsChanged: function (oldval, newval) {
                 this.postCount = newval.length;
-                console.log(this.parentId + " telling parent I have " + this.postCount + " replies. ");
+                // console.log(this.parentId + " telling parent I have " + this.postCount + " replies. ");
                 this.fire('reply-count-changed', {
                     parentId: this.parentId,
                     count: newval.length,

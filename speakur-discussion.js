@@ -281,12 +281,14 @@
             this.setThreadIdFromHref();
         },
 
+/*
         threadIdChanged: function (oldValue, newValue) {
             this.log("Thread ID was changed from " + oldValue + " to ->" + newValue);
         },
+*/
 
         threadChanged: function () {
-            this.log("Thread changed. ", this.$.dbThread.location, " thread ID: ", this.threadId);
+            // this.log("Thread changed. ", this.$.dbThread.location, " thread ID: ", this.threadId);
             if (this.threadId && !this.thread) {
                 // Create a default thread description.
                 var new_thread = {
@@ -309,7 +311,7 @@
                 this.thread = new_thread;
                 this.log("Created new thread for " + this.href + " -> " + this.thread);
             } else {
-                this.log("this.thread -> ", this.thread);
+                // this.log("this.thread -> ", this.thread);
             }
 
         },
@@ -320,7 +322,7 @@
         },
 
         login: function () {
-            this.log('LOGIN!');
+            // this.log('LOGIN!');
             this.$.speakurLoginDialog.toggle();
         },
 

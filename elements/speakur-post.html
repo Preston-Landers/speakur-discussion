@@ -378,16 +378,28 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             },
 
             voteUp: function (e) {
-                // this.fire('not-yet-implemented');
-                this.$.vote.voteUp();
                 e.stopPropagation();
+                if (!this.checkIfCanVote()) {
+                    return false;
+                }
+                this.$.vote.voteUp();
 
             },
 
             voteDown: function (e) {
-                // this.fire('not-yet-implemented');
-                this.$.vote.voteDown();
                 e.stopPropagation();
+                if (!this.checkIfCanVote()) {
+                    return false;
+                }
+                this.$.vote.voteDown();
+            },
+
+            checkIfCanVote: function () {
+                if (!this.globals.profile) {
+                    this.toast("You must be signed in to vote.");
+                    this.fire('loginButtonPressed');
+                    return false;
+                }
             },
 
             childPostDeleted: function (e, detail, sender) {

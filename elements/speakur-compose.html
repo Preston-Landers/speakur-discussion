@@ -34,6 +34,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 font-size: 90%;
                 font-weight: bold;
             }
+
+            .preview-hr {
+                border: 1px dashed #b6b0b9;
+            }
         </style>
         <firebase-element
             id="posts" data="{{posts}}"
@@ -102,6 +106,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             previewingEdit="{{editing}}"
                             previewing="true">
                         </speakur-post>
+                        <hr class="preview-hr"/>
                     </div>
                 </template>
             </div>
