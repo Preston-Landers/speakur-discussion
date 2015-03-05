@@ -202,16 +202,14 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 <core-collapse opened id="extraCollapse">
                     <div _style="margin-left: {{indentWidthForLevel}}px;">
 
-                        <template if="{{ canEditPost(post, globals.profile, globals.isAdmin) }}">
-                            <speakur-compose
-                                id="editCompose"
-                                threadId="{{threadId}}"
-                                replyTo="{{ editReplyTo }}"
-                                editing="{{ editId }}"
-                                hidden?="{{!showingEdit}}"
-                                firebaseLocation="{{firebaseLocation}}">
-                            </speakur-compose>
-                        </template>
+                        <speakur-compose
+                            id="editCompose"
+                            threadId="{{threadId}}"
+                            replyTo="{{ editReplyTo }}"
+                            editing="{{ editId }}"
+                            hidden?="{{!showingEdit}}"
+                            firebaseLocation="{{firebaseLocation}}">
+                        </speakur-compose>
 
                         <speakur-compose
                             id="replyCompose"
@@ -227,8 +225,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             sortOrder="{{sortOrder}}"
                             level="{{level + 1}}"
                             parentId="{{postId}}"
-                            threadId="{{threadId}}"
-                            ></speakur-post-set>
+                            threadId="{{threadId}}">
+                        </speakur-post-set>
 
                     </div>
                 </core-collapse>
@@ -301,6 +299,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             replyToPost: function (e) {
                 this.showingReply = !this.showingReply;
+                var that = this;
+                this.async(function () {
+                    that.$.replyCompose.focus();
+                });
 
                 // Need to stop the event b/c we're only replying to this, not all parent posts.
                 e.stopPropagation();
@@ -339,6 +341,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 } else {
                     this.editReplyTo = this.post.threadId;
                 }
+
+                var that = this;
+                this.async(function () {
+                    that.$.editCompose.focus();
+                });
 
                 // Need to stop the event b/c we're only editing this, not all parent posts.
                 e.stopPropagation();
