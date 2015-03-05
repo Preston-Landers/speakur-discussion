@@ -12,6 +12,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     name="speakur-theme"
     extends="speakur-base">
     <template>
+
         <core-style id="speakur-theme">
         :host /deep/ .speakur-container {
             border-width: 0;
@@ -19,6 +20,16 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             /*background-color: {{ textSecBg }};*/
             color: {{ textSec }};
         }
+
+        :host .speakur-container {
+            font-family: {{ fontFamily }};
+            font-size: {{ fontSize }};
+        }
+
+        :host /deep/ .post-body {
+            font-size: {{ fontSizePost }};
+        }
+
 
         :host .speakur-body-container {
             border-width: 0;
@@ -34,7 +45,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
         :host speakur-toolbar /deep/ .speakur-header-titlebox {
             text-shadow: 1px 1px rgba(20, 20, 22, 0.10);
-            font-size: 1.1em;
+            font-size: 1.2em;
             font-weight: bold;
         }
 
@@ -129,29 +140,61 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
         <!-- stuff that must be applied at the page level -->
         <core-style id="speakur-theme-page">
-            html /deep/ paper-dropdown.speakur-paper-dropdown,
-            html /deep/ paper-dialog.speakur-dialog
-            {
-                background-color: {{ textSecBg }};
-                color: {{ textSec }};
-            }
 
-            html /deep/ #speakur-toast {
-                background-color: {{ accent }};
-                color: {{ accentText }};
-            }
+        html /deep/ paper-dropdown.speakur-paper-dropdown,
+        html /deep/ paper-dialog.speakur-dialog
+        {
+            background-color: {{ textSecBg }};
+            color: {{ textSec }};
+            font-family: {{ fontFamily }};
+            font-size: {{ fontSize }};
+        }
+
+        html /deep/ #speakur-toast {
+            background-color: {{ accent }};
+            color: {{ accentText }};
+            min-width: 250px;
+        }
 
         </core-style>
     </template>
     <script>
         Polymer({
+            fontFamily: '"RobotoDraft", "Calibri", Helvetica, Arial, sans-serif',
+//            fontSize: "12px",
+//            fontSizePost: "13px",
+            fontSize: "0.8em",
+            fontSizePost: "1.1em",
+
             primaryDark: '#616161',
+            primaryDarkText: '#F5F5F5',
+
             primary: '#9E9E9E',
+            primaryText: '#F5F5F5',
+
+            primaryA0: 'rgba(97, 97, 97, 0.8)',
+            primaryA0T: '#F5F5F5',
+            primaryA1: 'rgba(97, 97, 97, 0.65)',
+            primaryA1T: '#F5F5F5',
+            primaryA2: 'rgba(97, 97, 97, 0.4)',
+            primaryA2T: '#212121',
+            primaryA3: 'rgba(97, 97, 97, 0.15)',
+            primaryA3T: '#212121',
+
             primaryLight: '#F5F5F5',
-            background: '#212121',
+            primaryLightText: '#212121',
+            primaryLightA: 'rgba(244, 244, 244, 0.4)',
+
+            icons: '#212121',
             accent: '#607D8B',
+            accentText: '#f5f5f5',
+
             text: '#212121',
-            textSec: '#727272',
+            textBg: '#f5f5f5',
+
+            textSec: '#646464',
+            textSecBg: '#f5f5f5',
+
             divider: '#B6B6B6'
         });
     </script>

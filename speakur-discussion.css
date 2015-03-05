@@ -11,9 +11,6 @@
     display: block;
     opacity: 1;
     transition: opacity 300ms;
-
-    font-family: "RobotoDraft", "Calibri", Helvetica, Arial, sans-serif;
-    font-size: 13px;
 }
 
 :host:unresolved {

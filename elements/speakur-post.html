@@ -37,10 +37,27 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 padding-bottom: 0;
             }
 
+            speakur-card /deep/ .card-header {
+                font-size: 0.95em;
+            }
+
             .post-author-img {
                 padding: 0;
                 margin: 0;
             }
+
+
+            speakur-author-slug {
+                margin-left: 4px;
+                margin-right: 18px;
+            }
+
+            speakur-author-slug /deep/ .username {
+                /*text-shadow: 1px 1px rgba(20, 20, 22, 0.10);*/
+                font-weight: bold;
+                font-size: 1.15em;
+            }
+
 
         </style>
         <speakur-post-vote
@@ -100,17 +117,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                                 font-size: 0.85em;
                             }
 
-                            speakur-author-slug {
-                                margin-left: 4px;
-                                margin-right: 18px;
-                            }
-
-                            speakur-author-slug /deep/ .username {
-                                /*margin-right: 12px;*/
-                                font-weight: bold;
-                                text-shadow: 1px 1px rgba(20, 20, 22, 0.10);
-                            }
-
                             .deleted-post-body {
                                 padding-top: 14px;
                                 padding-bottom: 12px;
@@ -168,7 +174,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         </div>
 
                         <!-- post BODY -->
-                        <div class="body" on-marked-js-highlight="{{hilight}}">
+                        <div class="body post-body" on-marked-js-highlight="{{hilight}}">
                             <template if="{{ !post.deleted && !isCollapsed }}">
                                 <marked-element
                                     text="{{previewing ? ( previewText ? previewText : '' ) : post.text}}">

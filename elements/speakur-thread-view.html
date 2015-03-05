@@ -25,8 +25,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 font-size: 1.1em;
             }
 
-            #header h1.thread-title {
-                font-size: 1.15em;
+            #header .thread-title {
+                font-size: 1.2em;
+                font-weight: bold;
             }
 
             #header .thread-favorite paper-icon-button {
@@ -70,10 +71,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         title="Favorite">
                     </paper-icon-button>
                 </div>
-                <div style="max-width: 45em;">
-                    <h1 class="thread-title">
-                        {{thread.title}}
-                    </h1>
+                <div style="max-width: 35em;" class="thread-title">
+                    {{thread.title}}
                 </div>
                 <div class="thread-link">
                     <small>
