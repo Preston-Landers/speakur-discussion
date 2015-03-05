@@ -59,6 +59,8 @@
     "public_bio_placeholder": "सार्वजनिक जैव या अपने बारे में...",
     "public_link_placeholder": "सार्वजनिक लिंक - अपने ब्लॉग या साइट यहाँ",
     "publish_comment_title": "टिप्पणी प्रकाशित करें",
+    "replies": "जवाब है",
+    "reply": "उत्तर दें",
     "reply_to_comment": "उत्तर टिप्पणी करने के लिए",
     "report_a_problem": "एक समस्या की रिपोर्ट।",
     "report_spam_title": "रिपोर्ट स्पैम, उत्पीड़न या गैरकानूनी सामग्री।",
@@ -77,6 +79,7 @@
     "theme_grey": "Greyscale",
     "theme_red": "लाल",
     "theme_title": "अपनी शैली चुनें।",
+    "total": "कुल",
     "undo_changes_title": "परिवर्तन - रीसेट करें पाठ मूल करने के लिए पूर्ववत् करें",
     "vote_down_title": "नहीं एक 'Disagree' बटन!",
     "vote_up_title": "चर्चा करने के लिए कहते हैं"

@@ -59,6 +59,8 @@
   "public_bio_placeholder": "Public bio or about yourself...",
   "public_link_placeholder": "Public link - your blog or site here",
   "publish_comment_title": "Publish Comment",
+  "reply": null,
+  "replies": null,
   "reply_to_comment": "Reply to comment",
   "report_a_problem": "Report a problem.",
   "report_spam_title": "Report spam, harassment or illegal content.",
@@ -77,6 +79,7 @@
   "theme_grey": "Greyscale",
   "theme_blue": "Blue",
   "theme_red": "Red",
+  "total": null,
   "undo_changes_title": "Undo changes - reset text to original",
   "vote_down_title": "Not a 'Disagree' button!",
   "vote_up_title": "Adds to discussion"

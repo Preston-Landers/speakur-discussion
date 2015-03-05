@@ -59,6 +59,8 @@
     "public_bio_placeholder": "公共生物或关于你自己...",
     "public_link_placeholder": "公共链路-您的博客或网站在这里",
     "publish_comment_title": "发表评论",
+    "replies": "答复",
+    "reply": "答复",
     "reply_to_comment": "回复评论",
     "report_a_problem": "报告的问题。",
     "report_spam_title": "报告垃圾邮件、 骚扰或非法内容。",
@@ -77,6 +79,7 @@
     "theme_grey": "灰度",
     "theme_red": "红色",
     "theme_title": "选择你的风格。",
+    "total": "总计",
     "undo_changes_title": "撤消更改-重置为原始文本",
     "vote_down_title": "不是一个 '不同意' 按钮 ！",
     "vote_up_title": "将添加到讨论"

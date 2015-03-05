@@ -59,6 +59,8 @@
     "public_bio_placeholder": "الحيوية العامة أو عن نفسك...",
     "public_link_placeholder": "الارتباط العام-الخاص بك بلوق أو الموقع هنا",
     "publish_comment_title": "نشر التعليق",
+    "replies": "الردود",
+    "reply": "الرد",
     "reply_to_comment": "رد على التعليق",
     "report_a_problem": "الإبلاغ عن مشكلة.",
     "report_spam_title": "تقرير البريد المزعج أو المضايقة أو محتوى غير قانوني.",
@@ -77,6 +79,7 @@
     "theme_grey": "اللون الرمادي",
     "theme_red": "الأحمر",
     "theme_title": "اختر النمط الخاص بك.",
+    "total": "المجموع",
     "undo_changes_title": "التراجع عن التغييرات--إعادة تعيين النص إلى النص الأصلي",
     "vote_down_title": "لا على زر 'أوافق'!",
     "vote_up_title": "إضافة إلى مناقشة"

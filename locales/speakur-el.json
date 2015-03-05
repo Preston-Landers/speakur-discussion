@@ -56,6 +56,8 @@
     "public_bio_placeholder": "Δημόσια βιο ή για τον εαυτό σας...",
     "public_link_placeholder": "Κοινό σύνδεσμο - σας blog ή site εδώ",
     "publish_comment_title": "Δημοσίευση σχόλιο",
+    "replies": "απαντήσεις",
+    "reply": "απάντηση",
     "reply_to_comment": "Απάντηση στο σχόλιο",
     "report_a_problem": "Αναφέρετε ένα πρόβλημα.",
     "report_spam_title": "Έκθεση spam, παρενόχλησης ή παράνομο περιεχόμενο.",
@@ -74,6 +76,7 @@
     "theme_grey": "Αποχρώσεις του γκρι",
     "theme_red": "Κόκκινο",
     "theme_title": "Επιλέξτε το στυλ σας.",
+    "total": "συνολικά",
     "undo_changes_title": "Αναίρεση αλλαγών - κείμενο επαναφορά στην αρχική",
     "vote_down_title": "Δεν είναι ένα κουμπί «Διαφωνώ»!",
     "vote_up_title": "Προσθέτει στη συζήτηση"

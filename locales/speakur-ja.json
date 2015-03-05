@@ -57,6 +57,8 @@
     "public_bio_placeholder": "公共のバイオや自分自身について.",
     "public_link_placeholder": "公共リンク - あなたのブログやサイトはこちら",
     "publish_comment_title": "コメントを公開します。",
+    "replies": "返信",
+    "reply": "返信",
     "reply_to_comment": "コメントに返信",
     "report_a_problem": "問題を報告します。",
     "report_spam_title": "迷惑メールを報告、嫌がらせや違法なコンテンツ。",
@@ -75,6 +77,7 @@
     "theme_grey": "グレースケール",
     "theme_red": "赤",
     "theme_title": "あなたのスタイルを選択します。",
+    "total": "合計",
     "undo_changes_title": "オリジナルにリセット テキストの変更を元に戻す",
     "vote_down_title": "「同意しない」ボタンではありません ！",
     "vote_up_title": "ディスカッションを追加します"

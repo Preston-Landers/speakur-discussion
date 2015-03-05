@@ -56,6 +56,8 @@
     "public_bio_placeholder": "Öffentliche Bio oder über sich selbst...",
     "public_link_placeholder": "Öffentliche Link - Ihrem Blog oder Ihrer Website hier",
     "publish_comment_title": "Kommentar zu veröffentlichen",
+    "replies": "Antworten",
+    "reply": "Antwort",
     "reply_to_comment": "Antwort auf Kommentar",
     "report_a_problem": "Melden Sie ein Problem.",
     "report_spam_title": "Melden von Spam, Belästigung oder illegale Inhalte.",
@@ -74,6 +76,7 @@
     "theme_grey": "Graustufen",
     "theme_red": "Rot",
     "theme_title": "Wählen Sie Ihren Stil.",
+    "total": "Gesamt",
     "undo_changes_title": "Rückgängigmachen von Änderungen - zurücksetzen Text Original",
     "vote_down_title": "Kein \"Stimme nicht zu\" Button!",
     "vote_up_title": "Diskussion hinzugefügt"

@@ -57,6 +57,8 @@
     "public_bio_placeholder": "Bio pública o sobre ti mismo...",
     "public_link_placeholder": "Enlace público - tu blog o sitio web aquí",
     "publish_comment_title": "Publicar comentario",
+    "replies": "respuestas",
+    "reply": "respuesta",
     "reply_to_comment": "Respuesta al comentario",
     "report_a_problem": "Informar de un problema.",
     "report_spam_title": "Informe spam, acoso o contenido ilegal.",
@@ -75,6 +77,7 @@
     "theme_grey": "En escala de grises",
     "theme_red": "Rojo",
     "theme_title": "Elija su estilo.",
+    "total": "Tova.",
     "undo_changes_title": "Deshacer los cambios - reset texto original",
     "vote_down_title": "No un botón 'Acepto'.",
     "vote_up_title": "Se suma a debate"

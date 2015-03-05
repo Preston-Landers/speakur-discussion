@@ -87,23 +87,26 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         <style>
 
                             .edited-time {
-                                margin-left: 6px;
-                                font-size: 0.9em;
+                                font-size: 0.95em;
                                 font-style: italic;
                             }
 
                             .post-time {
-                                font-size: 0.9em;
+                                font-size: 0.95em;
                                 font-style: italic;
                             }
 
                             .netVotesTitleDisplay {
-                                font-size: 0.8em;
-                                margin-right: 8px;
+                                font-size: 0.85em;
+                            }
+
+                            speakur-author-slug {
+                                margin-left: 4px;
+                                margin-right: 18px;
                             }
 
                             speakur-author-slug /deep/ .username {
-                                margin-right: 12px;
+                                /*margin-right: 12px;*/
                                 font-weight: bold;
                                 text-shadow: 1px 1px rgba(20, 20, 22, 0.10);
                             }
@@ -111,6 +114,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             .deleted-post-body {
                                 padding-top: 14px;
                                 padding-bottom: 12px;
+                            }
+
+                            .hdiv {
+                                margin-right: 16px;
                             }
 
                         </style>
@@ -129,19 +136,27 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                                     showPicture="false"
                                     author="{{post.author}}"></speakur-author-slug>
 
-                                <div class="netVotesTitleDisplay">
+                                <div class="netVotesTitleDisplay hdiv">
                                     {{netVotesText}}
                                 </div>
-                                <div class="replyInfo">
-                                    {{ formatReplyHeader(replyCount, replyCountDeep, lc) }}
+                                <div class="replyInfo hdiv">
+                                    <template if="{{replyCount == 1}}">
+                                        1 {{ 'reply' | $$(lc) }}
+                                    </template>
+                                    <template if="{{ replyCount > 1 }}">
+                                        {{replyCount}} {{ 'replies' | $$(lc) }}
+                                    </template>
+                                    <template if="{{ replyCountDeep > replyCount }}">
+                                        &mdash; {{replyCountDeep}} {{ 'total' | $$(lc) }}
+                                    </template>
                                 </div>
-                                <div class="post-time" title="{{post.timestamp | formatTimestamp(lc) }}">
+                                <div class="post-time hdiv" title="{{post.timestamp | formatTimestamp(lc) }}">
                                     <time>
                                         {{globals.updateTick && post.timestamp | formatTimestampFromAgo(lc) }}
                                     </time>
                                 </div>
                                 <template if="{{ post.lastModified && post.lastModified !== post.timestamp }}">
-                                    <div class="edited-time" title="{{post.lastModified | formatTimestamp(lc) }}">
+                                    <div class="edited-time hdiv" title="{{post.lastModified | formatTimestamp(lc) }}">
                                         &mdash;
                                         {{ 'Edited' | $$(lc) }}:
                                         <time>
@@ -417,21 +432,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             getPostCountDeep: function () {
                 // Pass this method through to the reply set
                 return this.$.replySet.getPostCountDeep();
-            },
-
-            formatReplyHeader: function (replies, repliesDeep, lc) {
-                // XXX TODO: localize
-                if (!replies) return '';
-                var replyTxt;
-                if (replies === 1) {
-                    replyTxt = '1 reply';
-                } else {
-                    replyTxt = replies + ' replies';
-                }
-                if (repliesDeep > replies) {
-                    return replyTxt + ' (+' + (repliesDeep - replies) + ' more)';
-                }
-                return replyTxt;
             },
 
             eventDelegates: {
