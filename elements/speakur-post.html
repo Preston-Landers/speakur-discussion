@@ -106,6 +106,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                             .edited-time {
                                 font-size: 0.95em;
                                 font-style: italic;
+                                margin-left: 14px;
                             }
 
                             .post-time {
@@ -162,8 +163,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                                     </time>
                                 </div>
                                 <template if="{{ post.lastModified && post.lastModified !== post.timestamp }}">
+                                    &mdash;
                                     <div class="edited-time hdiv" title="{{post.lastModified | formatTimestamp(lc) }}">
-                                        &mdash;
                                         {{ 'Edited' | $$(lc) }}:
                                         <time>
                                             {{globals.updateTick && post.lastModified | formatTimestampFromAgo(lc) }}
