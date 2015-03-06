@@ -157,6 +157,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             </div>
         </form>
     </template>
+
     <script>
         Polymer({
             // current text editing buffer
@@ -265,6 +266,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             submit: function () {
                 var that = this;
+                var is_anon = this.globals.profile ? false : true ;
+
                 if (!this.threadId) {
                     this.errorToast("Internal error: no threadId available.");
                     return false;
@@ -273,6 +276,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     this.errorToast(this.$$('pls_write_something'));
                     return false;
                 }
+
+                if (is_anon && !this.globals.allowAnonymous) {
+                    this.toast(this.$$('logged_in_to_post'));
+                    this.fire('loginButtonPressed');
+                    return false;
+                }
+
 
                 var author = this.getAuthor();
 
@@ -300,7 +310,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 this.fire('submitted-post', post);
 
                 // if logged in, record an upboat for yourself
-                if (this.globals.profile) {
+                if (!is_anon) {
                     this.async(function () {
                         that.$.vote.changeVoteStatus(true);
                     }, null, 100);
