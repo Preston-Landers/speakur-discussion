@@ -18,14 +18,14 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     <template>
         <style>
             .speakur-post-toolbar > div {
-                margin-right: 2em;
+                margin-right: 2.5em;
             }
 
             .speakur-post-toolbar > .report-post-button {
                 margin-right: 0;
                 margin-left: 30px;
                 /*font-size: 85%;*/
-                opacity: 0.6;
+                opacity: 0.7;
             }
 
             .vote-block {
@@ -65,6 +65,15 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             .not-voted {
                 opacity: 0.2;
+            }
+
+            .reply-img {
+                position: relative;
+                top: -1px;
+            }
+
+            .edit-post, .delete-post {
+                margin-top: 2px;
             }
 
             :host core-icon[role=img] {
@@ -126,7 +135,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             <div title="{{ 'reply_to_comment' | $$(lc) }}" on-click="{{replyToPost}}">
                 <core-image
                     sizing="110% 110%"
-                    class="report-flag-img footer-img"
+                    class="reply-img footer-img"
                     width="{{imgWidth}}"
                     height="{{imgHeight}}"
                     alt="flag"
@@ -137,13 +146,16 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             </div>
 
             <template if="{{canEditPost(post, globals.profile, globals.isAdmin)}}">
-                <div title="{{ 'edit_this_comment' | $$(lc) }}" on-click="{{editPost}}">
+                <div class="edit-post"
+                     title="{{ 'edit_this_comment' | $$(lc) }}" on-click="{{editPost}}">
 
+<!--
                     <core-icon
                         id="editIcon"
                         class="edit-icon"
                         icon="create">
                     </core-icon>
+-->
 
                     {{ 'Edit' | $$(lc) }}
                 </div>
@@ -151,12 +163,15 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             <template if="{{canDeletePost(post, globals.profile, globals.isAdmin)}}">
 
-                <div title="{{ 'delete_this_comment' | $$(lc) }}" on-click="{{deletePost}}">
+                <div class="delete-post"
+                     title="{{ 'delete_this_comment' | $$(lc) }}" on-click="{{deletePost}}">
+<!--
                     <core-icon
                         id="deleteIcon"
                         class="delete-icon"
                         icon="delete">
                     </core-icon>
+-->
 
                     {{ 'Delete' | $$(lc) }}
                 </div>
