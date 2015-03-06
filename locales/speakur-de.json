@@ -40,6 +40,8 @@
     "language": "Sprache",
     "leave_comment": "Schreibe einen Kommentar:",
     "leave_comment_placeholder": "Schreibe einen Kommentar hier.",
+    "logged_in_to_post": "Sie müssen angemeldet sein, um einen Kommentar hinterlassen zu können.",
+    "logged_in_to_vote": "Sie müssen angemeldet sein, um abstimmen zu können.",
     "login_private_data": "Ihre e-Mail-Adresse wird mit Speakur freigegeben werden, aber keine andere privaten Daten freigegeben werden. Ihre Email wird <em>nicht</em> für andere Benutzer sichtbar sein.",
     "new_window": "Neu",
     "no_comments_yet": "Niemand hat noch nichts geschrieben. Werden Sie den ersten Kommentar.",

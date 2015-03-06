@@ -1,7 +1,12 @@
 speakur-discussion
 ==================
 
-Provides a real-time discussion forum for any web resource. Simple to use; no server required.
+Provides a real-time discussion forum for any web resource. Simple to use; no server required other than a free
+Firebase.com account.
+
+A free Firebase account has resource limits but these limits should be adequate for a typical blog or low traffic site.
+If you wish to use this on a high traffic site you may need to pay Firebase.  All the comments and other data is stored
+on your Firebase account under your control. 
 
 NOTE: The rest of this document has been auto-generated. I need to update it.
 

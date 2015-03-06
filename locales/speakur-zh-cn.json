@@ -43,6 +43,8 @@
     "language": "语言",
     "leave_comment": "留下你的评论：",
     "leave_comment_placeholder": "在这里留下你的评论。",
+    "logged_in_to_post": "你必须签名，留下你的评论。",
+    "logged_in_to_vote": "你必须签名投票。",
     "login_private_data": "将与 Speakur 共享您的电子邮件地址，但没有其他私人的数据将会分担。您的电子邮件将 <em>不</em> 会对其他用户可见。",
     "new_window": "新增功能",
     "no_comments_yet": "没有人有还写过任何东西。成为第一个发表评论。",

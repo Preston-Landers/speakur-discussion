@@ -43,6 +43,8 @@
     "language": "Hol",
     "leave_comment": "comment mej",
     "leave_comment_placeholder": "comment DaH.",
+    "logged_in_to_post": "ghob'e' qI' SoH comment DaH.",
+    "logged_in_to_vote": "ghob'e' qI' SoH vote.",
     "login_private_data": "SoH SoQ email speakur 'ach SoH pagh latlh private De'. vaj email <em>wej</em> visible users latlh.",
     "new_window": "chu'",
     "no_comments_yet": "vay' ghItlh pagh 'ach. wa'DIch comment.",

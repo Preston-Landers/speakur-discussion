@@ -305,14 +305,20 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             },
 
             replyToPost: function (e) {
-                this.showingReply = !this.showingReply;
                 var that = this;
+                // Need to stop the event b/c we're only replying to this, not all parent posts.
+                e.stopPropagation();
+
+                if (!this.globals.profile && !this.globals.allowAnonymous) {
+                    this.toast(this.$$('logged_in_to_post'));
+                    this.fire('loginButtonPressed');
+                    return false;
+                }
+
+                this.showingReply = !this.showingReply;
                 this.async(function () {
                     that.$.replyCompose.focus();
                 });
-
-                // Need to stop the event b/c we're only replying to this, not all parent posts.
-                e.stopPropagation();
             },
 
             submittedReply: function (e) {
@@ -393,7 +399,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             checkIfCanVote: function () {
                 if (!this.globals.profile) {
-                    this.toast("You must be signed in to vote.");
+                    this.toast(this.$$('logged_in_to_vote'));
                     this.fire('loginButtonPressed');
                     return false;
                 }

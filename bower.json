@@ -4,13 +4,14 @@
   "authors": [
     "Preston Landers <planders@utexas.edu>"
   ],
-  "description": "Provides a discussion forum for any article or other web resource.",
+  "description": "Provides a discussion forum for any article or other web resource. Requires a Firebase.com account.",
   "keywords": [
     "web-component",
     "web-components",
     "polymer",
     "forum",
-    "discussion"
+    "discussion",
+    "speakur"
   ],
   "main": "speakur-discussion.html",
   "license": "MIT",

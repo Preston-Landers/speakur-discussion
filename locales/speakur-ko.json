@@ -43,6 +43,8 @@
     "language": "언어",
     "leave_comment": "코멘트를 남겨 주세요:",
     "leave_comment_placeholder": "여기 덧 글을 남길.",
+    "logged_in_to_post": "당신은 덧 글을 남길에 로그인 해야 합니다.",
+    "logged_in_to_vote": "당신이 투표에 로그인 해야 합니다.",
     "login_private_data": "귀하의 이메일 주소는 Speakur와 공유 됩니다 하지만 기타 개인 데이터를 공유 됩니다. 귀하의 이메일은 <em>하지</em> 다른 사용자에 게 표시 됩니다.",
     "new_window": "새로운 내용",
     "no_comments_yet": "아무도 아직 아무것도 작성 했습니다. 의견을 먼저 될.",

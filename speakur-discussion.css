@@ -7,6 +7,10 @@
  *
  */
 
+/*
+ * TODO: we can probably just get rid of this file and fold it into speakur-theme.html
+ */
+
 :host {
     display: block;
     opacity: 1;

@@ -41,6 +41,8 @@
     "language": "Taal",
     "leave_comment": "Laat een reactie:",
     "leave_comment_placeholder": "Laat een reactie hier.",
+    "logged_in_to_post": "U moet zijn ingelogd om een commentaar te verlaten.",
+    "logged_in_to_vote": "Je moet ingelogd zijn om te stemmen.",
     "login_private_data": "Uw e-mailadres zal worden gedeeld met Speakur maar geen andere persoonlijke gegevens zullen worden gedeeld. Uw e-mail zal <em>niet</em> worden zichtbaar voor andere gebruikers.",
     "new_window": "Nieuw",
     "no_comments_yet": "Niemand heeft om het even wat nog geschreven. Wees de eerste om commentaar.",

@@ -85,6 +85,15 @@
         moderators: '',
 
         /**
+         * Whether to allow anonymous comments.  Anon comments have their IP address recorded but that's it.
+         *
+         * @attribute allowAnonymous
+         * @type boolean
+         * @default false
+         */
+        allowAnonymous: false,
+
+        /**
          * The `firebaseLocation` attribute determines the source database URL for the comments. A default
          * database will be used if none is provided.  If using the public (default) Speakur firebase then
          * you must incorporate your domain name in the `href` field.
@@ -166,6 +175,8 @@
             this.globals.maxPostRevisionsKeep = 5;
 
             this.globals.isAdmin = false;
+
+            this.globals.allowAnonymous = this.allowAnonymous;
 
             // Start the 'global tick' which is updated every X seconds
             // to be used in expressions like globals.updateTick to give them an 'expiration time'

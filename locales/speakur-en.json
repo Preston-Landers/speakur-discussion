@@ -43,6 +43,8 @@
   "language": "Language",
   "leave_comment": "Leave a comment:",
   "leave_comment_placeholder": "Leave a comment here.",
+  "logged_in_to_post": "You must be signed in to leave a comment.",
+  "logged_in_to_vote": "You must be signed in to vote.",
   "login_private_data": "Your email address will be shared with Speakur but no other private data will be shared. Your email will <em>not</em> be visible to other users.",
   "new_window": "new",
   "no_comments_yet": "No one has written anything yet. Be the first to comment.",

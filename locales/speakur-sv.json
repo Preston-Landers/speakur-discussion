@@ -41,6 +41,8 @@
     "language": "Språk",
     "leave_comment": "Lämna en kommentar:",
     "leave_comment_placeholder": "Lämna en kommentar här.",
+    "logged_in_to_post": "Du måste vara inloggad för att lämna en kommentar.",
+    "logged_in_to_vote": "Du måste vara inloggad för att rösta.",
     "login_private_data": "Din e-postadress kommer att delas med Speakur men ingen annan privat data kommer att delas. Din e-postadress kommer <em>inte</em> att visas för andra användare.",
     "new_window": "nya",
     "no_comments_yet": "Ingen har skrivit något ännu. Bli först med att kommentera.",

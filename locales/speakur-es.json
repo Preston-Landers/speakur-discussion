@@ -41,6 +41,8 @@
     "language": "Idioma",
     "leave_comment": "Deja un Comentario:",
     "leave_comment_placeholder": "Deja un comentario aquí.",
+    "logged_in_to_post": "Usted debe firmar dejar un comentario.",
+    "logged_in_to_vote": "Usted debe firmar votar.",
     "login_private_data": "Tu dirección de correo electrónico será compartido con Speakur pero ningún otro dato privado será compartida. Será tu email <em>no</em> será visible para otros usuarios.",
     "new_window": "Nuevo",
     "no_comments_yet": "Nadie ha escrito nada todavía. Sea el primero en comentar.",

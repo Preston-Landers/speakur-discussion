@@ -286,6 +286,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     };
                 } else {
                     author = _.clone(this.globals.anon_author, true);
+
+                    // record IP of anonymous authors
+                    // author['ip'] = '';
                 }
                 return author;
             },

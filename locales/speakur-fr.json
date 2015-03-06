@@ -40,6 +40,8 @@
     "language": "Langue préférée",
     "leave_comment": "Laisser un commentaire :",
     "leave_comment_placeholder": "Laisser un commentaire ici.",
+    "logged_in_to_post": "Vous devez être connecté à laisser un commentaire.",
+    "logged_in_to_vote": "Vous devez être connecté voter.",
     "login_private_data": "Votre adresse email sera partagé avec Speakur, mais aucuns autres données privées ne seront partagés. Votre email sera <em>pas</em> visible aux autres utilisateurs.",
     "new_window": "Nouveau",
     "no_comments_yet": "Personne n'a encore rien écrit. Soyez le premier à commenter.",
