@@ -5,6 +5,8 @@ The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
 -->
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../core-tooltip/core-tooltip.html">
+<link rel="import" href="../../core-overlay/core-overlay.html">
 <link rel="import" href="../../paper-button/paper-button.html">
 <link rel="import" href="../../firebase-element/firebase-element.html">
 <link rel="import" href="../../marked-element/marked-element.html">
@@ -22,7 +24,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
         <style>
             .tool-btn {
-                margin-left: 10px;
+                margin-left: 12px;
+            }
+
+            .terms-link {
+                margin-left: 16px;
+                opacity: 0.85;
             }
 
             .preview-div {
@@ -37,6 +44,18 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             .preview-hr {
                 border: 1px dashed #b6b0b9;
+            }
+
+            .terms-ttip {
+                white-space: normal;
+                line-height: normal;
+                /*width: 350px;*/
+                font-size: 12px;
+            }
+
+            .edit-help-link:hover,
+            .terms-link:hover {
+                text-decoration: underline;
             }
         </style>
         <firebase-element
@@ -75,9 +94,23 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             <div class="footer">
                 <template if="{{newText.length}}">
                     <div horizontal layout center>
-                        <div style="margin-left: 12px;" on-click="{{editingHelp}}">
+                        <div class="tool-btn edit-help-link" on-click="{{editingHelp}}">
                             {{ 'Editing Help' | $$(lc) }}
                         </div>
+                        <div class="tool-btn terms-link">
+                            <core-tooltip position="bottom">
+                                {{ 'Terms of Use' | $$(lc) }}
+                                <div tip class="terms-ttip">
+                                    <p>
+                                    {{ 'terms_tooltip1' | $$(lc) }}
+                                    </p>
+                                    <p>
+                                    {{ 'terms_tooltip2' | $$(lc) }}
+                                    </p>
+                                </div>
+                            </core-tooltip>
+                        </div>
+
                         <div flex></div>
                         <div horizontal layout end-justified center class="posting-as">
                             <span style="margin-right: 4px;">
@@ -287,8 +320,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 } else {
                     author = _.clone(this.globals.anon_author, true);
 
-                    // record IP of anonymous authors
-                    // author['ip'] = '';
+                    // record IP & approx. location of anonymous authors
+                    if (this.globals.geodata) {
+                        author['geo'] = _.clone(this.globals.geodata, true);
+                    }
                 }
                 return author;
             },

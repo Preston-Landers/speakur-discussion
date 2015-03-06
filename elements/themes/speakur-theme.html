@@ -53,6 +53,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             color: {{ primaryLight }};
         }
 
+        /* without this they push in front of the tooltips!! */
+        :host /deep/ core-image {
+            position: inherit;
+        }
+
         :host /deep/ core-image.profile-img {
             border-radius: 50%;
             border: 2px rgba(108, 122, 127, 0.3) solid; /* color! */
@@ -154,6 +159,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             background-color: {{ accent }};
             color: {{ accentText }};
             min-width: 250px;
+        }
+
+        html /deep/ core-tooltip::shadow #tooltip {
+            min-width: 250px;
+            max-width: 350px;
+            white-space: pre-line;
+            padding: 2px 12px 2px 12px;
         }
 
         </core-style>

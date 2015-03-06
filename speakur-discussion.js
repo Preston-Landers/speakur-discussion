@@ -94,6 +94,27 @@
         allowAnonymous: false,
 
         /**
+         * Record the IP address of anonymous commenters.
+         *
+         * @attribute recordIP
+         * @type boolean
+         * @default true
+         */
+        recordIP: true,
+
+        loadIP: function (e, detail, sender) {
+            var geodata = detail[1][0];
+
+            // remove some keys we don't care about/want
+            delete geodata['zip_code'];
+            delete geodata['time_zone'];
+            delete geodata['country_name'];
+
+            this.globals.geodata = geodata;
+            // console.log("found ip:", geodata);
+        },
+
+        /**
          * The `firebaseLocation` attribute determines the source database URL for the comments. A default
          * database will be used if none is provided.  If using the public (default) Speakur firebase then
          * you must incorporate your domain name in the `href` field.
@@ -381,7 +402,7 @@
 
         currentLocale: null,
         localeChanged: function (e, details, sender) {
-            // this.log("locale changed event", details, sender);
+            this.log("locale changed event", details, sender);
 
             // Tells the i18next element to change locales
             this.currentLocale = details.newLocale;

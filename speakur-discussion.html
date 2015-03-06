@@ -51,7 +51,7 @@ https://github.com/Polymer/core-component-page/issues/7
 <polymer-element
         name="speakur-discussion"
         extends="speakur-base"
-        attributes="theme href moderators xtitle firebaseLocation initiallyOpen openAnimMS maxWidth allowAnonymous">
+        attributes="theme href moderators xtitle firebaseLocation initiallyOpen openAnimMS maxWidth allowAnonymous recordIP">
 
     <template>
         <!-- Congratulations, you have found the secret message. -->
@@ -97,6 +97,11 @@ https://github.com/Polymer/core-component-page/issues/7
             </speakur-dialog-profile-edit>
 
             <speakur-i18next id="si18next" locale="{{ currentLocale }}"></speakur-i18next>
+
+            <template if="{{ recordIP }}">
+                <core-shared-lib on-core-shared-lib-load="{{loadIP}}" url="//freegeoip.net/json/?callback=%%callback%%">
+                </core-shared-lib>
+            </template>
 
             <!-- structural elements -->
             <div vertical layout class="speakur-layout">

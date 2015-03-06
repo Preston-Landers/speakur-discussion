@@ -5,7 +5,7 @@ The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
 -->
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../../paper-shadow/paper-shadow.html">
+<!--<link rel="import" href="../../paper-shadow/paper-shadow.html">-->
 <link rel="import" href="../../core-collapse/core-collapse.html">
 
 <polymer-element
@@ -48,7 +48,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
         </style>
         <div class="card-container">
-            <paper-shadow class="shadow" z="{{shadowZ}}">
+            <!--<paper-shadow class="shadow" z="{{shadowZ}}">-->
                 <article vertical layout>
                     <template if="{{showheader}}">
                         <!--remove self-start to have header expand to entire...-->
@@ -72,7 +72,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         </template>
                     </core-collapse>
                 </article>
-            </paper-shadow>
+            <!--</paper-shadow>-->
         </div>
     </template>
     <script>
