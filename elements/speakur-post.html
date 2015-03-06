@@ -379,18 +379,14 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 
             voteUp: function (e) {
                 e.stopPropagation();
-                if (!this.checkIfCanVote()) {
-                    return false;
-                }
+                if (!this.checkIfCanVote()) return false;
                 this.$.vote.voteUp();
 
             },
 
             voteDown: function (e) {
                 e.stopPropagation();
-                if (!this.checkIfCanVote()) {
-                    return false;
-                }
+                if (!this.checkIfCanVote()) return false;
                 this.$.vote.voteDown();
             },
 
@@ -400,6 +396,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     this.fire('loginButtonPressed');
                     return false;
                 }
+                return true;
             },
 
             childPostDeleted: function (e, detail, sender) {

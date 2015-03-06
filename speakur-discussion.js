@@ -364,7 +364,7 @@
         respondToThemeEvent: function (e, detail, sender) {
             // there's no validation or anything here
             var newTheme = detail.theme;
-            console.log("Theme switching to ", newTheme);
+            // console.log("Theme switching to ", newTheme);
             this.theme = newTheme;
         },
 
