@@ -46,6 +46,18 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             id="dbEditPost" data="{{editPost}}"
             location="{{ fbLocation(firebaseLocation, 'posts', replyTo, editing) }}"></firebase-element>
 
+        <!-- Following 2 elements are for automatic self-upvote -->
+        <firebase-element
+            id="postvotesDB" data="{{postVotes}}"
+            location="{{fbLocation(firebaseLocation, 'postvotes', replyTo, postId) }}"></firebase-element>
+        <speakur-post-vote
+            id="vote"
+            uid="{{globals.currentUser.uid}}"
+            postVotes="{{postVotes}}"
+            parentId="{{replyTo}}"
+            postId="{{postId}}"
+            firebaseLocation="{{firebaseLocation}}"></speakur-post-vote>
+
         <form>
             <div class="body">
                 <div class="form-group">
@@ -219,6 +231,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             },
 
             submit: function () {
+                var that = this;
                 if (!this.threadId) {
                     this.errorToast("Internal error: no threadId available.");
                     return false;
@@ -243,11 +256,23 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 var post_id = postRef.key();
                 this.log("Created post: " + post_id);
 
+
+                // tell the vote element where to put the vote
+                this.postId = post_id;
+
                 this.setNewText();
                 post['postId'] = post_id;
 
                 this.toast(this.$$('post_saved'));
                 this.fire('submitted-post', post);
+
+                // if logged in, record an upboat for yourself
+                if (this.globals.profile) {
+                    this.async(function () {
+                        that.$.vote.changeVoteStatus(true);
+                    }, null, 100);
+                }
+
             },
 
             getAuthor: function () {
