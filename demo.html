@@ -36,11 +36,23 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     <p>
         Here's an example of how it works:
     </p>
+
+    <UL>
+        <li>You have a blog or website.</li>
+        <li>You create a Firebase app to host the comment data.</li>
+        <li>You add speakur-discussion and its dependencies to your <code>bower_components</code> directory.</li>
+        <Li>You add the <code>&lt;speakur-discussion&gt;</code> element to your page where you want it to show up, and point the element at your Firebase URL.</Li>
+        <li>You now have a full-featured commenting system on your site!</li>
+    </UL>
 </div>
 
 
 <!--margin: 20px;-->
 <div style="">
+    <p>
+        For example, here's a <code>&lt;speakur-discussion&gt;</code> for this demo page:
+    </p>
+
     <!--theme="speakur-theme-red" initiallyOpen="true"-->
     <speakur-discussion
         allowAnonymous="false"
@@ -49,9 +61,11 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 </div>
 
 <p>
-    This part belongs to the containing page.
+    This last part belongs to the containing page. This could be your page footer.
 </p>
+<hr>
 
+<!--
 <div>
     Here's an example card:
 
@@ -65,6 +79,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     </speakur-card>
 
 </div>
+-->
 
 
 </body>
