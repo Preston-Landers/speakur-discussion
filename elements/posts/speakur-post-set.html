@@ -1,0 +1,55 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../firebase-element/firebase-element.html">
+<link rel="import" href="speakur-post.html">
+
+<polymer-element 
+    name="speakur-post-set"
+    extends="speakur-base"
+    attributes="threadId parentId level firebaseLocation posts postIds sortOrder postCount postCountDeep">
+    <template>
+        <style>
+        </style>
+
+        <!--on-child-removed="{{childRemoved}}"-->
+        <!--on-child-added="{{childAdded}}"-->
+
+        <firebase-element
+            childEvents
+            id="dbPosts" location="{{fbLocation(firebaseLocation, 'posts', parentId)}}"
+            data="{{posts}}" keys="{{postIds}}"></firebase-element>
+        <firebase-element
+            id="dbPostVotes" location="{{fbLocation(firebaseLocation, 'postvotes', parentId)}}"
+            orderByChild="{{voteOrderKey(sortOrder)}}"
+            data="{{postvotes}}" keys="{{postvoteIds}}"></firebase-element>
+
+        <template if="{{level==0 && !postIds.length}}">
+            <div>
+                <h2>{{ 'no_comments_yet' | $$(lc) }}</h2>
+            </div>
+        </template>
+
+        <div id="postListContainer">
+        <template if="{{posts && postIds.length}}" repeat="{{postId in sortedPostIds(postIds, sortOrder)}}">
+            <speakur-post
+                firebaseLocation="{{firebaseLocation}}"
+                threadId="{{threadId}}"
+                parentId="{{parentId}}"
+                sortOrder="{{sortOrder}}"
+                on-reply-count-changed="{{childPostCountUpdated}}"
+                on-post-removed="{{childPostRemoved}}"
+                id="{{postId}}"
+                level="{{level}}"
+                postId="{{postId}}">
+            </speakur-post>
+        </template>
+        </div>
+
+    </template>
+    <script src="speakur-post-set.js"></script>
+</polymer-element>

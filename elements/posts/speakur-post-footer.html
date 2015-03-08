@@ -4,9 +4,9 @@ This code may only be used under the BSD style license found at http://speakur.g
 The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
 The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
 -->
-<link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../../core-icon/core-icon.html">
-<link rel="import" href="../../core-image/core-image.html">
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../core-icon/core-icon.html">
+<link rel="import" href="../../../core-image/core-image.html">
 
 <!--
     Present a UI for the post display footer with actions like vote, edit, delete, etc.
@@ -104,7 +104,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     width="14"
                     height="{{imgHeight}}"
                     alt="up"
-                    src="../images/arrow-up.png">
+                    src="../../images/arrow-up.png">
                 </core-image>
 
                 {{numUpvotes}}
@@ -126,7 +126,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     width="14"
                     height="{{imgHeight}}"
                     alt="down"
-                    src="../images/arrow-down.png">
+                    src="../../images/arrow-down.png">
                 </core-image>
 
                 {{numDownvotes}}
@@ -140,7 +140,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     width="{{imgWidth}}"
                     height="{{imgHeight}}"
                     alt="flag"
-                    src="../images/reply-32.png">
+                    src="../../images/reply-32.png">
                 </core-image>
 
                 {{ 'Reply' | $$(lc) }}
@@ -189,7 +189,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     width="{{imgWidth}}"
                     height="{{imgHeight}}"
                     alt="flag"
-                    src="../images/flag-red-16.png">
+                    src="../../images/flag-red-16.png">
                 </core-image>
                 -->
 
@@ -202,6 +202,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         Polymer({
             imgHeight: '12px',
             imgWidth: '12px',
+            imgRoot: '../../images',
 
 
             getNetVotes: function (postVotes) {
