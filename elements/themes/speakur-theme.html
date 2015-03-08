@@ -14,6 +14,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     <template>
 
         <core-style id="speakur-theme">
+
+        :host[unresolved] {
+            opacity: 0;
+            /* other custom styles for unresolved elements */
+        }
+
         :host /deep/ .speakur-container {
             border-width: 0;
              background-color: transparent;

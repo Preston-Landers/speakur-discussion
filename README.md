@@ -90,6 +90,13 @@ then you have to install the bower dependencies at the appropriate location next
 
       * Put in your Google Client ID and Client Secret from the Google API console. (TODO: link)
 
+    * If you have multiple 'sites' that you want to use with Speakur, you can either put them all
+      in the same FB app or create different FB apps for each, your choice.
+
+* If you don't specify your own Firebase URL when using Speakur, it will fall back on using the
+ author's Firebase app and you WON'T be able to moderate/admin posts or fully control it. So
+ it is recommended to create your own Firebase account as above.
+
 * See demo.html for a complete working example of using <speakur-discussion>
 
 * Your page must load the webcomponents.js that polyfills Web Component support:
@@ -143,6 +150,9 @@ Moderators have similar powers but only for a particular thread ID (href).
 
 TODO: how to set these
 
+For security reasons you must set these outside of the Speakur interface by directly
+inserting the values into your Firebase app.
+
 
 ### TODO List
 
@@ -151,7 +161,7 @@ TODO: how to set these
   Currently the software only supports Google and Facebook user accounts.  That means in order to host this yourself
   you must register an 'application' with Google and/or Facebook and get an API key, and then add that to your Firebase account.
 
-  I would like to support a self-contained user registration system.
+  I would like to support a self-contained user registration system which uses Firebase Simple Auth.
 
 
 * FIREBASE WARNING: resumeSession() was canceled: Auth token is expired.
