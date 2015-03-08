@@ -63,6 +63,8 @@
     "public_link_placeholder": "सार्वजनिक लिंक - अपने ब्लॉग या साइट यहाँ",
     "publish_comment_title": "टिप्पणी प्रकाशित करें",
     "replies": "जवाब है",
+    "replies_count": "__count__ उत्तर",
+    "replies_count_plural": "__count__ उत्तर",
     "reply": "उत्तर दें",
     "reply_to_comment": "उत्तर टिप्पणी करने के लिए",
     "report_a_problem": "एक समस्या की रिपोर्ट।",

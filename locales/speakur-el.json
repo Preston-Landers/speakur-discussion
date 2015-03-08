@@ -60,6 +60,8 @@
     "public_link_placeholder": "Κοινό σύνδεσμο - σας blog ή site εδώ",
     "publish_comment_title": "Δημοσίευση σχόλιο",
     "replies": "απαντήσεις",
+    "replies_count": "__count__ απάντηση",
+    "replies_count_plural": "__count__ απαντήσεις",
     "reply": "απάντηση",
     "reply_to_comment": "Απάντηση στο σχόλιο",
     "report_a_problem": "Αναφέρετε ένα πρόβλημα.",

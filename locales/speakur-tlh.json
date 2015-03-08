@@ -63,6 +63,8 @@
     "public_link_placeholder": "public link-blog Daq naDev pagh",
     "publish_comment_title": "Comment publish",
     "replies": "jang",
+    "replies_count": "__count__ jang",
+    "replies_count_plural": "__count__ jang",
     "reply": "jang",
     "reply_to_comment": "jang comment",
     "report_a_problem": "qay''a' ja'.",

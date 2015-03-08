@@ -60,6 +60,8 @@
     "public_link_placeholder": "Öffentliche Link - Ihrem Blog oder Ihrer Website hier",
     "publish_comment_title": "Kommentar zu veröffentlichen",
     "replies": "Antworten",
+    "replies_count": "__count__ Antwort",
+    "replies_count_plural": "__count__ Antworten",
     "reply": "Antwort",
     "reply_to_comment": "Antwort auf Kommentar",
     "report_a_problem": "Melden Sie ein Problem.",

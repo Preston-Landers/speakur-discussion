@@ -63,6 +63,8 @@
     "public_link_placeholder": "الارتباط العام-الخاص بك بلوق أو الموقع هنا",
     "publish_comment_title": "نشر التعليق",
     "replies": "الردود",
+    "replies_count": "الرد __count__",
+    "replies_count_plural": "__count__ الردود",
     "reply": "الرد",
     "reply_to_comment": "رد على التعليق",
     "report_a_problem": "الإبلاغ عن مشكلة.",

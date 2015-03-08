@@ -61,6 +61,8 @@
     "public_link_placeholder": "Offentliga länk - din blogg eller webbplats här",
     "publish_comment_title": "Publicera kommentar",
     "replies": "svar",
+    "replies_count": "__count__ svar",
+    "replies_count_plural": "__count__ svar",
     "reply": "svar",
     "reply_to_comment": "Svar till kommentar",
     "report_a_problem": "Rapportera ett problem.",

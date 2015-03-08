@@ -61,6 +61,8 @@
     "public_link_placeholder": "Общественная связь - вашем блоге или на сайте здесь",
     "publish_comment_title": "Опубликовать комментарий",
     "replies": "ответы",
+    "replies_count": "ответ __count__",
+    "replies_count_plural": "__count__ ответы",
     "reply": "ответ",
     "reply_to_comment": "Ответ на комментарий",
     "report_a_problem": "Сообщите о проблеме.",

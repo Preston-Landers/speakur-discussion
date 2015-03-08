@@ -63,6 +63,8 @@
     "public_link_placeholder": "公共链路-您的博客或网站在这里",
     "publish_comment_title": "发表评论",
     "replies": "答复",
+    "replies_count": "__count__ 答复",
+    "replies_count_plural": "__count__ 答复",
     "reply": "答复",
     "reply_to_comment": "回复评论",
     "report_a_problem": "报告的问题。",

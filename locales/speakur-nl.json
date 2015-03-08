@@ -61,6 +61,8 @@
     "public_link_placeholder": "Openbare verbinding - uw blog of site hier",
     "publish_comment_title": "Commentaar publiceren",
     "replies": "antwoorden",
+    "replies_count": "antwoord __count__",
+    "replies_count_plural": "__count__ antwoorden",
     "reply": "antwoord",
     "reply_to_comment": "Antwoord op de opmerking",
     "report_a_problem": "Een probleem melden.",

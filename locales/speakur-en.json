@@ -64,6 +64,8 @@
   "publish_comment_title": "Publish Comment",
   "reply": null,
   "replies": null,
+  "replies_count": "__count__ reply",
+  "replies_count_plural": "__count__ replies",
   "reply_to_comment": "Reply to comment",
   "report_a_problem": "Report a problem.",
   "report_spam_title": "Report spam, harassment or illegal content.",

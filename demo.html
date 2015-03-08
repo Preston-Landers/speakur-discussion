@@ -9,26 +9,29 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <head>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>speakur-discussion Element Demo</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
 
     <script src="../webcomponentsjs/webcomponents.min.js"></script>
     <link rel="import" href="speakur-discussion.html">
     <style>
         body {
             font-family: Comic Sans MS, sans-serif;
+            background-color: rgba(213, 235, 225, 0.78);
+            /*background-color: rgba(240, 240, 236, 0.78);*/
         }
     </style>
 </head>
-<body unresolved style="background-color: rgba(213, 235, 225, 0.78)">
-
-<!--background-color: rgba(240, 240, 236, 0.78)-->
+<body unresolved>
 
 <p>An example of using <code>&lt;speakur-discussion&gt;</code>:</p>
 
 <p>This page represents some web content such as an article, a blog post, or any other resource with a URL. It can be a
     either a static resource or a place within a dynamic web app.</p>
 
-<P>The reason this page uses Comic Sans font is mainly to test that Speakur is largely independent of the page style.</P>
+<P>The reason this page uses Comic Sans font is mainly to test that Speakur is largely independent of the page
+    style &ndash;
+    except for the overall transparent background. You can also style the <code>&lt;speakur-discussion&gt;</code>
+    element with a background.</P>
 
 <p>Inside the page we wish to embed a discussion forum so users can post their reactions, feedback, etc. That is where
     Speakur comes in. It provides an easily embeddable discussion forum by providing a custom HTML tag that can be
@@ -43,13 +46,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         <li>You have a blog or website.</li>
         <li>You create a Firebase app to host the comment data.</li>
         <li>You add speakur-discussion and its dependencies to your <code>bower_components</code> directory.</li>
-        <Li>You add the <code>&lt;speakur-discussion&gt;</code> element to your page where you want it to show up, and point the element at your Firebase URL.</Li>
+        <Li>You add the <code>&lt;speakur-discussion&gt;</code> element to your page where you want it to show up, and
+            point the element at your Firebase URL.
+        </Li>
         <li>You now have a full-featured commenting system on your site!</li>
     </UL>
 </div>
 
-
-<!--margin: 20px;-->
 <div style="">
     <p>
         For example, here's a <code>&lt;speakur-discussion&gt;</code> for this demo page:
@@ -66,22 +69,6 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     This last part belongs to the containing page. This could be your page footer.
 </p>
 <hr>
-
-<!--
-<div>
-    Here's an example card:
-
-    <speakur-card>
-        <div class="header">
-            This is the header
-        </div>
-        <div class="footer">A footer here &hellip;</div>
-        <div>Here's a body div.</div>
-        <div>Another body div.</div>
-    </speakur-card>
-
-</div>
--->
 
 
 </body>

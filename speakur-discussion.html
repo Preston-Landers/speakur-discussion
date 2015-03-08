@@ -129,7 +129,7 @@ https://github.com/Polymer/core-component-page/issues/7
                                 on-click="{{toggle}}" class="speakur-toggle-button speakur-close-button">
                         </paper-icon-button>
                         <div flex class="speakur-header-titlebox">
-                            {{ $.threadView.replyCountDeep }} {{ 'replies' | $$(lc) }} &mdash; {{xtitle}}
+                            {{xtitle}} &mdash; {{ 'replies_count' | $$({count: $.threadView.replyCountDeep}, lc) }}
                         </div>
 
                         <div class="admin-mode" hidden?="{{!statusKnown || !globals.isAdmin}}">

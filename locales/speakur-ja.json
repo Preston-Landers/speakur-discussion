@@ -61,6 +61,8 @@
     "public_link_placeholder": "公共リンク - あなたのブログやサイトはこちら",
     "publish_comment_title": "コメントを公開します。",
     "replies": "返信",
+    "replies_count": "__count__ 返信",
+    "replies_count_plural": "__count__ 返信",
     "reply": "返信",
     "reply_to_comment": "コメントに返信",
     "report_a_problem": "問題を報告します。",

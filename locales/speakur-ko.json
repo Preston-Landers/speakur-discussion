@@ -63,6 +63,8 @@
     "public_link_placeholder": "공공 링크-귀하의 블로그 또는 사이트는 여기",
     "publish_comment_title": "코멘트를 게시",
     "replies": "답 글",
+    "replies_count": "__count__ 응답",
+    "replies_count_plural": "__count__ 답 글",
     "reply": "응답",
     "reply_to_comment": "의견 회신",
     "report_a_problem": "문제를 보고 합니다.",

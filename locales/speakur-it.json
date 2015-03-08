@@ -59,6 +59,8 @@
     "public_link_placeholder": "Pubblica link - il tuo blog o sito qui",
     "publish_comment_title": "Pubblicare il commento",
     "replies": "risposte",
+    "replies_count": "risposta di __count__",
+    "replies_count_plural": "__count__ risposte",
     "reply": "risposta",
     "reply_to_comment": "Risposta al commento",
     "report_a_problem": "Segnalare un problema.",
