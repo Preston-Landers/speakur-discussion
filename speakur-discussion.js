@@ -12,7 +12,8 @@
     Polymer({
         /**
          * The `xtitle` attribute determines the title of the discussion. Defaults to the containing
-         * page's title.
+         * page's title. This really only sets the default/initial title for the thread - you can
+         * also change the thread title directly in the FB database.
          *
          * Note that I can't name this title due to it being a built in HTML attribute apparently...?
          *
@@ -344,6 +345,7 @@
                 this.log("Created new thread for " + this.href + " -> " + this.thread);
             } else {
                 // this.log("this.thread -> ", this.thread);
+                this.xtitle = this.thread.title;
             }
 
         },

@@ -50,10 +50,6 @@ polyfill-next-selector {
     border-radius: 8px;
 }
 
-.speakur-toggle-button /deep/ .button-content {
-    padding: 0 0;
-}
-
 
 paper-icon-button /deep/ core-icon[role=img] {
     width: 18px;
@@ -92,16 +88,38 @@ paper-icon-button /deep/ core-icon[role=img] {
     margin: 2px 2px 0;
 }
 
-.powered-by-link {
-    text-decoration: none;
-    margin-left: 4px;
+:host .admin-mode {
+    margin-right: 8px;
+    font-weight: bold;
 }
 
-.powered-by-link:visited {
+:host speakur-login-button {
+    margin-right: 8px;
+}
+
+:host speakur-toolbar /deep/ .speakur-toggle-link {
+    text-align: center;
+}
+:host speakur-toolbar /deep/ .speakur-toggle-link:hover {
+    text-decoration: underline;
+}
+
+:host .speakur-copyright {
+    opacity: 0.9;
+}
+
+:host .powered-by-link {
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 4px;
+    opacity: 0.9;
+}
+
+:host .powered-by-link:visited {
     color: inherit;
 }
 
-.powered-by-link:hover {
+:host .powered-by-link:hover {
     text-decoration: underline;
 }
 
@@ -116,4 +134,9 @@ paper-icon-button /deep/ core-icon[role=img] {
 :host /deep/ section,
 :host /deep/ summary {
     display: block;
+}
+
+/* http://stackoverflow.com/questions/25556640/paper-menu-buttons-dropdown-has-scrollbars */
+:host /deep/ core-menu {
+    overflow: hidden !important;
 }

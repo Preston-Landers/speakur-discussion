@@ -41,22 +41,23 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             border-width: 0;
         }
 
+        :host speakur-toolbar /deep/ .speakur-toolbar {
+            background-color: {{ primaryA3 }};
+            color: {{ primaryA3T }};
+        }
+
         :host speakur-toolbar /deep/ .toolbar-border {
-
-            background-color: {{ primary }};
-            color: {{ primaryText }};
             border-color: {{ primaryDark }};
-
         }
 
         :host speakur-toolbar /deep/ .speakur-header-titlebox {
-            text-shadow: 1px 1px rgba(20, 20, 22, 0.10);
+            text-shadow: 1px 1px rgba(20, 20, 22, 0.1);
             font-size: 1.2em;
             font-weight: bold;
         }
 
-        :host /deep/ .speakur-close-button {
-            color: {{ primaryLight }};
+        :host /deep/ .speakur-toggle-button {
+            color: {{ accent }};
         }
 
         /* without this they push in front of the tooltips!! */
@@ -198,6 +199,10 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             primaryA2T: '#212121',
             primaryA3: 'rgba(97, 97, 97, 0.15)',
             primaryA3T: '#212121',
+            primaryA4: 'rgba(97, 97, 97, 0.05)',
+            primaryA4T: '#212121',
+            primaryA5: 'rgba(97, 97, 97, 0.9)',
+            primaryA5T: '#F5F5F5',
 
             primaryLight: '#F5F5F5',
             primaryLightText: '#212121',
