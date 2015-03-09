@@ -26,14 +26,14 @@
     // Post records -- body of posts
     "posts": {
       ".read": true,
-      ".write": true,
+      ".write": false,
       "$parentId": {
         "$childId": {
-          // must be admin or post owner to modify a post...
-          ".write": "!data.exists() && ( auth.uid === newData.child('author').child('uid').val() || auth.id === root.child('admins').child(auth.id).child('scope').val() === '*' ) ",
+          // must be admin or post owner to modify a post... TODO: admin scope is not well defined
+          ".write": "data.exists() ? ( auth.uid === data.child('author').child('uid').val() || auth.uid === root.child('admins').child(auth.uid).child('scope').val() === '*' ) : true",
           ".validate": "newData.hasChildren(['threadId', 'text', 'author']) && newData.child('timestamp').val() > 1",
-          "$author": {
-            ".validate": "newData.child('uid').val() != null"
+          "author": {
+            ".validate": "newData.child('uid').isString()"
           }
         }
       }
@@ -42,11 +42,15 @@
     // Thread records
     "threads": {
       ".read": true,
-      ".write": false,  // TODO: admin only?!
+      // TODO: admin scope is not well defined
+      ".write": "auth.uid === root.child('admins').child(auth.uid).child('scope').val() === '*'",
       "$threadId": {
-        ".validate": "newData.hasChildren(['threadId', 'title', 'href', 'created']) && newData.child('timestamp').val() > 1 ",
-        "$author": {
-          ".validate": "newData.child('uid').val() != null"
+        ".validate": "newData.hasChildren(['threadId', 'title', 'href', 'created'])",
+        "timestamp": {
+          ".validate": "newData.isNumber() && newData.val() > 1"
+        },
+        "author": {
+          ".validate": "newData.child('uid').isString()"
         }
 
       }
@@ -65,7 +69,7 @@
       "$parentId": {
         "$childId": {
           ".validate": "newData.hasChildren(['down', 'up', 'timestamp'])",
-          "$timestamp": {
+          "timestamp": {
             ".validate": "newData.isNumber() && newData.val() > 1"
           }
         }
@@ -83,14 +87,14 @@
       // Allow users to write under their own area
       "$uid": {
         ".read": "auth.uid === $uid",
-        ".write": "!data.exists() && auth.uid === $uid",
+        ".write": "auth.uid === $uid",
 
         // Validate vote structure
         // uid -> parentId -> childId -> { up, down, timestamp }
         "$parentId": {
           "$childId": {
             ".validate": "newData.hasChildren(['down', 'up', 'timestamp'])",
-            "$timestamp": {
+            "timestamp": {
               ".validate": "newData.isNumber() && newData.val() > 1"
             }
           }
