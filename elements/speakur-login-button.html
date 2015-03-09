@@ -45,7 +45,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         </core-style>
 
         <!-- duplicating the whole structure is the only way it seems to accommodate dynamic size changes due to login/logout status? -->
-        <paper-menu-button halign="right" hidden?="{{ !statusKnown || !user }}">
+        <paper-menu-button hidden?="{{ !statusKnown || !user }}">
             <div class="toolbar-icon toolbar-icon-author">
                 <speakur-author-img
                     width="{{width}}" height="{{height}}"
@@ -54,9 +54,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             </div>
 
             <paper-dropdown
-                halign="right"
-                class="dropdown speakur-paper-dropdown"
-                layered transition="">
+                halign="right" valign="top" layered transition=""
+                class="dropdown speakur-paper-dropdown">
                 <core-style ref="dropdownmenu"></core-style>
                 <core-menu class="menu" id="loggedInMenu" excludedLocalNames="div">
 
@@ -89,13 +88,14 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
             </paper-dropdown>
         </paper-menu-button>
 
-        <paper-menu-button halign="right" hidden?="{{ statusKnown && user }}">
+        <paper-menu-button hidden?="{{ statusKnown && user }}">
             <paper-icon-button icon="social:person" class="toolbar-icon toolbar-icon-anon">
             </paper-icon-button>
 
             <paper-dropdown
+                halign="right" valign="top" layered
                 class="dropdown speakur-paper-dropdown"
-                transition="" layered>
+                transition="">
                 <core-style ref="dropdownmenu"></core-style>
                 <core-menu class="menu" valueattr="id" id="loggedOutMenu" selected="{{loggedOutMenu}}">
                     <paper-item id="signIn" title="{{ 'sign_in_title' | $$(lc) }}" on-click="{{login}}">

@@ -402,7 +402,7 @@
             this.theme = newTheme;
         },
 
-        currentLocale: null,
+        currentLocale: 'en',
         localeChanged: function (e, details, sender) {
             this.log("locale changed event", details, sender);
 

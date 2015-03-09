@@ -166,6 +166,12 @@ inserting the values into your Firebase app.
 
   Expired auth token isn't resetting globals.isAdmin - need to respond to an event for that?
 
+## Support
+
+If you wish to support this software you can send your bitcoin donations to this address:
+
+    17Kt9hrtZCrHgSm3ihrsyYXoVXazhADL52
+
 ## License
 
 This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
