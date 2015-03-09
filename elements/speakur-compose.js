@@ -97,11 +97,15 @@
             // ie. not an admin/moderator
             if (editingPost.author.uid === author.uid) {
                 editingPost.author = author;
+            } else {
+                // save the modifying author
+                editingPost.lastModifiedUid = author.uid;
             }
 
             // this.log("Save EDIT");
 
             // write it
+            // TODO: handle security failure?!
             this.posts[this.editing] = editingPost;
 
             this.toast(this.$$('changes_saved'));
@@ -227,6 +231,12 @@
 
         focus: function () {
             this.$.commentText.focus();
+        },
+
+        // TODO: doesn't seem to get called, due to bugs in firebase-element?
+        fbError: function(e, detail, sender) {
+            console.log("FB error", e, detail, sender);
+            this.toast("Database error!");
         },
 
         computed: {

@@ -58,11 +58,14 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 text-decoration: underline;
             }
         </style>
+        <!-- TODO: on-error doesn't seem to work! -->
         <firebase-element
             id="posts" data="{{posts}}"
+            on-error="{{ fbError }}"
             location="{{ fbLocation(firebaseLocation, 'posts', replyTo) }}"></firebase-element>
         <firebase-element
             id="dbEditPost" data="{{editPost}}"
+            on-error="{{ fbError }}"
             location="{{ fbLocation(firebaseLocation, 'posts', replyTo, editing) }}"></firebase-element>
 
         <!-- Following 2 elements are for automatic self-upvote -->

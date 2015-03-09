@@ -34,6 +34,12 @@
           ".validate": "newData.hasChildren(['threadId', 'text', 'author']) && newData.child('timestamp').val() > 1",
           "author": {
             ".validate": "newData.child('uid').isString()"
+          },
+          "threadId": {
+            ".validate": "newData.isString()"
+          },
+          "text": {
+            ".validate": "newData.isString()"
           }
         }
       }
@@ -71,6 +77,12 @@
           ".validate": "newData.hasChildren(['down', 'up', 'timestamp'])",
           "timestamp": {
             ".validate": "newData.isNumber() && newData.val() > 1"
+          },
+          "up": {
+            ".validate": "newData.isNumber()"
+          },
+          "down": {
+            ".validate": "newData.isNumber()"
           }
         }
       }
@@ -84,7 +96,7 @@
       ".read": false,
       ".write": false,
 
-      // Allow users to write under their own area
+      // Allow users to read/write under their own area
       "$uid": {
         ".read": "auth.uid === $uid",
         ".write": "auth.uid === $uid",
@@ -96,6 +108,12 @@
             ".validate": "newData.hasChildren(['down', 'up', 'timestamp'])",
             "timestamp": {
               ".validate": "newData.isNumber() && newData.val() > 1"
+            },
+            "up": {
+              ".validate": "newData.isBoolean()"
+            },
+            "down": {
+              ".validate": "newData.isBoolean()"
             }
           }
         }
