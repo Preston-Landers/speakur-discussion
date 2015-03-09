@@ -12,13 +12,29 @@ This is a Web Component-based custom HTML element that provides a
 user friendly discussion forum for any web resource without requiring
 a dedicated server.
 
+##### Demo
+
+Click the 'Demo' link at the top of the page <a target="_blank" href="demo.html">or click here.</a>
+
+More demo threads/examples coming soon.
+
+##### Github Page
+
+More documentation and code here:
+
+https://github.com/Preston-Landers/speakur-discussion
+
 ##### Example
+
+The URL for the discussion will be the page URL by default.
 
     <speakur-discussion
         xtitle="12 Crazy Tricks That Cable Companies Hate!"
-        theme="speakur-theme-blue"
-        moderator="example_moderator_1">
+        allowAnonymous="true"
+        initiallyOpen="true">
     </speakur-discussion>
+
+You can also set the `href=""` attribute to use a different discussion link target.
 
 ##### Requirements
 
