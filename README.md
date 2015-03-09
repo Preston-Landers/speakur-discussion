@@ -1,22 +1,28 @@
 speakur-discussion
 ==================
 
-This custom element (web component) provides a real-time discussion forum for any web resource. It is simple to use; no
-server is required other than a free Firebase.com account.
+This custom element (web component) provides a real-time discussion forum for any web resource.
+
+The only server required is a free Firebase.com account to host the data.  All the comments and other data is stored on
+your Firebase account under your control.
 
 A free Firebase account has resource limits but these limits should be adequate for a typical blog or low traffic site.
-If you wish to use this on a high traffic site you may need to pay Firebase.  All the comments and other data is stored
-on your Firebase account under your control. 
+If you wish to use this on a high traffic site you may need to pay Firebase.
 
 This package is written with the [Polymer framework](https://www.polymer-project.org/) and [Web Components](http://webcomponents.org/).
 
-This is part of a Software Engineering master's report project at the University of Texas at Austin.
+This project is part of a Software Engineering master's report at the University of Texas at Austin to explore
+W3C Web Component technology.
+
+See also the component page:
 
 ## What does this software do?
 
-This package provides a commenting system - something like Disqus - for blogs, news aggregators, or any other
+It provides a commenting or discussion plugin - something like Disqus - for blogs, news aggregators, or any other
 web site that needs a comment or feedback system for articles. You don't have to run your own app server but you
 do need a free account on Firebase.com to host the data.
+
+The software is delivered as a Web Component custom element to be included in your web page.
 
 ### Feature Summary
 
@@ -39,8 +45,7 @@ do need a free account on Firebase.com to host the data.
 
 ## Requirements
 
-* A web site / page under your control that you wish to add a commenting system for. You will embed a custom
-HTML element in the page to contain the Speakur discussion.
+* You must have a web page where you can control the whole page's HTML (i.e, not certain blog services that restrict scripts.)
 
 * A free (or paid) account on Firebase.com (FB), a cloud database service owned by Google.
 
@@ -54,27 +59,43 @@ from a remote CDN (content delivery network).
 * Currently only Facebook and Google login options are supported. That means you must obtain your own API Key for these
 services and attach that to your Firebase account. Instructions for that can be found below.
 
-* This package follows Bower dependency assumptions as Polymer recommends. If you are hosting the Speakur HTML files yourself
-then you have to install the bower dependencies at the appropriate location next to speakur-discussion.
+* This package needs certain dependencies - Polymer and certain Javascript libraries. It follows Bower dependency
+assumptions as Polymer recommends. If you are hosting the Speakur HTML files yourself then you have to install the
+bower dependencies at the appropriate location next to speakur-discussion.
+
+    * TODO: in some cases you can load all the components from an external site...
 
 
 ## Getting Started
 
-* If hosting the HTML files yourself, it is recommended to use Bower to install speakur-discussion along
+* If you are hosting the HTML files yourself, I recommend to use Bower to install speakur-discussion along
     with its dependencies (Polymer and other libraries) and use Vulcanize to minify and concatenate the components
     together for better performance and to avoid excessive HTTP requests.
 
     See this page for details: https://www.polymer-project.org/articles/concatenating-web-components.html
 
+* You must register an App / Project with each the authentication services you want to use:
+
+    * Go to https://developers.facebook.com/ and register a new 'App' there. When users authenticate with your Speakur
+    discussion site using Facebook, they will see the info you put here.  Same with Google.
+
+    * Go to https://console.developers.google.com and register a new 'Project' there.
+
 * Configure your Firebase (FB) account:
 
     * Register an account on [Firebase.com](https://www.firebase.com/) if needed.
 
-    * From the FB console create a new 'App' (database). When you first register, one is created for you and you can use that.
+    * From the FB console create a new 'App' (database). When you first register, one is created for you and you can use that,
+    or create another.
+
+      * If you have multiple 'sites' that you want to use with Speakur, you can either put them all
+      in the same Firebase app or create different Firebase apps for each, your choice.
 
     * Go to the Dashboard for your new App.
 
-    * Under Security and Rules, add the rules from this file... (TODO!)
+    * Under the Security and Rules tab, add the rules from this file:
+
+      https://raw.githubusercontent.com/Preston-Landers/speakur-discussion/master/security-rules.json
 
       * If you don't do this, malicious users will be able to take control of the data / comments.
 
@@ -82,22 +103,21 @@ then you have to install the bower dependencies at the appropriate location next
 
       * Click Facebook and check 'Enable Facebook Authentication'
 
-      * Put in your App ID and Secret you obtained from the Facebook API console. (TODO: link)
+      * Put in your App ID and Secret you obtained from the Facebook API console.
 
       * Click Google and check 'Enable Google Authentication'
 
-      * Put in your Google Client ID and Client Secret from the Google API console. (TODO: link)
+      * Put in your Google Client ID and Client Secret from the Google API console.
 
-    * If you have multiple 'sites' that you want to use with Speakur, you can either put them all
-      in the same FB app or create different FB apps for each, your choice.
-
-* If you don't specify your own Firebase URL when using Speakur, it will fall back on using the
- author's Firebase app and you WON'T be able to moderate/admin posts or fully control it. So
- it is recommended to create your own Firebase account as above.
+* If you don't specify your own Firebase URL when putting  Speakur on your page, it will fall back on using the
+author's Firebase app and you WON'T be able to moderate/admin posts or fully control it. So it is recommended to
+create your own Firebase account as above.
 
 * See demo.html for a complete working example of using <speakur-discussion>
 
 * Your page must load the webcomponents.js that polyfills Web Component support:
+
+This step is provisional until web components are natively supported in browsers.
 
 ```
     <head>
