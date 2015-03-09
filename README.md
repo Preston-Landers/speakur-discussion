@@ -74,12 +74,18 @@ bower dependencies at the appropriate location next to speakur-discussion.
 
     See this page for details: https://www.polymer-project.org/articles/concatenating-web-components.html
 
-* You must register an App / Project with each the authentication services you want to use:
+* You must register an App / Project with each of the authentication services you want to use:
 
     * Go to https://developers.facebook.com/ and register a new 'App' there. When users authenticate with your Speakur
     discussion site using Facebook, they will see the info you put here.  Same with Google.
 
     * Go to https://console.developers.google.com and register a new 'Project' there.
+
+    * TODO: Github accounts
+
+    * TODO: Twitter accounts
+
+    * TODO: ability to switch individual auth providers on/off
 
 * Configure your Firebase (FB) account:
 
@@ -194,4 +200,4 @@ If you wish to support this software you can send your bitcoin donations to this
 
 ## License
 
-This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
