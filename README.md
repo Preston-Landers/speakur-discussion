@@ -12,10 +12,6 @@ This package is written with the [Polymer framework](https://www.polymer-project
 
 This is part of a Software Engineering master's report project at the University of Texas at Austin.
 
-## License
-
-This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
-
 ## What does this software do?
 
 This package provides a commenting system - something like Disqus - for blogs, news aggregators, or any other
@@ -79,6 +75,8 @@ then you have to install the bower dependencies at the appropriate location next
     * Go to the Dashboard for your new App.
 
     * Under Security and Rules, add the rules from this file... (TODO!)
+
+      * If you don't do this, malicious users will be able to take control of the data / comments.
 
     * Under Login & Auth, enable Facebook and Google authentication.
 
@@ -168,3 +166,6 @@ inserting the values into your Firebase app.
 
   Expired auth token isn't resetting globals.isAdmin - need to respond to an event for that?
 
+## License
+
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
