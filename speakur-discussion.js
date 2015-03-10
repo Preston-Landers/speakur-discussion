@@ -359,10 +359,10 @@
                     threadId: this.threadId,
                     title: this.xtitle,
                     created: new Date().getTime(),
-                    allowAnonymous: false,
+                    allowAnonymous: this.allowAnonymous,
                     titlePost: false,   // a stickied comment that stays at the top
                     text: null,
-                    theme: this.theme,
+                    // theme: this.theme,  // dont need this
                     moderators: this.moderators,
 
                     owner: this.globals.getAuthor()
