@@ -110,6 +110,14 @@
             this.postCount = 0;
         },
 
+        domReady: function () {
+            this.async(function () {
+                if (!this.postCountDeep) {
+                    this.getPostCountDeep();
+                }
+            }, null, 200);
+        },
+
         getPostCountDeep: function () {
             var deepCount = 0;
             var postEls = this.$.postListContainer.querySelectorAll("speakur-post");
