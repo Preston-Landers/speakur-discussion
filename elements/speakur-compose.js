@@ -177,23 +177,7 @@
         },
 
         getAuthor: function () {
-            var author;
-            if (this.globals.profile) {
-                author = {
-                    uid: this.globals.profile.uid,
-                    username: this.globals.profile.username,
-                    picture_link: this.globals.profile.picture_link,
-                    md5_hash: this.globals.profile.md5_hash
-                };
-            } else {
-                author = _.clone(this.globals.anon_author, true);
-
-                // record IP & approx. location of anonymous authors
-                if (this.globals.geodata) {
-                    author['geo'] = _.clone(this.globals.geodata, true);
-                }
-            }
-            return author;
+            return this.globals.getAuthor();
         },
 
         cancel: function () {

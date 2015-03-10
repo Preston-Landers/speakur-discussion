@@ -105,7 +105,13 @@ https://github.com/Polymer/core-component-page/issues/7
 
             <paper-toast id="speakur-toast"></paper-toast>
             <speakur-dialog-login id="speakurLoginDialog" baseLogin="{{$.baseLogin}}" ></speakur-dialog-login>
-            <speakur-profile id="speakurProfile" profile="{{profile}}" uid="{{ statusKnown && user.uid }}" firebaseLocation="{{firebaseLocation}}"></speakur-profile>
+            <speakur-profile
+                id="speakurProfile"
+                profile="{{ profile }}"
+                uid="{{ statusKnown && user.uid }}"
+                threadId="{{ threadId }}"
+                firebaseLocation="{{ firebaseLocation }}">
+            </speakur-profile>
 
             <speakur-dialog-profile-edit
                 profile="{{profile}}"

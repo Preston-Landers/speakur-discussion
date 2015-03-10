@@ -9,7 +9,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <polymer-element
     name="speakur-profile"
     extends="speakur-base"
-    attributes="firebaseLocation uid profile">
+    attributes="firebaseLocation uid profile threadId">
     <template>
         <firebase-element id="base" location="{{ fbLocation(firebaseLocation, 'profile', uid) }}"
                           data="{{profile}}"></firebase-element>
@@ -34,7 +34,15 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                 },
 
                 reactToLogin: function (e) {
-                    this.log("profile notified that user logged in.");
+                    // this.log("profile notified that user logged in.");
+
+                    var that = this;
+                    this.job('login-react-profile', function () {
+                        if (!that.profile) {
+                            // Try to set up the initial profile
+                            that.profileChanged();
+                        }
+                    }, 200);
                 },
 
                 doLogout: function (e) {
@@ -57,7 +65,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                         this.profile = this.createProfile(user);
                     }
                     else {
-                        this.log("Profile already exists: ", this.profile, ". Updating it.");
+                        // this.log("Profile already exists: ", this.profile, ". Updating it.");
                         this.updateProfileFromProvider(user, this.profile);
                     }
                     // this.log("firebase profile: ", this.profile);
@@ -77,8 +85,9 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     if (!this.uid) {
                         return;
                     }
-                    this.log("admins changed: ", this.admins);
+                    // this.log("admins changed: ", this.admins);
                     if (this.admins) {
+                        // Todo: check scope == threadId for moderator!
                         if (this.admins.scope === "*") {
                             console.log("Congrats, you are an admin.", this.admins);
                             this.globals.isAdmin = true;
@@ -91,12 +100,13 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     }
                 },
 
-                updateProfileFromProvider: function(puser, profile) {
+                updateProfileFromProvider: function (puser, profile) {
                     /// Update everything that we care about updating EVERY time, not just first time.
 
                     // Update image and email address from current values
                     // possibly locale?
                     if (profile.locale === 'en-US') profile.locale = 'en';
+                    if (profile.locale === 'en_US') profile.locale = 'en';
                     if (profile.locale === 'fr-FR') profile.locale = 'fr';
 
 

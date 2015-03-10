@@ -124,7 +124,7 @@
          * @type string
          * @default (a suitable default is provided)
          */
-        firebaseLocation: 'https://speakur.firebaseio.com',
+        firebaseLocation: 'https://speakur-demo.firebaseio.com',
 
         /**
          * the threadId this discussion is participating in. This is automatically derived from
@@ -163,7 +163,7 @@
          */
         closed: true,
 
-        thread: null,
+        // thread: null,
 
         // Used in a few places to link to the software
         speakurSoftwareLink: 'https://github.com/Preston-Landers/speakur-discussion',
@@ -192,6 +192,30 @@
                 uid: 'anon',
                 username: 'Anonymous'  // this may not get displayed anywhere...
             };
+
+            // Set up a function to allow you to generate a 'current author' record from anywhere
+            // Not sure this is the ideal place for this.
+            var this_globals = this.globals;
+            this.globals.getAuthor = function () {
+                var author;
+                if (this_globals.profile) {
+                    author = {
+                        uid: this_globals.profile.uid,
+                        username: this_globals.profile.username,
+                        picture_link: this_globals.profile.picture_link,
+                        md5_hash: this_globals.profile.md5_hash
+                    };
+                } else {
+                    author = _.clone(this_globals.anon_author, true);
+
+                    // record IP & approx. location of anonymous authors
+                    if (this_globals.geodata) {
+                        author['geo'] = _.clone(this_globals.geodata, true);
+                    }
+                }
+                return author;
+            };
+
 
             // maximum number of old post revisions to keep
             this.globals.maxPostRevisionsKeep = 5;
@@ -314,17 +338,23 @@
             this.setThreadIdFromHref();
         },
 
-/*
         threadIdChanged: function (oldValue, newValue) {
-            this.log("Thread ID was changed from " + oldValue + " to ->" + newValue);
+            // this.log("Thread ID was changed from " + oldValue + " to ->" + newValue);
+
+            // TODO: is this the correct way to notice that a FB element doesn't exist and create it?!
+            var that = this;
+            this.job('check-thread-creation', function () {
+                if (!that.thread) {
+                    that.threadChanged();
+                }
+            }, 300);
         },
-*/
 
         threadChanged: function () {
-            // this.log("Thread changed. ", this.$.dbThread.location, " thread ID: ", this.threadId);
+            this.log("Thread changed. ", this.$.dbThread.location, " thread ID: ", this.threadId);
             if (this.threadId && !this.thread) {
                 // Create a default thread description.
-                var new_thread = {
+                this.thread = {
                     href: this.href,
                     threadId: this.threadId,
                     title: this.xtitle,
@@ -335,13 +365,8 @@
                     theme: this.theme,
                     moderators: this.moderators,
 
-                    // TODO: fix owners!
-                    owner: {
-                        uid: 'anonymous',
-                        username: 'Anonymous'
-                    }
+                    owner: this.globals.getAuthor()
                 };
-                this.thread = new_thread;
                 this.log("Created new thread for " + this.href + " -> " + this.thread);
             } else {
                 // this.log("this.thread -> ", this.thread);
@@ -372,10 +397,16 @@
             // Look for both Google and FB info
             // this.$.speakurProfile.uid = this.user.uid;
 
-            // allow other sub-elements to respond to this
-            this.fire('speakur-user-login', this.user);
+            // Note: this method is called twice, seems to be a bug in Firebase-element
+            // work around it with an async job.
 
-            this.log("onLogin complete", this.user);
+            var that = this;
+            this.job('fire-speakur-user-login', function () {
+                // allow other sub-elements to respond to this
+                that.fire('speakur-user-login', this.user);
+            }, 200);
+
+            // this.log("onLogin complete", this.user);
             e.stopPropagation();
         },
 
@@ -404,7 +435,7 @@
 
         currentLocale: 'en',
         localeChanged: function (e, details, sender) {
-            this.log("locale changed event", details, sender);
+            // this.log("locale changed event", details, sender);
 
             // Tells the i18next element to change locales
             this.currentLocale = details.newLocale;
