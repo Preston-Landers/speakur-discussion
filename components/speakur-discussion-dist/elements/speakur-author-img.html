@@ -1,0 +1,51 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../core-image/core-image.html">
+
+<polymer-element
+    name="speakur-author-img"
+    extends="speakur-base"
+    attributes="author width height showAnon">
+    <template>
+        <style>
+            core-image.profile-img {
+                border-radius: 50%;
+            }
+        </style>
+
+        <div class="profile-img-border">
+            <!--make it a bit bigger (zoomed in) to avoid bad thingies around rounded corners-->
+            <core-image
+                sizing="110% 110%"
+                class="profile-img"
+                width="{{width}}"
+                height="{{height}}"
+                alt="Profile Picture"
+                src="{{picture_link}}">
+            </core-image>
+            <div class="core-image-after"></div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            showAnon: true,
+            width: 24,
+            height: 24,
+            computed: {
+                'picture_link': "getPictureLink(author)"
+            },
+            getPictureLink: function (author) {
+                if (!author || !author.picture_link) {
+                    // Anonymous picture
+                    return 'images/grey.png';
+                }
+                return author.picture_link;
+            }
+        });
+    </script>
+</polymer-element>

@@ -1,0 +1,127 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../polymer/polymer.html">
+<!--<link rel="import" href="../../paper-shadow/paper-shadow.html">-->
+<link rel="import" href="../../core-collapse/core-collapse.html">
+
+<polymer-element
+    name="speakur-card"
+    extends="speakur-base"
+    attributes="collapsible shadowZ curved wideHeader level">
+    <template>
+        <style>
+
+            .card {
+                padding: 8px 12px;
+            }
+
+            .card-header {
+                /* color to theme file? */
+                background-color: rgba(152, 151, 156, 0.7);
+                color: #f5f5f5;
+                font-size: 1.1em;
+                padding-top: 6px;
+                padding-bottom: 6px;
+                min-width: 250px;
+            }
+
+            .curved-header {
+/*
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+*/
+                border-radius: 5px;
+            }
+
+            .card-footer {
+                padding-top: 4px;
+                padding-bottom: 4px;
+                font-size: 0.8em;
+                color: slategray;
+            }
+
+            .card-container {
+                margin: 1px;
+                padding: 0;
+            }
+
+        </style>
+        <div class="card-container">
+            <!--<paper-shadow class="shadow" z="{{shadowZ}}">-->
+                <article vertical layout>
+                    <template if="{{showheader}}">
+                        <!--remove self-start to have header expand to entire...-->
+                        <header
+                            self-start?="{{ !wideHeader }}"
+                            class="card card-header {{headerClass(level)}} {{ {'curved-header': curved} | tokenList }}"
+                            on-click="{{toggleCard}}">
+                            <content id="header" select=".header"></content>
+                        </header>
+                    </template>
+                    <core-collapse opened id="bodycollapse">
+                        <div class="card card-body">
+                            <content select=":not(.footer)"></content>
+                        </div>
+                        <template if="{{showfooter}}">
+                            <footer>
+                                <div class="card card-footer">
+                                    <content id="footer" select=".footer"></content>
+                                </div>
+                            </footer>
+                        </template>
+                    </core-collapse>
+                </article>
+            <!--</paper-shadow>-->
+        </div>
+    </template>
+    <script>
+        Polymer({
+            shadowZ: 1,
+            collapsible: true,
+            curved: false,
+            wideHeader: true,
+
+            domReady: function () {
+                // Doesn't work in IE11...
+                // this.showheader = this.querySelector(':scope > .header');
+                // this.showfooter = this.querySelector(':scope > .footer');
+
+                this.showheader = _.filter(this.children, function (e) {
+                    return e.className === "header";
+                }).length;
+                this.showfooter = _.filter(this.children, function (e) {
+                    return e.className === "footer";
+                }).length;
+            },
+            publish: {
+                showheader: {
+                    value: false,
+                    reflect: true
+                },
+                showfooter: {
+                    value: false,
+                    reflect: true
+                }
+            },
+
+            headerClass: function (level) {
+                var modlevel = level % 4;
+                return 'header-indent-' + modlevel;
+            },
+
+            toggleCard: function (e) {
+                if (!this.collapsible) return;
+                this.$.bodycollapse.toggle();
+                // this.$.footercollapse.toggle();
+
+                this.fire("speakur-card-toggle", this.$.bodycollapse.opened);
+                e.stopPropagation();
+            }
+
+        });
+    </script>
+</polymer-element>

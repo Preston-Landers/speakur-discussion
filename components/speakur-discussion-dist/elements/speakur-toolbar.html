@@ -1,0 +1,31 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../polymer/polymer.html">
+<polymer-element
+    name="speakur-toolbar"
+    extends="speakur-base">
+    <template>
+        <style>
+            .toolbar-border {
+                margin: 2px;
+                border: 2px solid black;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+            }
+        </style>
+        <div class="toolbar-border curved-small">
+
+            <div horizontal center layout class="speakur-toolbar">
+                <content></content>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({});
+    </script>
+</polymer-element>

@@ -1,0 +1,121 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+
+<link rel="import" href="speakur-dialog.html">
+
+<polymer-element
+    name="speakur-dialog-login"
+    extends="speakur-base"
+    attributes="baseLogin">
+    <template>
+
+        <speakur-dialog
+            on-dialog-toggle="{{wasToggled}}"
+            cancelButton="Cancel"
+            id="dialog">
+            <core-style ref="speakur-dialog-login"></core-style>
+            <div class="header">
+                {{ 'Sign in to Speakur' | $$(lc) }}
+            </div>
+
+            <div class="body">
+                <p>
+                    {{ 'pls_sign_in' | $$(lc) }}
+                </p>
+
+                <p>
+                    {{ 'login_private_data' | $$(lc) }}
+                </p>
+
+                <p>
+                    {{ 'one_login_svc' | $$(lc) }}
+
+                </p>
+
+                <div layout horizontal>
+                    <div
+                        class="login-button login-button-facebook"
+                        title="{{ 'sign_in_facebook' | $$(lc) }}"
+                        on-click="{{loginFacebook}}">
+                    </div>
+                    <div
+                        class="login-button login-button-google"
+                        title="{{ 'sign_in_google' | $$(lc) }}"
+                        on-click="{{loginGoogle}}">
+                    </div>
+                </div>
+            </div>
+        </speakur-dialog>
+
+    </template>
+    <script>
+        (function () {
+            Polymer({
+
+                toggle: function () {
+                    this.$.dialog.toggle();
+                },
+
+                wasToggled: function (e, detail, sender) {
+/*
+                    if (detail) {
+                        console.log("login dialog was opened.");
+                    } else {
+                        console.log("login dialog was closed.");
+                    }
+*/
+                    e.stopPropagation();
+                },
+
+
+                loginGoogle: function () {
+                    console.log('LOGIN with Google!');
+                    this.baseLogin.provider = 'google';
+                    this.toggle();
+                    this.baseLogin.login({
+                        remember: "default",
+                        scope: "email"
+                    });
+                },
+
+                loginFacebook: function () {
+                    console.log('LOGIN with Facebook!');
+                    this.baseLogin.provider = 'facebook';
+                    this.toggle();
+                    this.baseLogin.login({
+                        remember: "default",
+                        scope: "email"
+                    });
+                }
+
+                // TODO: reflect 'opened' as a property?  Or provide a closeIfOpen method?
+
+            });
+        })();
+    </script>
+</polymer-element>
+<core-style id="speakur-dialog-login">
+    .speakur-dialog .login-button {
+        width: 200px;
+        height: 32px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin: 8px;
+    }
+
+    .speakur-dialog .login-button-facebook {
+        background-image: url("../speakur-discussion/images/facebook-login-button.png");
+    }
+
+    .speakur-dialog .login-button-google {
+        background-image: url("../speakur-discussion/images/google-sign-in-button.png");
+    }
+</core-style>
+
+<!-- Firefox & MSIE need this here -->
+<core-style ref="speakur-dialog-login"></core-style>

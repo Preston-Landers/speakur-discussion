@@ -1,0 +1,224 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../core-style/core-style.html">
+
+
+<polymer-element
+    name="speakur-theme"
+    extends="speakur-base">
+    <template>
+
+        <core-style id="speakur-theme">
+
+        :host[unresolved] {
+            opacity: 0;
+            /* other custom styles for unresolved elements */
+        }
+
+        :host /deep/ .speakur-container {
+            border-width: 0;
+             background-color: transparent;
+            /*background-color: {{ textSecBg }};*/
+            color: {{ textSec }};
+        }
+
+        :host .speakur-container {
+            font-family: {{ fontFamily }};
+            font-size: {{ fontSize }};
+        }
+
+        :host /deep/ .post-body {
+            font-size: {{ fontSizePost }};
+        }
+
+
+        :host .speakur-body-container {
+            border-width: 0;
+        }
+
+        :host speakur-toolbar /deep/ .speakur-toolbar {
+            background-color: {{ primaryA3 }};
+            color: {{ primaryA3T }};
+        }
+
+        :host speakur-toolbar /deep/ .toolbar-border {
+            border-color: {{ primaryDark }};
+        }
+
+        :host speakur-toolbar /deep/ .speakur-header-titlebox {
+            text-shadow: 1px 1px rgba(20, 20, 22, 0.1);
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        :host /deep/ .speakur-toggle-button {
+            color: {{ accent }};
+        }
+
+        /* without this they push in front of the tooltips!! */
+        :host /deep/ core-image {
+            position: inherit;
+        }
+
+        :host /deep/ core-image.profile-img {
+            border-radius: 50%;
+            border: 2px rgba(108, 122, 127, 0.3) solid; /* color! */
+            border-color: {{ primaryDark }};
+            background-color: {{ primaryLightA }};
+        }
+
+        :host /deep/ textarea, :host /deep/ textarea.form-control {
+            background-color: {{ textSecBg }};
+            color: {{ textSec }};
+        }
+
+        :host /deep/ #helpbutton {
+            color: blue;
+        }
+
+        :host /deep/ #reportbutton {
+            color: rgba(252, 247, 36, 0.89);
+        }
+
+
+        /* hierarchy levels w/ transparency */
+        :host /deep/ .header-indent-0 {
+            background-color: {{ primaryA0 }};
+            color: {{ primaryA0T }};
+        }
+
+        :host /deep/ .header-indent-1 {
+            background-color: {{ primaryA1 }};
+            color: {{ primaryA1T }};
+        }
+
+        :host /deep/ .header-indent-2 {
+            background-color: {{ primaryA2 }};
+            color: {{ primaryA2T }};
+        }
+
+        :host /deep/ .header-indent-3 {
+            background-color: {{ primaryA3 }};
+            color: {{ primaryA3T }};
+        }
+
+
+        /*  http://www.materialpalette.com/grey/blue-grey  */
+
+        :host /deep/ .st-primary-dark {
+            background-color: {{primaryDark}};
+            color: {{ primaryDarkText }};
+        }
+
+        :host /deep/ .st-primary {
+            background-color: {{primary}};
+            color: {{ primaryText }};
+        }
+
+        :host /deep/ .st-primary-light {
+            background-color: {{primaryLight}};
+            color: {{ primaryLightText }};
+        }
+
+        :host /deep/ .st-icons {
+            background-color: {{ divider }};
+            color: {{ icons }};
+        }
+
+        :host /deep/ .st-accent {
+            background-color: {{accent}};
+            color: {{ accentText }};
+        }
+
+        :host /deep/ .st-text {
+            background-color: {{textBg}};
+            color: {{text}};
+        }
+
+        :host /deep/ .st-text-sec {
+            background-color: {{textSecBg}};
+            color: {{textSec}};
+        }
+
+        :host /deep/ .st-divider {
+            color: {{divider}};
+        }
+        </core-style>
+
+        <!-- stuff that must be applied at the page level -->
+        <core-style id="speakur-theme-page">
+
+        html /deep/ paper-dropdown.speakur-paper-dropdown,
+        html /deep/ paper-dialog.speakur-dialog
+        {
+            background-color: {{ textSecBg }};
+            color: {{ textSec }};
+            font-family: {{ fontFamily }};
+            font-size: {{ fontSize }};
+        }
+
+        html /deep/ #speakur-toast {
+            background-color: {{ accent }};
+            color: {{ accentText }};
+            min-width: 250px;
+        }
+
+        html /deep/ core-tooltip::shadow #tooltip {
+            min-width: 250px;
+            max-width: 350px;
+            white-space: pre-line;
+            padding: 2px 12px 2px 12px;
+        }
+
+        </core-style>
+    </template>
+    <script>
+        Polymer({
+            fontFamily: '"RobotoDraft", "Calibri", Helvetica, Arial, sans-serif',
+//            fontSize: "12px",
+//            fontSizePost: "13px",
+            fontSize: "0.8em",
+            fontSizePost: "1.1em",
+
+            primaryDark: '#616161',
+            primaryDarkText: '#F5F5F5',
+
+            primary: '#9E9E9E',
+            primaryText: '#F5F5F5',
+
+            primaryA0: 'rgba(97, 97, 97, 0.8)',
+            primaryA0T: '#F5F5F5',
+            primaryA1: 'rgba(97, 97, 97, 0.65)',
+            primaryA1T: '#F5F5F5',
+            primaryA2: 'rgba(97, 97, 97, 0.4)',
+            primaryA2T: '#212121',
+            primaryA3: 'rgba(97, 97, 97, 0.15)',
+            primaryA3T: '#212121',
+            primaryA4: 'rgba(97, 97, 97, 0.05)',
+            primaryA4T: '#212121',
+            primaryA5: 'rgba(97, 97, 97, 0.9)',
+            primaryA5T: '#F5F5F5',
+
+            primaryLight: '#F5F5F5',
+            primaryLightText: '#212121',
+            primaryLightA: 'rgba(244, 244, 244, 0.4)',
+
+            icons: '#212121',
+            accent: '#607D8B',
+            accentText: '#f5f5f5',
+
+            text: '#212121',
+            textBg: '#f5f5f5',
+
+            textSec: '#646464',
+            textSecBg: '#f5f5f5',
+
+            divider: '#B6B6B6'
+        });
+    </script>
+</polymer-element>

@@ -1,0 +1,276 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../core-icon/core-icon.html">
+<link rel="import" href="../../../core-image/core-image.html">
+
+<!--
+    Present a UI for the post display footer with actions like vote, edit, delete, etc.
+  -->
+<polymer-element
+    name="speakur-post-footer"
+    extends="speakur-base"
+    attributes="post postVotes voteElem">
+    <template>
+        <style>
+            .speakur-post-toolbar > div {
+                margin-right: 2.5em;
+            }
+
+            .speakur-post-toolbar > div:hover {
+                text-decoration: underline;
+                cursor: default;
+            }
+
+            .speakur-post-toolbar > .report-post-button {
+                margin-right: 0;
+                margin-left: 30px;
+                /*font-size: 85%;*/
+                opacity: 0.7;
+            }
+
+            .vote-block {
+                margin-right: 8px;
+            }
+
+            .vote {
+                width: 16px;
+                height: 14px;
+                opacity: 0.3;
+            }
+
+            .speakur-post-toolbar > div.vote-down-block {
+                color: #800004;
+                display: inline;
+            }
+
+            /* actually has voted down */
+            .voted-down {
+                color: #d40005;
+                opacity: 1.0;
+            }
+
+            .speakur-post-toolbar > div.vote-up-block {
+                margin-left: 0;
+                margin-right: 10px;
+                color: #000ec1;
+                display: inline;
+            }
+
+            /* actually has voted up */
+            .voted-up {
+                color: #0011fd;
+                opacity: 1.0;
+            }
+
+            .not-voted {
+                opacity: 0.2;
+            }
+
+            .reply-img {
+                position: relative;
+                top: -1px;
+            }
+
+            .edit-post, .delete-post {
+                margin-top: 2px;
+            }
+
+            :host core-icon[role=img] {
+                width: 14px;
+                height: 14px;
+            }
+        </style>
+        <div horizontal center layout class="speakur-post-toolbar" hidden?="{{ post.deleted }}">
+            <div
+                title="{{ 'vote_up_title' | $$(lc) }}"
+                on-click="{{voteUp}}"
+                class="vote-block vote-up-block">
+
+                <!--
+                    <core-icon
+                        id="voteUp"
+                        class="vote vote-up {{ {'not-voted': notVoted, 'voted-up': votedUp} | tokenList }}  "
+                        icon="thumb-up"></core-icon>
+                -->
+
+                <core-image
+                    class="vote-img vote-up-img footer-img vote vote-up {{ {'not-voted': notVoted, 'voted-up': votedUp} | tokenList }}"
+                    sizing="110% 110%"
+                    width="14"
+                    height="{{imgHeight}}"
+                    alt="up"
+                    src="../../images/arrow-up.png">
+                </core-image>
+
+                {{numUpvotes}}
+            </div>
+
+            <div
+                on-click="{{voteDown}}"
+                title="{{ 'vote_down_title' | $$(lc) }}"
+                class="vote-block vote-down-block">
+
+                <!--<core-icon-->
+                <!--id="voteDown"-->
+                <!--class="vote vote-down {{ {'not-voted': notVoted, 'voted-down': votedDown} | tokenList }} "-->
+                <!--icon="thumb-down"></core-icon>-->
+
+                <core-image
+                    class="vote-img vote-up-img footer-img vote vote-down {{ {'not-voted': notVoted, 'voted-down': votedDown} | tokenList }} "
+                    sizing="110% 110%"
+                    width="14"
+                    height="{{imgHeight}}"
+                    alt="down"
+                    src="../../images/arrow-down.png">
+                </core-image>
+
+                {{numDownvotes}}
+            </div>
+
+            <div title="{{ 'reply_to_comment' | $$(lc) }}" on-click="{{replyToPost}}">
+
+                <core-image
+                    sizing="110% 110%"
+                    class="reply-img footer-img"
+                    width="{{imgWidth}}"
+                    height="{{imgHeight}}"
+                    alt="flag"
+                    src="../../images/reply-32.png">
+                </core-image>
+
+                {{ 'Reply' | $$(lc) }}
+            </div>
+
+            <template if="{{canEditPost(post, globals.profile, globals.isAdmin)}}">
+                <div class="edit-post"
+                     title="{{ 'edit_this_comment' | $$(lc) }}" on-click="{{editPost}}">
+
+                    <!--
+                    <core-icon
+                        id="editIcon"
+                        class="edit-icon"
+                        icon="create">
+                    </core-icon>
+                    -->
+
+                    {{ 'Edit' | $$(lc) }}
+                </div>
+            </template>
+
+            <template if="{{canDeletePost(post, globals.profile, globals.isAdmin)}}">
+
+                <div class="delete-post"
+                     title="{{ 'delete_this_comment' | $$(lc) }}" on-click="{{deletePost}}">
+                    <!--
+                    <core-icon
+                        id="deleteIcon"
+                        class="delete-icon"
+                        icon="delete">
+                    </core-icon>
+                    -->
+
+                    {{ 'Delete' | $$(lc) }}
+                </div>
+            </template>
+
+            <!--<div flex></div>-->
+            <div class="report-post-button" title="{{ 'report_spam_title' | $$(lc) }}"
+                 on-click="{{reportPost}}">
+
+                <!--
+                <core-image
+                    sizing="110% 110%"
+                    class="report-flag-img footer-img"
+                    width="{{imgWidth}}"
+                    height="{{imgHeight}}"
+                    alt="flag"
+                    src="../../images/flag-red-16.png">
+                </core-image>
+                -->
+
+                {{ 'Report' | $$(lc) }}
+
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            imgHeight: '12px',
+            imgWidth: '12px',
+            imgRoot: '../../images',
+
+
+            getNetVotes: function (postVotes) {
+                return this.numUpvotes(postVotes) - this.numDownvotes(postVotes);
+            },
+
+            getNumUpvotes: function (postVotes) {
+                if (!postVotes) return 0;
+                return postVotes.up || 0;
+            },
+
+            getNumDownvotes: function (postVotes) {
+                if (!postVotes) return 0;
+                return postVotes.down || 0;
+            },
+
+            computed: {
+                // netVotes: "getNetVotes(postVotes, voteElem.votedUp, voteElem.votedDown)",
+                numUpvotes: "getNumUpvotes(postVotes, voteElem.votedUp, voteElem.votedDown)",
+                numDownvotes: "getNumDownvotes(postVotes, voteElem.votedUp, voteElem.votedDown)",
+                votedUp: "globals.profile && voteElem && voteElem.votedUp ? true: false",
+                votedDown: "globals.profile && voteElem && voteElem.votedDown ? true: false",
+                notVoted: "!globals.profile || !voteElem || (!voteElem.votedDown && !voteElem.votedUp) ? true: false",
+
+                // TODO: see comment in speakur-base
+                "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
+                "anon_name": "'Anonymous' | $$(globals.currentLocale ? globals.currentLocale : 'en')"
+
+            },
+
+            // This doesn't necessarily make sense to keep here does it?
+            canDeletePost: function (post, my_profile, isAdmin) {
+                if (isAdmin) {
+                    return true;
+                }
+                if (!my_profile || !post || !post.author || !post.author.uid) {
+                    return false;
+                }
+                if (post.author.uid === "anonymous" ||
+                    post.author.uid === "anon") {
+                    // Only admin can delete anon posts - later add moderators
+                    return false;
+                }
+                return post.author.uid === my_profile.uid;
+            },
+
+            canEditPost: function (post, my_profile, isAdmin) {
+                return this.canDeletePost(post, my_profile, isAdmin);
+            },
+
+            replyToPost: function () {
+                this.fire('reply-to-post', this.post);
+            },
+            editPost: function () {
+                this.fire('edit-post', this.post);
+            },
+            reportPost: function () {
+                this.fire('report-post', this.post);
+            },
+            deletePost: function () {
+                this.fire('delete-post', this.post);
+            },
+            voteUp: function () {
+                this.fire('vote-up', this.post);
+            },
+            voteDown: function () {
+                this.fire('vote-down', this.post);
+            }
+        });
+    </script>
+</polymer-element>

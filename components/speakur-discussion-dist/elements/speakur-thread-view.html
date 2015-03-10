@@ -1,0 +1,154 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../firebase-element/firebase-element.html">
+<link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../core-menu/core-menu.html">
+<link rel="import" href="../../paper-item/paper-item.html">
+<link rel="import" href="speakur-compose.html">
+<link rel="import" href="posts/speakur-post-set.html">
+
+<polymer-element
+    name="speakur-thread-view"
+    extends="speakur-base"
+    attributes="firebaseLocation threadId sortOrder replyCount replyCountDeep">
+    <template>
+        <style>
+            #header > div {
+                margin: 4px;
+                font-size: 1.1em;
+            }
+
+            #header .thread-title {
+                font-size: 1.2em;
+                font-weight: bold;
+            }
+
+            #header .thread-favorite paper-icon-button {
+                margin: 0;
+                padding-bottom: 4px;
+                color: #605805;
+            }
+
+            #header .thread-favorite paper-icon-button /deep/ core-icon[role=img] {
+                height: 28px;
+                width: 28px;
+                padding: 1px;
+                margin: 1px;
+                color: #f4e700;
+            }
+
+            #header .thread-age {
+                font-style: italic;
+            }
+        </style>
+
+        <firebase-element
+            id="dbThread" location="{{ fbLocation(firebaseLocation, 'threads', threadId) }}"
+            data="{{thread}}"></firebase-element>
+
+        <article layout vertical>
+
+            <speakur-compose
+                id="threadCompose"
+                threadId="{{threadId}}"
+                replyTo="{{threadId}}"
+                firebaseLocation="{{firebaseLocation}}">
+            </speakur-compose>
+
+            <header layout horizontal center id="header" class="thread-header">
+                <div class="thread-favorite">
+                    <paper-icon-button
+                        icon="star-outline"
+
+                        on-click="{{favoriteToggle}}"
+                        title="Favorite">
+                    </paper-icon-button>
+                </div>
+                <div style="max-width: 35em;" class="thread-title">
+                    {{thread.title}}
+                </div>
+                <div class="thread-link">
+                    <small>
+                        <a target="_blank" href="{{thread.href}}">/{{ 'new_window' | $$(lc) }}/</a>
+                    </small>
+                </div>
+                <div class="thread-age" title="{{ thread.created | formatTimestamp(lc) }}">
+                    {{ 'post_posted' | $$(lc) }}
+                    <time>
+                        {{ thread.created | formatTimestampFromAgo(lc) }}
+                    </time>
+                </div>
+
+                <div flex></div>
+                <div class="thread-sort">
+                    <paper-dropdown-menu label="{{ 'sort_order_desc' | $$(lc) }}">
+                        <paper-dropdown halign="right" layered class="speakur-paper-dropdown dropdown" transition="">
+                            <core-menu id="sortMenu" class="menu">
+                                <paper-item data-sorting="newest">
+                                    {{ 'sort_newest' | $$(lc) }}
+                                </paper-item>
+                                <paper-item data-sorting="oldest">
+                                    {{ 'sort_oldest' | $$(lc) }}
+                                </paper-item>
+                                <paper-item data-sorting="high">
+                                    {{ 'sort_votes_high' | $$(lc) }}
+                                </paper-item>
+                                <paper-item data-sorting="low">
+                                    {{ 'sort_votes_low' | $$(lc) }}
+                                </paper-item>
+                            </core-menu>
+                        </paper-dropdown>
+                    </paper-dropdown-menu>
+
+                </div>
+            </header>
+
+            <speakur-post-set
+                id="topLevelPosts"
+                firebaseLocation="{{firebaseLocation}}"
+                level="0"
+                sortOrder="{{sortOrder}}"
+                threadId="{{threadId}}"
+                parentId="{{threadId}}"></speakur-post-set>
+        </article>
+    </template>
+    <script>
+        Polymer({
+            sortOrder: 'oldest',
+
+            domReady: function () {
+                var that = this;
+
+                // I'm pretty sure there has to be a better way to do this?
+                this.$.sortMenu.addEventListener('core-select', function (e) {
+                    if (e.detail.isSelected) {
+                        that.sortOrder = e.detail.item.dataset['sorting'];
+                        console.log('Sort changed to ', that.sortOrder);
+                    }
+                });
+            },
+
+            favoriteToggle: function () {
+                this.fire('not-yet-implemented');
+            },
+
+            computed: {
+                'replyCount': '$.topLevelPosts.postCount',
+                'replyCountDeep': '$.topLevelPosts.postCountDeep',
+
+                // COPIED FROM BASE! https://github.com/Polymer/polymer/issues/933
+                "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
+                "anon_name": "'Anonymous' | $$(globals.currentLocale ? globals.currentLocale : 'en')"
+            }
+
+
+        });
+    </script>
+</polymer-element>

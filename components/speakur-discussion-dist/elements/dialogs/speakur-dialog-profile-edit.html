@@ -1,0 +1,179 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../imports/bootstrap.partial.html">
+<link rel="import" href="speakur-dialog.html">
+<link rel="import" href="speakur-lang-select.html">
+<link rel="import" href="speakur-theme-select.html">
+
+<!--
+
+TODO: maybe don't let the language and theme changes take effect until
+you hit save like the rest of the profile.  Or at least make cancel undo it.
+
+-->
+<polymer-element
+    name="speakur-dialog-profile-edit"
+    extends="speakur-base"
+    attributes="profile">
+
+    <template>
+        <speakur-dialog
+            unsavedChanges="{{unsavedChanges}}"
+            okButton="{{ 'Save Changes' | $$(lc) }}"
+            okTitle="{{ 'Save Changes' | $$(lc) }}"
+            cancelButton="{{ 'Cancel' | $$(lc) }}"
+            cancelTitle="{{ 'Discard Changes' | $$(lc) }}"
+            id="dialog">
+
+            <style>
+                .flabel {
+                    font-weight: bold;
+                    margin-left: 6em;
+                }
+            </style>
+
+            <div class="header">
+                {{ 'Edit your Speakur Profile' | $$(lc) }}
+            </div>
+
+            <div class="body">
+                <core-style ref="bootstrap-form"></core-style>
+
+                <form class="profile-form" id="profile-form">
+
+                    <div class="form-group" layout center horizontal="">
+                        <div class="flabel" flex>
+                            {{ 'language' | $$(lc) }}
+                        </div>
+                        <div flex>
+                            <speakur-lang-select
+                                locale="{{ lc }}"
+                                id="languageInput" >
+                            </speakur-lang-select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" layout center horizontal="">
+                        <div class="flabel" flex>
+                            {{ 'Theme' | $$(lc) }}
+                        </div>
+                        <div flex>
+                            <speakur-theme-select
+                                id="themeInput" >
+                            </speakur-theme-select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label
+                            class="form-label"
+                            for="usernameInput">{{ 'Public Username' | $$(lc) }}</label>
+                        <input
+                            type="text" class="form-control" id="usernameInput"
+                            value="{{username}}"
+                            placeholder="{{ 'Username' | $$(lc) }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label
+                            class="form-label"
+                            for="aboutlinkInput">{{ 'Public Link' | $$(lc) }}</label>
+                        <input
+                            type="text" class="form-control" id="aboutlinkInput"
+                            value="{{about_link}}"
+                            placeholder="{{ 'public_link_placeholder' | $$(lc) }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label
+                            class="form-label"
+                            for="aboutInput">{{ 'Public Biography' | $$(lc) }}</label>
+                        <textarea
+                            id="aboutInput"
+                            value="{{about}}"
+                            placeholder="{{ 'public_bio_placeholder' | $$(lc) }}"
+                            class="form-control" rows="3"></textarea>
+                    </div>
+
+                </form>
+            </div>
+        </speakur-dialog>
+
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                unsavedChanges: false,
+                username: null,
+                about: null,
+                about_link: null,
+
+                eventDelegates: {
+                    'dialog-click-ok': 'saveChanges',
+                    'dialog-click-cancel': 'cancelChanges'
+                },
+
+                observe: {
+                    'username': 'checkForUnsavedChanges',
+                    'about': 'checkForUnsavedChanges',
+                    'about_link': 'checkForUnsavedChanges'
+                },
+
+                checkForUnsavedChanges: function () {
+                    var unsaved = false;
+
+                    if (this.username !== this.profile['username']) unsaved = true;
+                    if (this.about !== this.profile['about']) unsaved = true;
+                    if (this.about_link !== this.profile['about_link']) unsaved = true;
+                    this.unsavedChanges = unsaved;
+                    return unsaved;
+                },
+
+                toggle: function () {
+                    this.$.dialog.toggle();
+                },
+
+                // Load the current dialog state from the database profile
+                loadProfileFromDB: function (profile) {
+                    this.username = profile['username'];
+                    this.about_link = profile['about_link'];
+                    this.about = profile['about'];
+                    this.unsavedChanges = false;
+                },
+
+                // Save the current dialog state to the database
+                saveProfileToDB: function () {
+                    this.profile['username'] = this.username;
+                    this.profile['about_link'] = this.about_link;
+                    this.profile['about'] = this.about;
+                    this.unsavedChanges = false;
+
+                    // Update 'public' profile?
+                },
+
+                profileChanged: function (oldVal, newVal) {
+                    this.loadProfileFromDB(newVal);
+                },
+
+
+                saveChanges: function (e, detail, sender) {
+                    console.log("Save changes to profile...", this.profile);
+                    this.saveProfileToDB();
+                    e.stopPropagation();
+                },
+
+                cancelChanges: function (e, detail, sender) {
+                    console.log("Cancel clicked in profile edit", e);
+                    // reset the profile from the DB
+                    this.loadProfileFromDB(this.profile);
+                }
+
+            });
+        })();
+    </script>
+</polymer-element>

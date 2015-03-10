@@ -1,0 +1,208 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../firebase-element/firebase-element.html">
+<polymer-element
+    name="speakur-profile"
+    extends="speakur-base"
+    attributes="firebaseLocation uid profile threadId">
+    <template>
+        <firebase-element id="base" location="{{ fbLocation(firebaseLocation, 'profile', uid) }}"
+                          data="{{profile}}"></firebase-element>
+        <firebase-element id="admins" location="{{ fbLocation(firebaseLocation, 'admins', uid) }}"
+                          data="{{admins}}"></firebase-element>
+    </template>
+    <script>
+        (function () {
+
+            Polymer({
+                ready: function () {
+                },
+                attached: function () {
+                    var that = this;
+                    this.ownerDocument.addEventListener('speakur-user-logout', function (e) {
+                        that.doLogout(e);
+                    });
+                    this.ownerDocument.addEventListener('speakur-user-login', function (e) {
+                        that.reactToLogin(e);
+                    });
+
+                },
+
+                reactToLogin: function (e) {
+                    // this.log("profile notified that user logged in.");
+
+                    var that = this;
+                    this.job('login-react-profile', function () {
+                        if (!that.profile) {
+                            // Try to set up the initial profile
+                            that.profileChanged();
+                        }
+                    }, 200);
+                },
+
+                doLogout: function (e) {
+                    this.log("doLogout in speakur-profile");
+                    // clear out the global user/profile info
+                    this.uid = null;
+                    this.globals.currentUser = null;
+                    this.globals.profile = null;
+                    this.globals.isAdmin = false;
+                },
+
+                profileChanged: function () {
+                    var user = this.globals.currentUser;
+                    if (!user) {
+                        return;
+                    }
+                    // this.log("Checking user profile of: ", user.uid, " at location ", this.$.base.location);
+                    if (!this.profile) {
+                        this.log("Creating profile for " + user.uid);
+                        this.profile = this.createProfile(user);
+                    }
+                    else {
+                        // this.log("Profile already exists: ", this.profile, ". Updating it.");
+                        this.updateProfileFromProvider(user, this.profile);
+                    }
+                    // this.log("firebase profile: ", this.profile);
+                    this.globals.profile = this.profile;
+                    // this.globals.currentLocale = this.profile.locale;
+                    this.fire('speakur-locale-change', {oldLocale: null, newLocale: this.profile.locale});
+                    if (this.profile.theme) {
+                        this.fire('speakur-theme-change', {theme: this.profile.theme});
+                    }
+
+                    // TODO: whether or not the user is an admin is indeterminate at this point
+                    // until adminsChanged is called;
+                },
+
+                adminsChanged: function () {
+                    this.globals.isAdmin = false;
+                    if (!this.uid) {
+                        return;
+                    }
+                    // this.log("admins changed: ", this.admins);
+                    if (this.admins) {
+                        // Todo: check scope == threadId for moderator!
+                        // Or if you're the thread owner
+                        if (this.admins.scope === "*") {
+                            console.log("Congrats, you are an admin.", this.admins);
+                            this.globals.isAdmin = true;
+                        } else {
+                            this.log("Admin scope doesn't match.");
+                        }
+
+                    } else {
+                        this.log("You're a regular old user.");
+                    }
+                },
+
+                updateProfileFromProvider: function (puser, profile) {
+                    /// Update everything that we care about updating EVERY time, not just first time.
+
+                    // Update image and email address from current values
+                    // possibly locale?
+                    if (profile.locale === 'en-US') profile.locale = 'en';
+                    if (profile.locale === 'en_US') profile.locale = 'en';
+                    if (profile.locale === 'fr-FR') profile.locale = 'fr';
+
+
+                    var email, xprof, displayName;
+
+                    if (puser.google) {
+                        xprof = puser.google.cachedUserProfile;
+                        displayName = puser.google.displayName;
+                        email = puser.google.email;
+                        profile['fullname'] = displayName;
+                        if (xprof) {
+                            // doesn't provide TZ... could get from browser?
+                            profile['picture_link'] = xprof.picture;
+                            // profile['about_link'] = xprof.link;
+                            // profile['locale'] = xprof.locale;
+                        }
+                    } else if (puser.facebook) {
+                        xprof = puser.facebook.cachedUserProfile;
+                        displayName = puser.facebook.displayName;
+                        email = puser.facebook.email;
+                        profile['fullname'] = displayName;
+                        if (xprof) {
+                            // profile['timezone'] = xprof.timezone;
+                            profile['picture_link'] = xprof.picture.data.url;
+                            // profile['about_link'] = xprof.link;
+                            // profile['locale'] = xprof.locale;
+                        }
+                    }
+
+                    if (email) {
+                        this.setEmailAddress(profile, email);
+                    } else {
+                        this.log("Warning: user " + puser.uid + " hasn't provided an email address.");
+                    }
+
+                },
+
+                setEmailAddress: function (profile, email) {
+                    if (email) {
+                        profile['email'] = email;
+                        profile['md5_hash'] = md5(email);
+                    }
+                },
+
+
+                firstTimeProfileInfoFromProvider: function (puser, profile) {
+                    // Add stuff that we only care about the first time, in theory b/c we will manage it
+                    var xprof, displayName;
+                    if (puser.google) {
+                        xprof = puser.google.cachedUserProfile;
+                        displayName = puser.google.displayName;
+                        profile['username'] = displayName;
+                        if (xprof) {
+                            // doesn't provide TZ... could get from browser?
+                            profile['about_link'] = xprof.link;
+                            profile['locale'] = xprof.locale;
+                        }
+                    } else if (puser.facebook) {
+                        xprof = puser.facebook.cachedUserProfile;
+                        displayName = puser.facebook.displayName;
+                        profile['username'] = displayName;
+                        if (xprof) {
+                            profile['timezone'] = xprof.timezone;
+                            profile['about_link'] = xprof.link;
+                            profile['locale'] = xprof.locale;
+                        }
+                    }
+                },
+
+
+                // create a new generic user profile from an authentication user
+                createProfile: function (user) {
+
+                    var prof = {
+                        uid: user.uid,
+                        provider: user.provider,
+                        username: '',
+                        email: '',
+                        picture_link: '',
+                        about_link: '',
+                        about: '',
+                        locale: 'en',
+                        fullname: '',
+                        md5_hash: '',
+                        timezone: -5
+                    };
+
+                    this.updateProfileFromProvider(user, prof);
+
+                    this.firstTimeProfileInfoFromProvider(user, prof);
+
+                    return prof;
+                }
+
+            });
+        })();
+    </script>
+</polymer-element>

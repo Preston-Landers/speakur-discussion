@@ -1,0 +1,134 @@
+/**
+ * @license
+ * Copyright (c) 2015 Preston Landers. All rights reserved.
+ * This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+ * The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+ * The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+ *
+ */
+
+/*
+ * TODO: we can probably just get rid of this file and fold it into speakur-theme.html
+ */
+
+:host {
+    display: block;
+    opacity: 1;
+    transition: opacity 300ms;
+}
+
+:host:unresolved {
+    opacity: 0;
+}
+
+/* To ensure your styling works under the Shadow DOM polyfill, see
+   www.polymer-project.org/docs/polymer/styling.html#directives */
+polyfill-next-selector {
+    content: ':host > h2';
+}
+
+::content h2 {
+    color: blue;
+}
+
+.curved-small {
+    border-radius: 3px;
+}
+
+.speakur-container {
+    border-color: black;
+    border-width: 3px;
+    border-style: solid;
+
+    max-width: 400px;
+    min-width: 200px;
+    border-radius: 8px;
+}
+
+
+paper-icon-button /deep/ core-icon[role=img] {
+    width: 18px;
+    height: 18px;
+    padding: 1px;
+    margin: 1px;
+}
+
+.speakur-body-container {
+    margin: 4px;
+    padding: 8px;
+
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 4px;
+
+}
+
+
+:host /deep/ paper-icon-button.toolbar-icon {
+    /*padding: 0;*/
+    margin-left: 4px;
+}
+
+
+:host /deep/ paper-icon-button.toolbar-icon /deep/ core-icon {
+    width: 24px;
+    height: 24px;
+}
+
+:host /deep/ .toolbar-icon-author {
+    margin: 2px 2px 0;
+}
+
+:host .admin-mode {
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+:host speakur-login-button {
+    margin-right: 8px;
+}
+
+:host speakur-toolbar /deep/ .speakur-toggle-link {
+    text-align: center;
+}
+:host speakur-toolbar /deep/ .speakur-toggle-link:hover {
+    text-decoration: underline;
+}
+
+:host .speakur-copyright {
+    opacity: 0.9;
+}
+
+:host .powered-by-link {
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 4px;
+    opacity: 0.9;
+}
+
+:host .powered-by-link:visited {
+    color: inherit;
+}
+
+:host .powered-by-link:hover {
+    text-decoration: underline;
+}
+
+:host /deep/ article,
+:host /deep/ aside,
+:host /deep/ figure,
+:host /deep/ figcaption,
+:host /deep/ footer,
+:host /deep/ header,
+:host /deep/ main,
+:host /deep/ nav,
+:host /deep/ section,
+:host /deep/ summary {
+    display: block;
+}
+
+/* http://stackoverflow.com/questions/25556640/paper-menu-buttons-dropdown-has-scrollbars */
+:host /deep/ core-menu {
+    overflow: hidden !important;
+}

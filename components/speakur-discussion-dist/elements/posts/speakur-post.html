@@ -1,0 +1,245 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../paper-button/paper-button.html">
+<link rel="import" href="../../../firebase-element/firebase-element.html">
+<link rel="import" href="../../../marked-element/marked-element.html">
+<link rel="import" href="../../../highlightjs-element/highlightjs-element.html">
+<link rel="import" href="../../../core-collapse/core-collapse.html">
+
+<link rel="import" href="../speakur-author-img.html">
+<link rel="import" href="../speakur-author-slug.html">
+<link rel="import" href="../speakur-card.html">
+<link rel="import" href="speakur-post-footer.html">
+<link rel="import" href="speakur-post-set.html">
+<link rel="import" href="speakur-post-vote.html">
+<link rel="import" href="../speakur-compose.html">
+
+<polymer-element
+    name="speakur-post"
+    extends="speakur-base"
+    attributes="firebaseLocation threadId parentId postId previewing previewText previewingEdit level sortOrder replyCount replyCountDeep parentCounts">
+    <template>
+        <link rel="stylesheet" href="../../../highlightjs/styles/default.css">
+        <style>
+            .post-card-container {
+                margin: 0 0 12px 0;
+            }
+
+            /* give less padding to the body of the card within. maybe just change the card itself */
+            speakur-card /deep/ .card-body {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+
+            speakur-card /deep/ .card-header {
+                font-size: 0.95em;
+            }
+
+            .post-author-img {
+                padding: 0;
+                margin: 0;
+            }
+
+
+            speakur-author-slug {
+                margin-left: 4px;
+                margin-right: 18px;
+            }
+
+            speakur-author-slug /deep/ .username {
+                /*text-shadow: 1px 1px rgba(20, 20, 22, 0.10);*/
+                font-weight: bold;
+                font-size: 1.15em;
+            }
+
+
+        </style>
+        <speakur-post-vote
+            id="vote"
+            uid="{{globals.currentUser.uid}}"
+            postVotes="{{postVotes}}"
+            parentId="{{parentId}}"
+            postId="{{postId}}"
+            firebaseLocation="{{firebaseLocation}}"></speakur-post-vote>
+        <template if="{{!previewing}}">
+            <firebase-element
+                id="postDB" data="{{post}}"
+                location="{{fbLocation(firebaseLocation, 'posts', parentId, postId) }}"></firebase-element>
+            <firebase-element
+                id="postvotesDB" data="{{postVotes}}"
+                location="{{fbLocation(firebaseLocation, 'postvotes', parentId, postId) }}"></firebase-element>
+
+        </template>
+        <template if="{{!previewing || previewText}}">
+            <div class="post-and-replies {{indentClass}}">
+                <div layout horizontal class="post-container">
+
+                <div class="author-img-div" _style="min-width: {{indentWidth}}px;">
+                    <core-collapse opened id="imgCollapse">
+                        <div class="post-author-img">
+                            <speakur-author-img
+                                width="42" height="42"
+                                author="{{previewing ? globals.profile : post.author}}">
+                            </speakur-author-img>
+                        </div>
+                    </core-collapse>
+                </div>
+                <div flex class="post-card-container">
+
+                    <!--<speakur-card id="card" collapsible="true" curved="true" wideHeader="false" shadowZ="0">-->
+                    <speakur-card
+                        id="card"
+                        collapsible="true"
+                        curved="true"
+                        wideHeader="true"
+                        shadowZ="0"
+                        level="{{level}}">
+
+                        <style>
+
+                            .edited-time {
+                                font-size: 0.95em;
+                                font-style: italic;
+                                margin-left: 14px;
+                            }
+
+                            .post-time {
+                                font-size: 0.95em;
+                                font-style: italic;
+                            }
+
+                            .netVotesTitleDisplay {
+                                font-size: 0.85em;
+                            }
+
+                            .deleted-post-body {
+                                padding-top: 14px;
+                                padding-bottom: 12px;
+                            }
+
+                            .hdiv {
+                                margin-right: 16px;
+                            }
+
+                        </style>
+
+                        <!-- post HEADER -->
+                        <div layout horizontal center class="header">
+                            <template if="{{ previewing && previewingEdit}}">
+                                {{ 'preview_edit_post' | $$(lc) }}
+                            </template>
+                            <template if="{{previewing && ! previewingEdit }}">
+                                {{ 'Preview' | $$(lc) }}
+                            </template>
+                            <template if="{{ !previewing }}">
+
+                                <speakur-author-slug
+                                    showPicture="false"
+                                    author="{{post.author}}"></speakur-author-slug>
+
+                                <div class="netVotesTitleDisplay hdiv">
+                                    {{netVotesText}}
+                                </div>
+                                <div class="replyInfo hdiv">
+                                    <template if="{{replyCount == 1}}">
+                                        1 {{ 'reply' | $$(lc) }}
+                                    </template>
+                                    <template if="{{ replyCount > 1 }}">
+                                        {{replyCount}} {{ 'replies' | $$(lc) }}
+                                    </template>
+                                    <template if="{{ replyCountDeep > replyCount }}">
+                                        &mdash; {{replyCountDeep}} {{ 'total' | $$(lc) }}
+                                    </template>
+                                </div>
+                                <div class="post-time hdiv" title="{{post.timestamp | formatTimestamp(lc) }}">
+                                    <time>
+                                        {{globals.updateTick && post.timestamp | formatTimestampFromAgo(lc) }}
+                                    </time>
+                                </div>
+                                <template if="{{ post.lastModified && post.lastModified !== post.timestamp }}">
+                                    &mdash;
+                                    <div class="edited-time hdiv" title="{{post.lastModified | formatTimestamp(lc) }}">
+                                        {{ 'Edited' | $$(lc) }}:
+                                        <time>
+                                            {{globals.updateTick && post.lastModified | formatTimestampFromAgo(lc) }}
+                                        </time>
+                                    </div>
+                                </template>
+                            </template>
+                        </div>
+
+                        <!-- post BODY -->
+                        <div class="body post-body" on-marked-js-highlight="{{hilight}}">
+                            <template if="{{ !post.deleted && !isCollapsed }}">
+                                <marked-element
+                                    text="{{previewing ? ( previewText ? previewText : '' ) : post.text}}">
+                                </marked-element>
+                            </template>
+                            <template if="{{ post.deleted}}">
+                                <div class="deleted-post-body">
+                                    <em>[{{ 'deleted' | $$(lc) }}]</em>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- post FOOTER -->
+                        <template if="{{!previewing}}">
+                            <speakur-post-footer
+                                id="postFooter"
+                                class="footer"
+                                postVotes="{{postVotes}}"
+                                voteElem="{{$.vote}}"
+                                post="{{post}}"></speakur-post-footer>
+                        </template>
+                    </speakur-card>
+                </div>
+            </div>
+
+                <!--
+                  -- container for reply composition and all replies to this post.
+                  -- visual indentation is controlled by the level
+                  -->
+
+                <core-collapse opened id="extraCollapse">
+                    <div _style="margin-left: {{indentWidthForLevel}}px;">
+
+                        <speakur-compose
+                            id="editCompose"
+                            threadId="{{threadId}}"
+                            replyTo="{{ editReplyTo }}"
+                            editing="{{ editId }}"
+                            hidden?="{{!showingEdit}}"
+                            firebaseLocation="{{firebaseLocation}}">
+                        </speakur-compose>
+
+                        <speakur-compose
+                            id="replyCompose"
+                            threadId="{{threadId}}"
+                            replyTo="{{postId}}"
+                            hidden?="{{!showingReply}}"
+                            firebaseLocation="{{firebaseLocation}}">
+                        </speakur-compose>
+
+                        <speakur-post-set
+                            id="replySet"
+                            firebaseLocation="{{firebaseLocation}}"
+                            sortOrder="{{sortOrder}}"
+                            level="{{level + 1}}"
+                            parentId="{{postId}}"
+                            threadId="{{threadId}}">
+                        </speakur-post-set>
+
+                    </div>
+                </core-collapse>
+            </div>
+        </template>
+    </template>
+    <script src="speakur-post.js"></script>
+
+</polymer-element>

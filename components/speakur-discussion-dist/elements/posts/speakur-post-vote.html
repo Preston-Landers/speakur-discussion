@@ -1,0 +1,24 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../firebase-element/firebase-element.html">
+
+<!--
+    An element to handle the mechanics of up and down voting a post. This has no UI.
+  -->
+<polymer-element
+    name="speakur-post-vote"
+    attributes="firebaseLocation uid parentId postId vote canVote votedUp votedDown postVotes"
+    extends="speakur-base">
+    <template>
+        <firebase-element
+            id="uservoteDB" data="{{vote}}"
+            location="{{fbLocation(firebaseLocation, 'uservotes', uid, parentId, postId) }}">
+        </firebase-element>
+    </template>
+    <script src="speakur-post-vote.js"></script>
+</polymer-element>

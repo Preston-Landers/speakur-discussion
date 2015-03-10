@@ -1,0 +1,60 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../../paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../../paper-item/paper-item.html">
+<link rel="import" href="../../../core-menu/core-menu.html">
+
+<polymer-element
+    name="speakur-theme-select"
+    attributes="theme"
+    extends="speakur-base">
+    <template>
+        <paper-dropdown-menu label="{{ 'Theme' | $$(lc) }}" >
+            <paper-dropdown class="speakur-paper-dropdown dropdown" transition="" layered>
+                <core-menu id="menu" class="menu" valueattr="id" selected="{{theme}}">
+                    <paper-item id="speakur-theme-grey">
+                        {{ 'theme_grey' | $$(lc) }}
+                    </paper-item>
+                    <paper-item id="speakur-theme-blue">
+                        {{ 'theme_blue' | $$(lc) }}
+                    </paper-item>
+                    <paper-item id="speakur-theme-red">
+                        {{ 'theme_red' | $$(lc) }}
+                    </paper-item>
+                </core-menu>
+            </paper-dropdown>
+        </paper-dropdown-menu>
+    </template>
+    <script>
+        Polymer({
+            theme: null,
+
+            themeChanged: function (oldVal, newVal) {
+                console.log(oldVal, "Theme changed", newVal);
+                var profile = this.globals.profile;
+                if (profile) {
+                    profile.theme = newVal;
+                }
+                this.fire('speakur-theme-change', {theme: newVal});
+            },
+
+            profileChanged: function () {
+                var profile = this.globals.profile;
+                if (profile && profile.theme) {
+                    this.theme = profile.theme;
+                    console.log("Loaded theme from profile", this.theme);
+                }
+            },
+
+            observe: {
+                'globals.profile': 'profileChanged'
+            }
+        });
+    </script>
+</polymer-element>

@@ -1,0 +1,136 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../polymer/polymer.html">
+
+<link rel="import" href="../../pvc-globals/pvc-globals.html">
+
+<polymer-element name="speakur-base">
+    <template>
+        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
+    </template>
+
+    <script>
+        var isFunction = function (obj) {
+            return Object.prototype.toString.call(obj) === "[object Function]";
+        };
+
+        Polymer({
+
+            /**
+             * The `toast` method will display a 'toast' message that appears
+             * briefly in the lower area of the screen and then disappears after
+             * a few seconds.
+             *
+             * @method toast
+             */
+            toast: function (message) {
+                this.fire("toast", message);
+            },
+
+            errorToast: function (message) {
+                this.errorLog(message);
+                this.toast(message);
+            },
+
+            // Important! If you extend this element, as most speakur elements do, and the child element
+            // has computed properties, you must COPY these base properties over b/c they won't be merged!!
+            // https://github.com/Polymer/polymer/issues/933
+            computed: {
+                // when this property has changed, it reflects a fully loaded and changed locale
+                // can use it in expressions like {{ 'key' | $$({param1: 'foo'}, lc) }}
+                // to ensure that the string is re-translated when lc changes
+                "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
+                "anon_name": "'Anonymous' | $$(globals.currentLocale ? globals.currentLocale : 'en')"
+            },
+
+            $$: function () {
+                // 'kosher' ?
+                return i18n.t.apply(window, arguments);
+            },
+
+
+            /**
+             * Provide the location of the firebase element given an arguments array
+             * Every element of the arguments must be true, and they will be joined with '/'.
+             */
+            fbLocation: function () {
+                var args = _.slice(arguments); // clone it into a true array
+                for (var i = 0; i < args.length; i++) {
+                    if (!args[i] || !args[i].length) {
+                        // console.log("fbLocation empty component:", args);
+                        return '';
+                    }
+                }
+                return args.join('/');
+            },
+
+
+            log: function () {
+                var $ = jQuery;
+
+                if (window.console && window.console.log) {
+                    // convert the pseudo-array "arguments" to a real array and append the "this" object to be logged.
+                    var logArgs;
+                    if (this.length) {
+                        logArgs = Array.prototype.slice.call(arguments).concat([" --> ", this]);
+                    }
+                    else {
+                        logArgs = arguments;
+                    }
+                    if (typeof window.console.log === 'function' && isFunction(window.console.log.apply)) {
+                        window.console.log.apply(window.console, logArgs);
+                        // Automatically log stack traces where possible (Webkit, generally)
+                        $.each(logArgs, function () {
+                            if (this.stack) {
+                                window.console.log(this.stack);
+                            }
+                        });
+
+                    } else {
+                        // this is for older MSIE. So far I haven't found a satisfactory way to
+                        // combine them into one string.
+                        $.each(logArgs, function () {
+                            window.console.log(this.toString());
+                        });
+                    }
+                }
+            },
+
+            errorLog: function () {
+                var $ = jQuery;
+
+                if (window.console && window.console.error) {
+                    // convert the pseudo-array "arguments" to a real array and append the "this" object to be logged.
+                    var logArgs;
+                    if (this.length) {
+                        logArgs = Array.prototype.slice.call(arguments).concat([" --> ", this]);
+                    }
+                    else {
+                        logArgs = arguments;
+                    }
+                    if (typeof window.console.error === 'function' && isFunction(window.console.error.apply)) {
+                        window.console.error.apply(window.console, logArgs);
+                        // Automatically log stack traces where possible (Webkit, generally)
+                        $.each(logArgs, function () {
+                            if (this.stack) {
+                                window.console.error(this.stack);
+                            }
+                        });
+
+                    } else {
+                        // this is for older MSIE. So far I haven't found a satisfactory way to
+                        // combine them into one string.
+                        $.each(logArgs, function () {
+                            window.console.error(this.toString());
+                        });
+                    }
+                }
+
+            }
+        });
+    </script>
+</polymer-element>
