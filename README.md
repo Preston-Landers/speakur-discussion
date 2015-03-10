@@ -191,6 +191,10 @@ inserting the values into your Firebase app.
 
   I would like to support a self-contained user registration system which uses Firebase Simple Auth.
 
+* Page fails to load on Firefox with Adblock
+
+  The Adblock+ plugin seems to trip over the social icons provided with Polymer. It causes the page to not load.
+  Temporary workaround is to disable Adblock+ on that page/domain. There are no ads present.
 
 * FIREBASE WARNING: resumeSession() was canceled: Auth token is expired.
 
