@@ -352,26 +352,28 @@
 
         threadChanged: function () {
             this.log("Thread changed. ", this.$.dbThread.location, " thread ID: ", this.threadId);
-            if (this.threadId && !this.thread) {
-                // Create a default thread description.
-                this.thread = {
-                    href: this.href,
-                    threadId: this.threadId,
-                    title: this.xtitle,
-                    created: new Date().getTime(),
-                    allowAnonymous: this.allowAnonymous,
-                    titlePost: false,   // a stickied comment that stays at the top
-                    text: null,
-                    // theme: this.theme,  // dont need this
-                    moderators: this.moderators,
+            this.async(function () {
+                if (this.threadId && !this.thread) {
+                    // Create a default thread description.
+                    this.thread = {
+                        href: this.href,
+                        threadId: this.threadId,
+                        title: this.xtitle,
+                        created: new Date().getTime(),
+                        allowAnonymous: this.allowAnonymous,
+                        titlePost: false,   // a stickied comment that stays at the top
+                        text: null,
+                        // theme: this.theme,  // dont need this
+                        moderators: this.moderators,
 
-                    owner: this.globals.getAuthor()
-                };
-                this.log("Created new thread for " + this.href + " -> " + this.thread);
-            } else {
-                // this.log("this.thread -> ", this.thread);
-                this.xtitle = this.thread.title;
-            }
+                        owner: this.globals.getAuthor()
+                    };
+                    this.log("Created new thread for " + this.href + " -> " + this.thread);
+                } else {
+                    // this.log("this.thread -> ", this.thread);
+                    this.xtitle = this.thread.title;
+                }
+            }, null, 200);
 
         },
 
