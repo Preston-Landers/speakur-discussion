@@ -161,8 +161,7 @@ module.exports = function (grunt) {
       default: {
         options: {
           strip: true,
-          inline: true,
-          csp: true
+          inline: true
         },
         files: {
           '<%= yeoman.dist %>/elements.vulcanized.html': [
@@ -207,15 +206,17 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>',
-          src: '*.html',
+          src: ['*.html','!elements.vulcanized.html'],
           dest: '<%= yeoman.dist %>'
-        },
+        }
+/* ,
         {
           expand: true,
           cwd: '<%= yeoman.dist %>/pages',
           src: '*.html',
           dest: '<%= yeoman.dist %>/pages'
         }
+*/
         ]
       }
     },
