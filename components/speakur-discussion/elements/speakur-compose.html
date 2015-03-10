@@ -1,0 +1,165 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../core-tooltip/core-tooltip.html">
+<link rel="import" href="../../core-overlay/core-overlay.html">
+<link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../../firebase-element/firebase-element.html">
+<link rel="import" href="../../marked-element/marked-element.html">
+
+<link rel="import" href="../imports/bootstrap.partial.html">
+<link rel="import" href="posts/speakur-post.html">
+<link rel="import" href="speakur-author-slug.html">
+
+<polymer-element
+    name="speakur-compose"
+    extends="speakur-base"
+    attributes="firebaseLocation threadId replyTo editing">
+    <template>
+        <core-style ref="bootstrap-form"></core-style>
+
+        <style>
+            .tool-btn {
+                margin-left: 12px;
+            }
+
+            .terms-link {
+                margin-left: 16px;
+                opacity: 0.85;
+            }
+
+            .preview-div {
+                margin-top: 12px;
+            }
+
+            .posting-as {
+                margin-right: 6px;
+                font-size: 90%;
+                font-weight: bold;
+            }
+
+            .preview-hr {
+                border: 1px dashed #b6b0b9;
+            }
+
+            .terms-ttip {
+                white-space: normal;
+                line-height: normal;
+                /*width: 350px;*/
+                font-size: 12px;
+            }
+
+            .edit-help-link:hover,
+            .terms-link:hover {
+                text-decoration: underline;
+            }
+        </style>
+        <!-- TODO: on-error doesn't seem to work! -->
+        <firebase-element
+            id="posts" data="{{posts}}"
+            on-error="{{ fbError }}"
+            location="{{ fbLocation(firebaseLocation, 'posts', replyTo) }}"></firebase-element>
+        <firebase-element
+            id="dbEditPost" data="{{editPost}}"
+            on-error="{{ fbError }}"
+            location="{{ fbLocation(firebaseLocation, 'posts', replyTo, editing) }}"></firebase-element>
+
+        <!-- Following 2 elements are for automatic self-upvote -->
+        <firebase-element
+            id="postvotesDB" data="{{postVotes}}"
+            location="{{fbLocation(firebaseLocation, 'postvotes', replyTo, postId) }}"></firebase-element>
+        <speakur-post-vote
+            id="vote"
+            uid="{{globals.currentUser.uid}}"
+            postVotes="{{postVotes}}"
+            parentId="{{replyTo}}"
+            postId="{{postId}}"
+            firebaseLocation="{{firebaseLocation}}"></speakur-post-vote>
+
+        <form>
+            <div class="body">
+                <div class="form-group">
+                    <label class="sr-only" for="commentText">
+                        {{ 'leave_comment' | $$(lc) }}
+                    </label>
+                        <!--value="{{newText}}"-->
+                        <textarea
+                            rows="3"
+                            class="form-control"
+                            placeholder="{{ 'leave_comment_placeholder' | $$(lc) }}"
+                            id="commentText"></textarea>
+                </div>
+            </div>
+            <div class="footer">
+                <template if="{{newText.length}}">
+                    <div horizontal layout center>
+                        <div class="tool-btn edit-help-link" on-click="{{editingHelp}}">
+                            {{ 'Editing Help' | $$(lc) }}
+                        </div>
+                        <div class="tool-btn terms-link">
+                            <core-tooltip position="bottom">
+                                {{ 'Terms of Use' | $$(lc) }}
+                                <div tip class="terms-ttip">
+                                    <p>
+                                    {{ 'terms_tooltip1' | $$(lc) }}
+                                    </p>
+                                    <p>
+                                    {{ 'terms_tooltip2' | $$(lc) }}
+                                    </p>
+                                </div>
+                            </core-tooltip>
+                        </div>
+
+                        <div flex></div>
+                        <div horizontal layout end-justified center class="posting-as">
+                            <span style="margin-right: 4px;">
+                                {{ 'posting_as' | $$(lc) }}
+                            </span>
+                            <speakur-author-slug author="{{globals.profile}}"></speakur-author-slug>
+                        </div>
+                        <div
+                            on-click="{{resetEditText}}"
+                            title="{{ 'undo_changes_title' | $$(lc) }}"
+                            hidden?="{{ !editing }}"
+                            class="btn btn-sm btn-warning reset-btn tool-btn">
+                            {{ 'Undo Changes' | $$(lc) }}
+                        </div>
+                        <div
+                            on-click="{{cancel}}"
+                            title="{{ 'Cancel' | $$(lc) }} ({{ cancelTitle(lc) }})"
+                            class="btn btn-sm btn-danger cancel-btn tool-btn">
+                            {{ 'Cancel' | $$(lc) }}
+                        </div>
+                        <template if="{{ !editing }}">
+                            <div on-click="{{submit}}" title="{{ 'publish_comment_title' | $$(lc) }}"
+                                 class="btn btn-sm btn-primary tool-btn">
+                                {{ 'Publish Comment' | $$(lc) }}
+                            </div>
+                        </template>
+                        <template if="{{ editing }}">
+                            <div on-click="{{saveEdit}}" title="{{ 'Save Changes' | $$(lc) }}"
+                                 class="btn btn-sm btn-primary tool-btn">
+                                {{ 'Save Changes' | $$(lc) }}
+                            </div>
+                        </template>
+                    </div>
+                    <div class="preview-div">
+                        <speakur-post
+                            id="preview"
+                            previewText="{{previewText}}"
+                            previewingEdit="{{editing}}"
+                            previewing="true">
+                        </speakur-post>
+                        <hr class="preview-hr"/>
+                    </div>
+                </template>
+            </div>
+        </form>
+    </template>
+
+    <script src="speakur-compose.js"></script>
+</polymer-element>

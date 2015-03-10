@@ -1,0 +1,139 @@
+{
+  "rules": {
+    "admins": {
+      // readable by the world
+      ".read": true,
+      // NOT writable by the world
+      ".write": false,
+      "$uid": {
+        ".validate": "newData.hasChildren(['scope'])"
+      }
+    },
+    "public_profile": {
+      ".read": true,
+      "$uid": {
+        ".write": "auth.uid === $uid"
+      }
+    },
+    "profile": {
+      ".read": false,
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth.uid === $uid",
+        "uid": {
+          ".validate": "newData.isString() && newData.val().length > 1"
+        },
+        "username": {
+          ".validate": "newData.isString() && newData.val().length > 1"
+        }
+      }
+    },
+
+    // Post records -- body of posts
+    "posts": {
+      ".read": true,
+      ".write": false,
+      "$parentId": {
+        "$childId": {
+          // must be admin or post owner to modify a post... TODO: admin scope is not well defined
+          ".write": "data.exists() ? ( auth.uid === data.child('author').child('uid').val() || auth.uid === root.child('admins').child(auth.uid).child('scope').val() === '*' ) : true",
+          ".validate": "newData.hasChildren(['threadId', 'text', 'author']) && newData.child('timestamp').val() > 1",
+          "author": {
+            ".validate": "newData.child('uid').isString()"
+          },
+          "threadId": {
+            ".validate": "newData.isString()"
+          },
+          "text": {
+            ".validate": "newData.isString()"
+          }
+        }
+      }
+    },
+
+    // Thread records
+    "threads": {
+      ".read": true,
+
+      // TODO: admin scope is not a well defined notion yet
+      // ".write": "root.child('admins').child(auth.uid).child('scope').val() === '*'",
+
+      // Alternative: allow any authenticated user to create a thread
+      ".write": "auth != null",
+
+      // Validation
+      "$threadId": {
+        ".validate": "newData.hasChildren(['threadId', 'title', 'href', 'created'])",
+        "timestamp": {
+          ".validate": "newData.isNumber() && newData.val() > 1"
+        },
+        "author": {
+          ".validate": "newData.child('uid').isString()"
+        }
+
+      }
+    },
+
+    // Public Vote counts for posts
+    "postvotes": {
+
+      // READ: ALL
+      ".read": true,
+
+      // WRITE: Authenticated
+      ".write": "auth != null",
+
+      // parentId -> childId -> { up, down, timestamp }
+      "$parentId": {
+        "$childId": {
+          ".validate": "newData.hasChildren(['down', 'up', 'timestamp'])",
+          "timestamp": {
+            ".validate": "newData.isNumber() && newData.val() > 1"
+          },
+          "up": {
+            ".validate": "newData.isNumber()"
+          },
+          "down": {
+            ".validate": "newData.isNumber()"
+          }
+        }
+      }
+
+    },
+
+    // Private Vote tallies for each user
+    "uservotes": {
+
+      // READ/WRITE: false by default
+      ".read": false,
+      ".write": false,
+
+      // Allow users to read/write under their own area
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth.uid === $uid",
+
+        // Validate vote structure
+        // uid -> parentId -> childId -> { up, down, timestamp }
+        "$parentId": {
+          "$childId": {
+            ".validate": "newData.hasChildren(['down', 'up', 'timestamp'])",
+            "timestamp": {
+              ".validate": "newData.isNumber() && newData.val() > 1"
+            },
+            "up": {
+              ".validate": "newData.isBoolean()"
+            },
+            "down": {
+              ".validate": "newData.isBoolean()"
+            }
+          }
+        }
+      }
+    },
+
+
+    // Don't let users post to other fields
+    "$other": {".validate": false}
+  }
+}

@@ -1,0 +1,163 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../core-style/core-style.html">
+<link rel="import" href="../../../paper-dialog/paper-dialog.html">
+<link rel="import" href="../../../paper-button/paper-button.html">
+
+<polymer-element
+    name="speakur-dialog"
+    extends="speakur-base"
+    attributes="okButton cancelButton unsavedChanges cancelTitle okTitle unsavedChangesTitle">
+    <template>
+
+        <paper-dialog
+            class="speakur-dialog"
+            on-core-overlay-open="{{wasToggled}}"
+            id="dialog">
+
+            <!-- Chrome need this here -->
+            <core-style ref="speakur-dialog"></core-style>
+
+            <div class="dialog-content">
+
+                <div class="modal-header dialog-header">
+                    <content id="header" select=".header">
+                    </content>
+                </div>
+                <div class="modal-body dialog-body">
+                    <content select=":not(.footer)"></content>
+                </div>
+                <div class="modal-footer dialog-footer">
+                    <div layout vertical>
+                        <content id="footer" select=".footer"></content>
+                    </div>
+                    <template if="{{showStandardButtons}}">
+                        <div layout horizontal end-justified class="dialog-std-buttons form-inline">
+                            <template if="{{unsavedChanges}}">
+                                <div self-center class="unsaved-changes">
+                                    {{unsavedChangesTitle}}
+                                </div>
+                            </template>
+                            <div flex></div>
+                            <template if="{{cancelButton}}">
+                                <paper-button
+                                    class="colored footer-button footer-button-cancel"
+                                    title="{{cancelTitle}}"
+                                    on-click="{{clickCancel}}">
+                                    {{cancelButton}}
+                                </paper-button>
+                            </template>
+                            <template if="{{okButton}}">
+                                <paper-button
+                                    class="colored footer-button footer-button-ok"
+                                    title="{{okTitle}}"
+                                    on-click="{{clickOkay}}">
+                                    {{okButton}}
+                                </paper-button>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+            </div>
+        </paper-dialog>
+
+
+    </template>
+
+    <script>
+        (function () {
+            Polymer({
+                okButton: null,
+                cancelButton: null,
+                unsavedChanges: false,
+
+                okTitle: 'Accept',
+                cancelTitle: 'Discard Changes',
+                unsavedChangesTitle: 'Unsaved Changes',
+
+                computed: {
+                    'showStandardButtons': "okButton || cancelButton || unsavedChanges",
+
+                    // TODO: see comment in speakur-base
+                    "lc": "globals.currentLocale ? globals.currentLocale : 'en'",
+                    "anon_name": "'Anonymous' | $$(globals.currentLocale ? globals.currentLocale : 'en')"
+                },
+
+                // This is basically just converting one event (core-overlay-open)
+                // to another (dialog-toggle) - not sure if I really need/want this.
+                wasToggled: function (e, detail, sender) {
+                    e.stopPropagation();
+                    this.fire('dialog-toggle', detail);
+                },
+
+                toggle: function () {
+                    this.$["dialog"].toggle();
+                },
+
+                clickOkay: function () {
+                    // console.log("OK clicked");
+                    this.toggle();
+                    this.fire('dialog-click-ok', this.okButton);
+                },
+
+                clickCancel: function () {
+                    // console.log("Cancel clicked");
+                    this.toggle();
+                    this.fire('dialog-click-cancel', this.cancelButton);
+                }
+
+            });
+        })();
+    </script>
+</polymer-element>
+
+<!--
+    Style which must be applied at the scope of the page, mainly for the core-overlay stuff
+    Therefore it should be 'protected' by .speakur-dialog
+-->
+<core-style id="speakur-dialog">
+
+    .speakur-dialog .dialog-content {
+        min-width: 500px;
+    }
+
+    .speakur-dialog .dialog-header {
+        font-weight: bold;
+        font-size: 1.3em;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid black;
+    }
+
+    .speakur-dialog .footer-button {
+        margin-left: 16px;
+    }
+
+    .speakur-dialog .footer-button-ok {
+        background-color: #008000;
+        color: white;
+    }
+
+    .speakur-dialog .footer-button-cancel {
+        background-color: #ff0000;
+        color: white;
+    }
+
+    .speakur-dialog .dialog-std-buttons {
+        margin-top: 12px;
+    }
+
+    .speakur-dialog .unsaved-changes {
+        font-style: italic;
+    }
+
+</core-style>
+
+<!-- Firefox & MSIE need this here -->
+<core-style ref="speakur-dialog"></core-style>

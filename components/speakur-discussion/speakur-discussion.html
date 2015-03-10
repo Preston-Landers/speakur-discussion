@@ -1,0 +1,240 @@
+<!--
+@license
+    Copyright (c) 2015 Preston Landers. All rights reserved.
+    This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+    The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+    The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="speakur-import.html">
+<!--
+This is a Web Component-based custom HTML element that provides a
+user friendly discussion forum for any web resource without requiring
+a dedicated server.
+
+##### Demo
+
+Click the 'Demo' link at the top of the page <a target="_blank" href="demo.html">or click here.</a>
+
+More demo threads/examples coming soon.
+
+##### Github Page
+
+More documentation and code here:
+
+https://github.com/Preston-Landers/speakur-discussion
+
+##### Example
+
+The URL for the discussion will be the page URL by default.
+
+    <speakur-discussion
+        xtitle="12 Crazy Tricks That Cable Companies Hate!"
+        allowAnonymous="true"
+        initiallyOpen="true">
+    </speakur-discussion>
+
+You can also set the `href=""` attribute to use a different discussion link target.
+
+##### Requirements
+
+To embed a Speakur discussion within a web page, you must do three things:
+
+1) Enable W3C Web Components via the Polymer script webcomponents.js
+
+    <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+
+2) Use HTML Imports to bring in the `<speakur-discussion>` element
+
+    <link rel="import" href="bower_components/speakur-discussion/speakur-discussion.html">
+
+3) Place the `<speakur-discussion>` element somewhere in the page as shown above.
+
+TODO: link to detailed instructions on using bower_components
+
+Note: there is additional documentation that is supposed to show up here but
+is not because it's in an external js file, and the doc thing doesn't work with that yet.
+See this ticket for more info:
+
+https://github.com/Polymer/core-component-page/issues/7
+
+
+@element speakur-discussion
+@blurb Provides an embeddable real-time discussion forum for a web resource.
+@status alpha
+@homepage https://github.com/Preston-Landers/speakur-discussion
+-->
+<polymer-element
+        name="speakur-discussion"
+        extends="speakur-base"
+        attributes="theme href moderators xtitle firebaseLocation initiallyOpen openAnimMS maxWidth allowAnonymous recordIP">
+
+    <template>
+        <!-- Congratulations, you have found the secret message. -->
+
+        <link rel="stylesheet" href="speakur-discussion.css"/>
+
+        <!-- probably should be a better way to do this...? -->
+        <template if="{{ !theme || theme == 'speakur-theme-grey'}}">
+            <speakur-theme-grey></speakur-theme-grey>
+        </template>
+        <template if="{{ theme == 'speakur-theme-blue'}}">
+            <speakur-theme-blue></speakur-theme-blue>
+        </template>
+        <template if="{{ theme == 'speakur-theme-red'}}">
+            <speakur-theme-red></speakur-theme-red>
+        </template>
+        <core-style ref="speakur-theme"></core-style>
+
+        <!--Doesn't work: http://stackoverflow.com/questions/28834545/switching-themes-with-polymer-core-style-->
+        <!--<core-style ref="speakur-theme"></core-style>&ndash;&gt;-->
+
+        <div id="speakur-container" class="speakur-container {{ closed ? 'closed' : '' }}">
+
+            <!-- logical elements -->
+            <firebase-login id="baseLogin" user="{{user}}" statusKnown="{{statusKnown}}" location="{{firebaseLocation}}"
+                            provider="google" on-login="{{onLogin}}" on-error="{{onLoginError}}"></firebase-login>
+
+            <!-- TODO: probably don't need the following 2 DB elements here? -->
+            <firebase-element
+                    id="dbThread" location="{{ fbLocation(firebaseLocation,'threads',threadId) }}"
+                    data="{{thread}}"></firebase-element>
+            <firebase-element
+                    id="dbPosts" location="{{ fbLocation(firebaseLocation,'posts',threadId) }}"
+                    data="{{posts}}" keys="{{postIds}}"></firebase-element>
+
+            <paper-toast id="speakur-toast"></paper-toast>
+            <speakur-dialog-login id="speakurLoginDialog" baseLogin="{{$.baseLogin}}" ></speakur-dialog-login>
+            <speakur-profile
+                id="speakurProfile"
+                profile="{{ profile }}"
+                uid="{{ statusKnown && user.uid }}"
+                threadId="{{ threadId }}"
+                firebaseLocation="{{ firebaseLocation }}">
+            </speakur-profile>
+
+            <speakur-dialog-profile-edit
+                profile="{{profile}}"
+                id="profileEditDialog">
+            </speakur-dialog-profile-edit>
+
+            <speakur-i18next id="si18next" locale="{{ currentLocale }}"></speakur-i18next>
+
+            <template if="{{ recordIP }}">
+                <core-shared-lib on-core-shared-lib-load="{{loadIP}}" url="//freegeoip.net/json/?callback=%%callback%%">
+                </core-shared-lib>
+            </template>
+
+            <!-- structural elements -->
+            <div vertical layout class="speakur-layout">
+                <speakur-toolbar class="speakur-header-bar {{ closed ? 'speakur-header-bar-closed' : '' }}">
+                    <template if="{{ closed }}">
+                        <paper-icon-button
+                                icon="speaker-notes"
+                                title="{{ 'show_comments' | $$(lc) }}"
+                                on-click="{{toggle}}">
+                        </paper-icon-button>
+                        <div class="speakur-header-titlebox speakur-toggle-link" on-click="{{toggle}}" flex>
+                            {{ 'View Comments' | $$(lc) }} ({{ $.threadView.replyCountDeep }})
+                        </div>
+
+                        <speakur-login-button
+                            style="margin-right: 6px;"
+                            user="{{user}}" statusKnown="{{statusKnown}}">
+
+                        </speakur-login-button>
+                    </template>
+                    <template if="{{ !closed }}">
+                        <paper-icon-button
+                                title="{{ 'Hide' | $$(lc) }}"
+                                icon="remove-circle-outline"
+                                on-click="{{toggle}}" class="speakur-toggle-button speakur-close-button">
+                        </paper-icon-button>
+                        <div flex class="speakur-header-titlebox">
+                            {{xtitle}} &mdash; {{ 'replies_count' | $$({count: $.threadView.replyCountDeep}, lc) }}
+                        </div>
+
+                        <div class="admin-mode" hidden?="{{!statusKnown || !globals.isAdmin}}">
+                            {{ 'Admin Mode' | $$(lc) }}
+                        </div>
+
+<!--
+                        <paper-icon-button id="searchbutton" class="toolbar-icon"
+                                           on-click="{{search}}"
+                                           icon="search"></paper-icon-button>
+-->
+
+                        <speakur-login-button
+                            user="{{user}}"
+                            statusKnown="{{statusKnown}}">
+                        </speakur-login-button>
+
+<!--
+                        <paper-icon-button id="menubutton" class="toolbar-icon"
+                                           on-click="{{menu}}"
+                                           icon="menu"></paper-icon-button>
+-->
+
+                    </template>
+
+                </speakur-toolbar>
+
+                <core-collapse id="mainCollapse">
+
+
+                    <div class="speakur-body-container">
+                        <speakur-thread-view
+                                id="threadView"
+                                threadId="{{threadId}}"
+                                firebaseLocation="{{firebaseLocation}}">
+                        </speakur-thread-view>
+                    </div>
+
+                    <speakur-toolbar class="speakur-footer-bar">
+
+                        <paper-icon-button
+                            title="{{ 'Hide' | $$(lc) }}"
+                            icon="remove-circle-outline"
+                            on-click="{{toggle}}" class="speakur-toggle-button speakur-close-button">
+                        </paper-icon-button>
+
+                        <div flex style="margin-left: 8px;">
+                            <!--Questionable where we want to put this, if anywhere.-->
+                            <!--<content></content>-->
+                            <a
+                                class="powered-by-link"
+                                target="_blank"
+                                href="{{speakurSoftwareLink}}">
+                                {{ 'powered_by' | $$(lc) }}
+                            </a>
+
+                        </div>
+                        <div class="speakur-copyright">
+                            <small>
+                                {{ 'copyright_stmt' | $$(lc) }}
+                            </small>
+                        </div>
+                        <paper-icon-button
+                                id="reportbutton"
+                                on-click="{{reportProblem}}"
+                                title="{{ 'report_a_problem' | $$(lc) }}"
+                                icon="report-problem">
+                        </paper-icon-button>
+                    </speakur-toolbar>
+                </core-collapse>
+            </div>
+
+
+        </div>
+
+    </template>
+
+    <!-- Is this style import OK? Come back to this and make a proper import wrapper? -->
+    <script src="../js-md5/js/md5.min.js"></script>
+
+    <script src="speakur-discussion.js"></script>
+
+</polymer-element>
+
+<!-- Style which must be applied at the scope of the page, mainly for the core-overlay stuff -->
+<core-style ref="speakur-theme-page"></core-style>

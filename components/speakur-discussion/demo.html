@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+-->
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>speakur-discussion Element Demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+
+    <script src="../webcomponentsjs/webcomponents.min.js"></script>
+    <link rel="import" href="speakur-discussion.html">
+    <style>
+        body {
+            font-family: Calibri, Arial, Helvetica, sans-serif;
+            background-color: rgba(213, 235, 225, 0.78);
+            /*background-color: rgba(240, 240, 236, 0.78);*/
+        }
+    </style>
+</head>
+<body unresolved>
+
+<p>This page represents some web content such as an article, a blog post, or any other resource with a URL. It can be a
+    either a static resource or a place within a dynamic web app.</p>
+
+<p>Inside the page we wish to embed a discussion forum so users can post their reactions, feedback, etc. That is where
+    Speakur comes in. It provides an easily embeddable discussion forum by providing a custom HTML tag that can be
+    inserted anywhere in the page.</p>
+
+<div>
+    <p>
+        Here's an example of how it works:
+    </p>
+
+    <UL>
+        <li>You have a blog or website.</li>
+        <li>You create a Firebase app to host the comment data.</li>
+        <li>You add speakur-discussion and its dependencies to your <code>bower_components</code> directory.</li>
+        <Li>You add the <code>&lt;speakur-discussion&gt;</code> element to your page where you want it to show up, and
+            point the element at your Firebase URL.
+        </Li>
+        <li>You now have a full-featured commenting system on your site!</li>
+    </UL>
+</div>
+
+<div style="">
+    <p>
+        For example, here's a <code>&lt;speakur-discussion&gt;</code> for this demo page:
+    </p>
+
+    <pre>
+        &lt;speakur-discussion
+            firebaseLocation="https://speakur-demo.firebaseio.com"
+            xtitle="Demonstration Thread for &lt;Speakur-Discussion&gt;"
+            allowAnonymous="false"
+            initiallyOpen="true"&gt;
+        &lt;/speakur-discussion&gt;
+    </pre>
+    <P>Which results in this:</P>
+
+
+    <!--firebaseLocation="https://speakur-demo.firebaseio.com"-->
+    <!--theme="speakur-theme-red" initiallyOpen="false"-->
+    <speakur-discussion
+        firebaseLocation="https://speakur-demo.firebaseio.com"
+        xtitle="Demonstration Thread for <Speakur-Discussion>"
+        allowAnonymous="false"
+        initiallyOpen="true">
+    </speakur-discussion>
+</div>
+
+<p>
+    This last part belongs to the containing page. This could be your page footer.
+</p>
+<hr>
+
+<P>The main part of the page uses a different font than the Speakur component mainly to test that Speakur is largely independent of the page
+    style &ndash;
+    except for the overall transparent background. You can also style the <code>&lt;speakur-discussion&gt;</code>
+    element with a background.</P>
+
+
+
+</body>
+</html>

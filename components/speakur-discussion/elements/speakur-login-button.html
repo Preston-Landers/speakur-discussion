@@ -1,0 +1,142 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../core-menu/core-menu.html">
+<link rel="import" href="../../core-icon/core-icon.html">
+<link rel="import" href="../../core-item/core-item.html">
+<link rel="import" href="../../core-style/core-style.html">
+<link rel="import" href="../../paper-item/paper-item.html">
+<link rel="import" href="../../paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="speakur-author-img.html">
+
+<polymer-element
+    name="speakur-login-button"
+    extends="speakur-base"
+    attributes="user statusKnown width height">
+    <template>
+        <core-style id="dropdownmenu">
+                .username {
+                    color: dimgray;
+                    font-size: 0.9em;
+                    padding: 5px;
+                    text-align: center;
+                    display: inline;
+                }
+
+                .provider {
+                    font-size: 0.8em;
+                    padding: 5px;
+                    color: darkslategray;
+                    text-align: center;
+                    display: inline;
+                    font-style: italic;
+                }
+
+                .icon {
+                    margin-right: 8px;
+                }
+        </core-style>
+
+        <!-- duplicating the whole structure is the only way it seems to accommodate dynamic size changes due to login/logout status? -->
+        <paper-menu-button hidden?="{{ !statusKnown || !user }}">
+            <div class="toolbar-icon toolbar-icon-author">
+                <speakur-author-img
+                    width="{{width}}" height="{{height}}"
+                    author="{{globals.profile}}">
+                </speakur-author-img>
+            </div>
+
+            <paper-dropdown
+                halign="right" valign="top" layered transition=""
+                class="dropdown speakur-paper-dropdown">
+                <core-style ref="dropdownmenu"></core-style>
+                <core-menu class="menu" id="loggedInMenu" excludedLocalNames="div">
+
+                    <core-item>
+                        <div class="username">{{globals.profile.username}}</div>
+                        <div class="provider">{{ describeProvider(user.provider) }}</div>
+                    </core-item>
+
+                    <paper-item
+                        id="editProfile"
+                        title="{{ 'edit_profile_title' | $$(lc) }}"
+                        on-click="{{editProfile}}">
+
+                        <core-icon icon="settings" class="icon"></core-icon>
+                        {{ 'Edit Profile' | $$(lc) }}
+
+                    </paper-item>
+
+                    <paper-item
+                        id='signOut'
+                        title="{{ 'sign_out_title' | $$(lc) }}"
+                        on-click="{{logout}}">
+
+                        <core-icon icon="social:person-outline" class="icon"></core-icon>
+                        {{ 'sign_out' | $$(lc) }}
+
+                    </paper-item>
+
+                </core-menu>
+            </paper-dropdown>
+        </paper-menu-button>
+
+        <paper-menu-button hidden?="{{ statusKnown && user }}">
+            <paper-icon-button icon="social:person" class="toolbar-icon toolbar-icon-anon">
+            </paper-icon-button>
+
+            <paper-dropdown
+                halign="right" valign="top" layered
+                class="dropdown speakur-paper-dropdown"
+                transition="">
+                <core-style ref="dropdownmenu"></core-style>
+                <core-menu class="menu" valueattr="id" id="loggedOutMenu" selected="{{loggedOutMenu}}">
+                    <paper-item id="signIn" title="{{ 'sign_in_title' | $$(lc) }}" on-click="{{login}}">
+                        <core-icon icon="social:person" class="icon toolbar-icon"></core-icon>
+                        {{ 'sign_in' | $$(lc) }}
+                    </paper-item>
+                </core-menu>
+            </paper-dropdown>
+        </paper-menu-button>
+
+    </template>
+    <script>
+        Polymer({
+            width: 24,
+            height: 24,
+
+            login: function (e) {
+                this.fire('loginButtonPressed');
+            },
+
+            logout: function (e) {
+                this.fire('logoutButtonPressed');
+            },
+
+            editProfile: function (e) {
+                this.fire('editProfileButtonPressed');
+            },
+
+            describeProvider: function (provider) {
+                if (!provider) {
+                    return '';
+                }
+                if (provider === "facebook") {
+                    return "(" + this.$$('Facebook') + ")";
+                } else if (provider === "google") {
+                    return "(" + this.$$('Google') + ")";
+                } else {
+                    return "";
+                }
+            }
+        });
+    </script>
+</polymer-element>
+

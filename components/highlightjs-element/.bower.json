@@ -1,0 +1,19 @@
+{
+  "name": "highlightjs-element",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.5",
+    "highlightjs": "*"
+  },
+  "version": "0.5.5",
+  "homepage": "https://github.com/Polymer/highlightjs-element",
+  "_release": "0.5.5",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.5.5",
+    "commit": "600ac6c95949ca948b4453746e709a9b79f805d9"
+  },
+  "_source": "git://github.com/Polymer/highlightjs-element.git",
+  "_target": "^0.5.5",
+  "_originalSource": "Polymer/highlightjs-element"
+}

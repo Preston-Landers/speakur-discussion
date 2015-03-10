@@ -1,0 +1,7 @@
+{
+  "name": "speakur-discussion#gh-pages",
+  "private": true,
+  "dependencies": {
+    "speakur-discussion": "Preston-Landers/speakur-discussion#master"
+  }
+}

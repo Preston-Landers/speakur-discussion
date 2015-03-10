@@ -1,0 +1,91 @@
+<!--
+Copyright (c) 2015 Preston Landers. All rights reserved.
+This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
+The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+-->
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../pvc-globals/pvc-globals.html">
+<script src="../../i18next/i18next.js"></script>
+
+<!--
+    This is a wrapper around the i18next library to provide string translation services.
+
+    To change the language, set the locale attribute to something like 'en', 'en-US', 'fr-FR', etc.
+
+    Based on https://github.com/Polymer/i18next-element
+  -->
+<polymer-element
+    name="speakur-i18next"
+    attributes="locale">
+    <template>
+        <pvc-globals namespace="speakur-discussion" values="{{globals}}"></pvc-globals>
+    </template>
+    <script>
+        (function () {
+
+//            window.i18nResources = {};
+
+            i18n.init({
+/*
+                resStore: i18nResources,
+*/
+                // debug: true,
+                fallbackLng: 'en',
+                ns: 'speakur',
+                load: 'current',
+                resGetPath: 'locales/__ns__-__lng__.json'
+            });
+
+/*
+            i18n.addResources = function (resStore) {
+                Platform.mixin(i18nResources, resStore);
+            };
+*/
+
+            var i18n_t = i18n.t;
+
+            PolymerExpressions.prototype.$$ = i18n_t;
+/*
+            PolymerExpressions.prototype.$$ = function() {
+                console.log('x_locale', x_locale);
+                return i18n_t.apply(window, arguments)
+            };
+*/
+
+            Polymer({
+                locale: null,
+
+                $$: function () {
+                    return i18n_t.apply(window, arguments)
+                },
+
+                localeChanged: function (oldval, newval) {
+                    var that = this;
+
+                    // TODO: change 'moment' library's locale?
+                    if (moment && moment.locale) {
+                        moment.locale(newval); // global...
+                    }
+
+                    i18n.setLng(newval, function () {
+                        // this needs to be done AFTER the i18n library has changed languages
+                        // because we have translated elements watching globals.currentLocale
+
+                        console.log('Language changed from ', oldval, ' to:', newval);
+                        if (that.globals.profile && that.globals.profile.locale !== newval) {
+                            console.log("globals.profile.locale was :", that.globals.profile.locale);
+                            that.globals.profile.locale = newval;
+                            // Changing the profile.locale should in theory tell the i18next element to load a new language
+                            // TODO: filter rules? e.g. convert en-US to en?
+                        }
+                        that.globals.currentLocale = newval;
+
+                    });
+                }
+
+            });
+
+        })();
+    </script>
+</polymer-element>

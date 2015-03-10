@@ -1,0 +1,34 @@
+{
+  "name": "pvc-globals",
+  "version": "0.1.0",
+  "authors": [
+    "Michael Bleigh <mbleigh@mbleigh.com>"
+  ],
+  "description": "Element providing solution to no problem in particular.",
+  "keywords": "polymer, web-components, pvc",
+  "main": "pvc-globals.html",
+  "license": "MIT",
+  "homepage": "https://github.com/divshot/pvc-globals",
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.5.0"
+  },
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "mocha": "~1.19.0"
+  },
+  "resolutions": {
+    "polymer": "^0.5.0"
+  },
+  "_release": "0.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.0",
+    "commit": "af57beea7cbd7210d3028b8e8a76d99853a6f200"
+  },
+  "_source": "git://github.com/Divshot/pvc-globals.git",
+  "_target": "*",
+  "_originalSource": "Divshot/pvc-globals"
+}
