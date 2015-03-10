@@ -23,15 +23,8 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 </head>
 <body unresolved>
 
-<p>An example of using <code>&lt;speakur-discussion&gt;</code>:</p>
-
 <p>This page represents some web content such as an article, a blog post, or any other resource with a URL. It can be a
     either a static resource or a place within a dynamic web app.</p>
-
-<P>The main part of the page uses a different font than the Speakur component mainly to test that Speakur is largely independent of the page
-    style &ndash;
-    except for the overall transparent background. You can also style the <code>&lt;speakur-discussion&gt;</code>
-    element with a background.</P>
 
 <p>Inside the page we wish to embed a discussion forum so users can post their reactions, feedback, etc. That is where
     Speakur comes in. It provides an easily embeddable discussion forum by providing a custom HTML tag that can be
@@ -58,15 +51,16 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         For example, here's a <code>&lt;speakur-discussion&gt;</code> for this demo page:
     </p>
 
-    <code>
+    <pre>
         &lt;speakur-discussion
             firebaseLocation="https://speakur-demo.firebaseio.com"
             xtitle="Demonstration Thread for &lt;Speakur-Discussion&gt;"
             allowAnonymous="false"
             initiallyOpen="true"&gt;
         &lt;/speakur-discussion&gt;
+    </pre>
+    <P>Which results in this:</P>
 
-    </code>
 
     <!--firebaseLocation="https://speakur-demo.firebaseio.com"-->
     <!--theme="speakur-theme-red" initiallyOpen="false"-->
@@ -82,6 +76,12 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     This last part belongs to the containing page. This could be your page footer.
 </p>
 <hr>
+
+<P>The main part of the page uses a different font than the Speakur component mainly to test that Speakur is largely independent of the page
+    style &ndash;
+    except for the overall transparent background. You can also style the <code>&lt;speakur-discussion&gt;</code>
+    element with a background.</P>
+
 
 
 </body>
