@@ -14,7 +14,17 @@ This package is written with the [Polymer framework](https://www.polymer-project
 This project is part of a Software Engineering master's report at the University of Texas at Austin to explore
 W3C Web Component technology.
 
-See also the component page:
+## Demo and Component Documentation
+
+* Demo thread 1:
+
+https://preston-landers.github.io/speakur-discussion/components/speakur-discussion-dist/demo.html
+
+* See also the component page: 
+
+https://Preston-Landers.github.io/speakur-discussion/
+
+More demo threads coming.
 
 ## What does this software do?
 
