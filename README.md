@@ -115,6 +115,10 @@ bower dependencies at the appropriate location next to speakur-discussion.
 
       * Put in your Google Client ID and Client Secret from the Google API console.
 
+      * See also:
+        https://www.firebase.com/docs/web/guide/login/google.html
+        https://www.firebase.com/docs/web/guide/login/facebook.html
+
 * If you don't specify your own Firebase URL when putting  Speakur on your page, it will fall back on using the
 author's Firebase app and you WON'T be able to moderate/admin posts or fully control it. So it is recommended to
 create your own Firebase account as above.

@@ -12,14 +12,20 @@
     "public_profile": {
       ".read": true,
       "$uid": {
-        ".write": "!data.exists() && auth.uid === $uid"
+        ".write": "auth.uid === $uid"
       }
     },
     "profile": {
       ".read": false,
       "$uid": {
         ".read": "auth.uid === $uid",
-        ".write": "!data.exists() && auth.uid === $uid"
+        ".write": "auth.uid === $uid",
+        "uid": {
+          ".validate": "newData.isString() && newData.val().length > 1"
+        },
+        "username": {
+          ".validate": "newData.isString() && newData.val().length > 1"
+        }
       }
     },
 
@@ -48,8 +54,14 @@
     // Thread records
     "threads": {
       ".read": true,
-      // TODO: admin scope is not well defined
-      ".write": "auth.uid === root.child('admins').child(auth.uid).child('scope').val() === '*'",
+
+      // TODO: admin scope is not a well defined notion yet
+      // ".write": "root.child('admins').child(auth.uid).child('scope').val() === '*'",
+
+      // Alternative: allow any authenticated user to create a thread
+      ".write": "auth != null",
+
+      // Validation
       "$threadId": {
         ".validate": "newData.hasChildren(['threadId', 'title', 'href', 'created'])",
         "timestamp": {

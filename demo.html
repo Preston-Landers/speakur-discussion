@@ -15,7 +15,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
     <link rel="import" href="speakur-discussion.html">
     <style>
         body {
-            font-family: Comic Sans MS, sans-serif;
+            font-family: Calibri, Arial, Helvetica, sans-serif;
             background-color: rgba(213, 235, 225, 0.78);
             /*background-color: rgba(240, 240, 236, 0.78);*/
         }
@@ -28,7 +28,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
 <p>This page represents some web content such as an article, a blog post, or any other resource with a URL. It can be a
     either a static resource or a place within a dynamic web app.</p>
 
-<P>The reason this page uses Comic Sans font is mainly to test that Speakur is largely independent of the page
+<P>The main part of the page uses a different font than the Speakur component mainly to test that Speakur is largely independent of the page
     style &ndash;
     except for the overall transparent background. You can also style the <code>&lt;speakur-discussion&gt;</code>
     element with a background.</P>
@@ -58,8 +58,21 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
         For example, here's a <code>&lt;speakur-discussion&gt;</code> for this demo page:
     </p>
 
-    <!--theme="speakur-theme-red" initiallyOpen="true"-->
+    <code>
+        &lt;speakur-discussion
+            firebaseLocation="https://speakur-demo.firebaseio.com"
+            xtitle="Demonstration Thread for &lt;Speakur-Discussion&gt;"
+            allowAnonymous="false"
+            initiallyOpen="true"&gt;
+        &lt;/speakur-discussion&gt;
+
+    </code>
+
+    <!--firebaseLocation="https://speakur-demo.firebaseio.com"-->
+    <!--theme="speakur-theme-red" initiallyOpen="false"-->
     <speakur-discussion
+        firebaseLocation="https://speakur-demo.firebaseio.com"
+        xtitle="Demonstration Thread for <Speakur-Discussion>"
         allowAnonymous="false"
         initiallyOpen="true">
     </speakur-discussion>
