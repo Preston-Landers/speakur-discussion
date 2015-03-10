@@ -1,7 +1,7 @@
 speakur-discussion
 ==================
 
-This custom element (web component) provides a real-time discussion forum for any web resource.
+This custom element (web component) provides a real-time discussion thread for any web page / article / resource.
 
 The only server required is a free Firebase.com account to host the data.  All the comments and other data is stored on
 your Firebase account under your control.
@@ -14,7 +14,17 @@ This package is written with the [Polymer framework](https://www.polymer-project
 This project is part of a Software Engineering master's report at the University of Texas at Austin to explore
 W3C Web Component technology.
 
-See also the component page:
+## Demo and Component Documentation
+
+* Demo thread 1:
+
+https://preston-landers.github.io/speakur-discussion/components/speakur-discussion-dist/demo.html
+
+* See also the component page: 
+
+https://Preston-Landers.github.io/speakur-discussion/
+
+More demo threads coming.
 
 ## What does this software do?
 
@@ -45,7 +55,7 @@ The software is delivered as a Web Component custom element to be included in yo
 
 ## Requirements
 
-* You must have a web page where you can control the whole page's HTML (i.e, not certain blog services that restrict scripts.)
+* You must have a web page where you can control the page's HTML and add scripts (i.e, not certain blog services that restrict scripts.)
 
 * A free (or paid) account on Firebase.com (FB), a cloud database service owned by Google.
 
@@ -62,9 +72,6 @@ services and attach that to your Firebase account. Instructions for that can be 
 * This package needs certain dependencies - Polymer and certain Javascript libraries. It follows Bower dependency
 assumptions as Polymer recommends. If you are hosting the Speakur HTML files yourself then you have to install the
 bower dependencies at the appropriate location next to speakur-discussion.
-
-    * TODO: in some cases you can load all the components from an external site...
-
 
 ## Getting Started
 
@@ -115,13 +122,13 @@ bower dependencies at the appropriate location next to speakur-discussion.
 
       * Put in your Google Client ID and Client Secret from the Google API console.
 
-      * See also:
+      * You may also need to set your OAuth origin domains and other settings. See also:
         https://www.firebase.com/docs/web/guide/login/google.html
         https://www.firebase.com/docs/web/guide/login/facebook.html
 
 * If you don't specify your own Firebase URL when putting  Speakur on your page, it will fall back on using the
 author's Firebase app and you WON'T be able to moderate/admin posts or fully control it. So it is recommended to
-create your own Firebase account as above.
+create your own Firebase account as above. The default database also has a low (free) resource limit for users/space.
 
 * See demo.html for a complete working example of using <speakur-discussion>
 
@@ -158,7 +165,7 @@ comment although this is not revealed to other users, and is not saved in the ca
 
 * The 'target' of the thread is determined by the containing page's URL by default (window.location.url). However
 you can specify a different 'topic ID' by setting the `href` attribute, usually to a URL but it can be anything.
-The href attribute becomes the effective thread unique ID.
+The href attribute becomes the effective thread unique ID.  The generic demo thread uses 'demo1' as a thread ID.
 
 ```
     <speakur-discussion
@@ -168,7 +175,7 @@ The href attribute becomes the effective thread unique ID.
 ```
 
 
-## Making yourself 'Administrator'
+## Administration and Moderation
 
 There are two types of special users: Administrators and Moderators.
 
@@ -176,10 +183,10 @@ Admins control the entire site such as the ability to delete and edit comments.
 
 Moderators have similar powers but only for a particular thread ID (href).
 
-TODO: how to set these
-
 For security reasons you must set these outside of the Speakur interface by directly
 inserting the values into your Firebase app.
+
+TODO: explain how to set these...
 
 
 ### TODO List
@@ -191,10 +198,17 @@ inserting the values into your Firebase app.
 
   I would like to support a self-contained user registration system which uses Firebase Simple Auth.
 
+* Page fails to load on Firefox with Adblock
 
-* FIREBASE WARNING: resumeSession() was canceled: Auth token is expired.
+  The Adblock+ plugin seems to trip over the social icons provided with Polymer. It causes the page to not load.
+  Temporary workaround is to disable Adblock+ on that page/domain. There are no ads present.
 
-  Expired auth token isn't resetting globals.isAdmin - need to respond to an event for that?
+* Currently the first logged-in user to visit a particular thread is marked as the thread owner.
+
+* Spam report and moderation features are not implemented yet. 
+
+* TODO: Explain loading the components directly from github.io but how the performance can be worse.
+
 
 ## Support
 

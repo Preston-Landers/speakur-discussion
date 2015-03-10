@@ -1,9 +1,9 @@
 /**
  * @license
  * Copyright (c) 2015 Preston Landers. All rights reserved.
- * This code may only be used under the BSD style license found at http://speakur.github.io/LICENSE.txt
- * The complete set of authors may be found at http://speakur.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://speakur.github.io/CONTRIBUTORS.txt
+ * This code may only be used under the BSD style license found at http://Preston-Landers.github.io/speakur-discussion/LICENSE.txt
+ * The complete set of authors may be found at http://Preston-Landers.github.io/speakur-discussion/AUTHORS.txt
+ * The complete set of contributors may be found at http://Preston-Landers.github.io/speakur-discussion/CONTRIBUTORS.txt
  *
  */
 (function (document) {
@@ -359,10 +359,10 @@
                     threadId: this.threadId,
                     title: this.xtitle,
                     created: new Date().getTime(),
-                    allowAnonymous: false,
+                    allowAnonymous: this.allowAnonymous,
                     titlePost: false,   // a stickied comment that stays at the top
                     text: null,
-                    theme: this.theme,
+                    // theme: this.theme,  // dont need this
                     moderators: this.moderators,
 
                     owner: this.globals.getAuthor()
