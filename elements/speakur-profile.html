@@ -88,6 +88,7 @@ The complete set of contributors may be found at http://speakur.github.io/CONTRI
                     // this.log("admins changed: ", this.admins);
                     if (this.admins) {
                         // Todo: check scope == threadId for moderator!
+                        // Or if you're the thread owner
                         if (this.admins.scope === "*") {
                             console.log("Congrats, you are an admin.", this.admins);
                             this.globals.isAdmin = true;
