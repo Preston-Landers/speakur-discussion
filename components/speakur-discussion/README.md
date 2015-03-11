@@ -130,9 +130,9 @@ bower dependencies at the appropriate location next to speakur-discussion.
 author's Firebase app and you WON'T be able to moderate/admin posts or fully control it. So it is recommended to
 create your own Firebase account as above. The default database also has a low (free) resource limit for users/space.
 
-* See demo.html for a complete working example of using <speakur-discussion>
+* See demo.html for a complete working example of using `<speakur-discussion>`
 
-* Your page must load the webcomponents.js that polyfills Web Component support:
+* Your page must load `webcomponents.js` that polyfills Web Component support:
 
 This step is provisional until web components are natively supported in browsers.
 
@@ -143,7 +143,7 @@ This step is provisional until web components are natively supported in browsers
     </head>
 ```
 
-* Then you can bring in the <speakur-discussion> custom element:
+* Then you can bring in the `<speakur-discussion>` custom element:
 
 ```
     <link rel="import" href="/bower_components/speakur-discussion/speakur-discussion.html">
@@ -163,9 +163,9 @@ Be sure to set the appropriate options, particularly firebaseLocation and whethe
 commenting.  Anonymous users (only) will have their IP address and approximate geographic location saved with the
 comment although this is not revealed to other users, and is not saved in the case of registered users.
 
-* The 'target' of the thread is determined by the containing page's URL by default (window.location.url). However
+* The 'target' of the thread is determined by the containing page's URL by default (`window.location.url`). However
 you can specify a different 'topic ID' by setting the `href` attribute, usually to a URL but it can be anything.
-The href attribute becomes the effective thread unique ID.  The generic demo thread uses 'demo1' as a thread ID.
+The href attribute becomes the effective thread unique ID.  The generic demo thread uses `demo1` as a thread ID.
 
 ```
     <speakur-discussion
@@ -189,7 +189,7 @@ inserting the values into your Firebase app.
 TODO: explain how to set these...
 
 
-### TODO List
+## TODO List
 
 * 'Native' accounts
 
