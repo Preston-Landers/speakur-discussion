@@ -95,13 +95,6 @@ https://github.com/Polymer/core-component-page/issues/7
             <firebase-login id="baseLogin" user="{{user}}" statusKnown="{{statusKnown}}" location="{{firebaseLocation}}"
                             provider="google" on-login="{{onLogin}}" on-error="{{onLoginError}}"></firebase-login>
 
-            <!-- TODO: probably don't need the following 2 DB elements here? -->
-            <firebase-element
-                    id="dbThread" location="{{ fbLocation(firebaseLocation,'threads',threadId) }}"
-                    data="{{thread}}"></firebase-element>
-            <firebase-element
-                    id="dbPosts" location="{{ fbLocation(firebaseLocation,'posts',threadId) }}"
-                    data="{{posts}}" keys="{{postIds}}"></firebase-element>
 
             <paper-toast id="speakur-toast"></paper-toast>
             <speakur-dialog-login id="speakurLoginDialog" baseLogin="{{$.baseLogin}}" ></speakur-dialog-login>
@@ -186,6 +179,9 @@ https://github.com/Polymer/core-component-page/issues/7
                         <speakur-thread-view
                                 id="threadView"
                                 threadId="{{threadId}}"
+                                xtitle="{{xtitle}}"
+                                href="{{href}}"
+                                allowAnonymous="{{allowAnonymous}}"
                                 firebaseLocation="{{firebaseLocation}}">
                         </speakur-thread-view>
                     </div>
@@ -228,9 +224,6 @@ https://github.com/Polymer/core-component-page/issues/7
         </div>
 
     </template>
-
-    <!-- Is this style import OK? Come back to this and make a proper import wrapper? -->
-    <script src="../js-md5/js/md5.min.js"></script>
 
     <script src="speakur-discussion.js"></script>
 
