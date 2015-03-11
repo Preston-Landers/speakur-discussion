@@ -106,7 +106,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 <div class="thread-sort">
                     <paper-dropdown-menu label="{{ 'sort_order_desc' | $$(lc) }}">
                         <paper-dropdown halign="right" layered class="speakur-paper-dropdown dropdown" transition="">
-                            <core-menu id="sortMenu" class="menu">
+                            <core-menu id="sortMenu" class="menu" valueattr="data-sorting" selected="{{sortOrder}}">
                                 <paper-item data-sorting="newest">
                                     {{ 'sort_newest' | $$(lc) }}
                                 </paper-item>
@@ -145,7 +145,8 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
     </template>
     <script>
         Polymer({
-            sortOrder: 'oldest',
+            // This is the default until you change it
+            sortOrder: 'newest',
 
             domReady: function () {
                 var that = this;
