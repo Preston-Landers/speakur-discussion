@@ -162,7 +162,10 @@ module.exports = function (grunt) {
         options: {
           strip: true,
           inline: true,
-          csp: false
+          csp: false,
+          excludes: {
+            imports: ['polymer.html']
+          }
         },
         files: {
           '<%= yeoman.dist %>/elements.vulcanized.html': [
