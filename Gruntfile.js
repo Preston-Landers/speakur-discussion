@@ -161,10 +161,11 @@ module.exports = function (grunt) {
       default: {
         options: {
           strip: true,
-          inline: true,
-          csp: true,
+          inline: false,
+          csp: false,
           excludes: {
             imports: ['polymer.html']
+            //, scripts: ['i18next.js']
           }
         },
         files: {
