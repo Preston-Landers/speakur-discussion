@@ -17,7 +17,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
 <polymer-element
     name="speakur-thread-view"
     extends="speakur-base"
-    attributes="firebaseLocation threadId sortOrder replyCount replyCountDeep">
+    attributes="firebaseLocation threadId sortOrder replyCount replyCountDeep href xtitle allowAnonymous">
     <template>
         <style>
             #header > div {
@@ -47,6 +47,17 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
             #header .thread-age {
                 font-style: italic;
             }
+
+            .thread-create {
+                text-align: center;
+                font-size: 1.1em;
+                font-weight: bold;
+                padding: 3em;
+                border: 1px solid #000000;
+            }
+            .thread-create:hover {
+                background-color: rgba(221, 213, 192, 0.78);
+            }
         </style>
 
         <firebase-element
@@ -56,13 +67,18 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
         <article layout vertical>
 
             <speakur-compose
+                hidden?="{{ ! thread }}"
                 id="threadCompose"
                 threadId="{{threadId}}"
                 replyTo="{{threadId}}"
                 firebaseLocation="{{firebaseLocation}}">
             </speakur-compose>
 
-            <header layout horizontal center id="header" class="thread-header">
+            <header
+                layout horizontal center
+                hidden?="{{ ! thread }}"
+                id="header" class="thread-header">
+
                 <div class="thread-favorite">
                     <paper-icon-button
                         icon="star-outline"
@@ -110,7 +126,15 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 </div>
             </header>
 
+            <div horizontal center-justified="" layout hidden?="{{ thread }}">
+                <div class="thread-create" on-click="{{createThread}}">
+                    <h1>No thread yet!</h1>
+                    <p>Click here to initialize the thread.</p>
+                </div>
+            </div>
+
             <speakur-post-set
+                hidden?="{{ ! thread }}"
                 id="topLevelPosts"
                 firebaseLocation="{{firebaseLocation}}"
                 level="0"
@@ -133,6 +157,28 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                         console.log('Sort changed to ', that.sortOrder);
                     }
                 });
+            },
+
+            createThread: function (e, detail) {
+                if (this.thread) {
+                    console.log("Thread already exists...");
+                    return;
+                }
+                // Create a default thread description.
+                this.thread = {
+                    href: this.href,
+                    threadId: this.threadId,
+                    title: this.xtitle,
+                    created: new Date().getTime(),
+                    allowAnonymous: this.allowAnonymous,
+                    titlePost: false,   // a stickied comment that stays at the top
+                    text: null,
+                    // theme: this.theme,  // dont need this
+                    // moderators: this.moderators,
+
+                    owner: this.globals.getAuthor()
+                };
+                this.log("Created new thread for " + this.href + " -> " + this.thread);
             },
 
             favoriteToggle: function () {

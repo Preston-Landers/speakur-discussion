@@ -329,52 +329,13 @@
 
             // digest it
             var threadId = md5(href);
-            this.log("href " + href + " -> md5: " + threadId);
+            console.log("href ", href, " -> md5: ", threadId);
             // set it.
             this.threadId = threadId;
         },
 
         hrefChanged: function () {
             this.setThreadIdFromHref();
-        },
-
-        threadIdChanged: function (oldValue, newValue) {
-            // this.log("Thread ID was changed from " + oldValue + " to ->" + newValue);
-
-            // TODO: is this the correct way to notice that a FB element doesn't exist and create it?!
-            var that = this;
-            this.job('check-thread-creation', function () {
-                if (!that.thread) {
-                    that.threadChanged();
-                }
-            }, 300);
-        },
-
-        threadChanged: function () {
-            this.log("Thread changed. ", this.$.dbThread.location, " thread ID: ", this.threadId);
-            this.async(function () {
-                if (this.threadId && !this.thread) {
-                    // Create a default thread description.
-                    this.thread = {
-                        href: this.href,
-                        threadId: this.threadId,
-                        title: this.xtitle,
-                        created: new Date().getTime(),
-                        allowAnonymous: this.allowAnonymous,
-                        titlePost: false,   // a stickied comment that stays at the top
-                        text: null,
-                        // theme: this.theme,  // dont need this
-                        moderators: this.moderators,
-
-                        owner: this.globals.getAuthor()
-                    };
-                    this.log("Created new thread for " + this.href + " -> " + this.thread);
-                } else {
-                    // this.log("this.thread -> ", this.thread);
-                    this.xtitle = this.thread.title;
-                }
-            }, null, 200);
-
         },
 
         threadKeysChanged: function (oldValue, newValue) {
