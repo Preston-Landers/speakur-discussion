@@ -18,7 +18,7 @@ W3C Web Component technology.
 
 * Demo thread 1:
 
-https://preston-landers.github.io/speakur-discussion/components/speakur-discussion/demo.html
+https://preston-landers.github.io/speakur-discussion/components/speakur-discussion-dist/demo.html
 
 * See also the component page: 
 
