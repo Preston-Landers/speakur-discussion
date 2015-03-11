@@ -162,7 +162,7 @@ module.exports = function (grunt) {
         options: {
           strip: true,
           inline: true,
-          csp: false,
+          csp: true,
           excludes: {
             imports: ['polymer.html']
           }
