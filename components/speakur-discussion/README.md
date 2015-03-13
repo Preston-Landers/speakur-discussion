@@ -18,7 +18,7 @@ W3C Web Component technology.
 
 * Demo thread 1:
 
-https://preston-landers.github.io/speakur-discussion/components/speakur-discussion-dist/demo.html
+https://preston-landers.github.io/speakur-discussion/components/speakur-discussion/demo.html
 
 * See also the component page: 
 
@@ -65,18 +65,23 @@ That said, you can quickly add Speakur to almost any web page with a few simple 
 1) You must load the webcomponents.js script:
 
 ```
-    <script src="//preston-landers.github.io/speakur-discussion/components/webcomponentsjs/webcomponents.min.js"></script>
+    <script 
+        src="//preston-landers.github.io/speakur-discussion/components/webcomponentsjs/webcomponents.min.js">
+    </script>
 ```
 
 * Then you can import the `<speakur-discussion>` custom element:
 
 ```
-    <link rel="import" href="//preston-landers.github.io/speakur-discussion/components/speakur-discussion/speakur-discussion.html">
+    <link rel="import" 
+        href="//preston-landers.github.io/speakur-discussion/components/speakur-discussion/speakur-discussion.html">
 ```
 
-* And now you can place the element somewhere on the page that you want the comment box
+* Now you can place the element somewhere on the page that you want the comment box
 to appear. The thread will be automatically set to the containing page location.  If you want
-to use a different unique ID for the thread, simply set the `href` attribute another one.
+to use a different unique ID for the thread, simply set the `href` attribute another one. 
+Keep in mind that if you're using the default Firebase then someone may already have 'claimed' that 
+`href` / link / ID.
 
 ```
     <speakur-discussion

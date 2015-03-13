@@ -26,6 +26,26 @@
 <link rel="import" href="imports/lodash.js.html">
 <link rel="import" href="imports/moment.js.html">
 
+<script>
+    // TODO: How to put this in the global namespace cleanly?
+    // This is used in a few places to get the correct absolute path to resources (images, JSON, etc)
+    // Meant to be called like:  speakurGetBaseURL(document.currentScript.baseURI)
+    window.speakurGetBaseURL = function speakurGetBaseURL(currentScriptBaseURI) {
+        var srcURL = new window.URL(currentScriptBaseURI);
+        var lastIndexStr, srcPath;
+        if (srcURL.pathname.lastIndexOf("/elements.vulcanized.html") > 0) {
+            srcPath = srcURL.pathname.replace(/[/]elements[.]vulcanized.html$/,"/");
+        } else {
+            // remove anything after /speakur-discussion/
+            lastIndexStr = "/speakur-discussion/";
+            srcPath = srcURL.pathname.substr(0, srcURL.pathname.lastIndexOf(lastIndexStr) + lastIndexStr.length );
+        }
+
+        return srcURL.origin + srcPath;
+    };
+</script>
+
+
 <!-- (Internal) Custom Elements used in the main speakur-discusson element -->
 <link rel="import" href="elements/speakur-base.html">
 <link rel="import" href="elements/speakur-i18next.html">

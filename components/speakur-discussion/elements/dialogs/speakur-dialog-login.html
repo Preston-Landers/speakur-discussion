@@ -109,11 +109,11 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
     }
 
     .speakur-dialog .login-button-facebook {
-        background-image: url("{{baseURL}}../../images/facebook-login-button.png");
+        background-image: url("{{baseURL}}images/facebook-login-button.png");
     }
 
     .speakur-dialog .login-button-google {
-        background-image: url("{{baseURL}}../../images/google-sign-in-button.png");
+        background-image: url("{{baseURL}}images/google-sign-in-button.png");
     }
 </core-style>
 
@@ -121,8 +121,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
 <core-style ref="speakur-dialog-login"></core-style>
 <script>
     (function () {
-        var srcURL = new window.URL(document.currentScript.baseURI);
-        var baseURL = srcURL.origin + srcURL.pathname.substr(0, srcURL.pathname.lastIndexOf("/") + 1);
-        document._currentScript.ownerDocument.getElementById('speakur-dialog-login').baseURL = baseURL;
+        document._currentScript.ownerDocument.getElementById('speakur-dialog-login').baseURL =
+            speakurGetBaseURL(document.currentScript.baseURI);
     })();
 </script>

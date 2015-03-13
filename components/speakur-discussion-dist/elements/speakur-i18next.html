@@ -23,9 +23,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
     </template>
     <script>
         (function () {
-            var srcURL = new window.URL(document.currentScript.baseURI);
-            var baseURL = srcURL.origin + srcURL.pathname.substr(0, srcURL.pathname.lastIndexOf("/") + 1);
-            console.log("baseURL", baseURL);
+            var baseURL = speakurGetBaseURL(document.currentScript.baseURI);
 
 //            window.i18nResources = {};
 
@@ -37,7 +35,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 fallbackLng: 'en',
                 ns: 'speakur',
                 load: 'current',
-                resGetPath: baseURL + '../locales/__ns__-__lng__.json'
+                resGetPath: baseURL + 'locales/__ns__-__lng__.json'
             });
 
 /*
