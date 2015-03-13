@@ -53,7 +53,43 @@ The software is delivered as a Web Component custom element to be included in yo
 
 * Languages and themes selections update instantly
 
-## Requirements
+## Quickstart for non-self-hosting
+
+I recommend setting up your own Firebase as described below whether or not you host the Speakur HTML files yourself.
+
+If you use the author's Firebase you will have no control over the data, so you should only do that for testing purposes. 
+Also, loading the 'raw' (non-concatenated) components will cause slower page loading times. 
+
+That said, you can quickly add Speakur to almost any web page with a few simple steps:
+
+1) You must load the webcomponents.js script:
+
+```
+    <script src="//preston-landers.github.io/speakur-discussion/components/webcomponentsjs/webcomponents.min.js"></script>
+```
+
+* Then you can import the `<speakur-discussion>` custom element:
+
+```
+    <link rel="import" href="//preston-landers.github.io/speakur-discussion/components/speakur-discussion/speakur-discussion.html">
+```
+
+* And now you can place the element somewhere on the page that you want the comment box
+to appear. The thread will be automatically set to the containing page location.  If you want
+to use a different unique ID for the thread, simply set the `href` attribute another one.
+
+```
+    <speakur-discussion
+        href="my_awesome_thread_1"
+        allowAnonymous="false">
+    </speakur-discussion>
+```
+
+If you have your own Firebase set up (and you should) you can give it as `firebaseLocation=`
+
+* You now have a comment section!
+
+## Requirements for Self-Hosting
 
 * You must have a web page where you can control the page's HTML and add scripts (i.e, not certain blog services that restrict scripts.)
 
@@ -206,9 +242,6 @@ TODO: explain how to set these...
 * Currently the first logged-in user to visit a particular thread is marked as the thread owner.
 
 * Spam report and moderation features are not implemented yet. 
-
-* TODO: Explain loading the components directly from github.io but how the performance can be worse.
-
 
 ## Support
 
