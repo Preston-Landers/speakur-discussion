@@ -32,9 +32,15 @@
     // Meant to be called like:  speakurGetBaseURL(document.currentScript.baseURI)
     window.speakurGetBaseURL = function speakurGetBaseURL(currentScriptBaseURI) {
         var srcURL = new window.URL(currentScriptBaseURI);
-        // remove anything past /speakur-discussion
-        var lastIndexStr = "/speakur-discussion/";
-        var srcPath = srcURL.pathname.substr(0, srcURL.pathname.lastIndexOf(lastIndexStr) + lastIndexStr.length );
+        var lastIndexStr, srcPath;
+        if (srcURL.pathname.lastIndexOf("/elements.vulcanized.html") > 0) {
+            srcPath = srcURL.pathname.replace(/[/]elements[.]vulcanized.html$/,"/");
+        } else {
+            // remove anything after /speakur-discussion/
+            lastIndexStr = "/speakur-discussion/";
+            srcPath = srcURL.pathname.substr(0, srcURL.pathname.lastIndexOf(lastIndexStr) + lastIndexStr.length );
+        }
+
         return srcURL.origin + srcPath;
     };
 </script>
