@@ -32,20 +32,28 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
         </div>
     </template>
     <script>
-        Polymer({
-            showAnon: true,
-            width: 24,
-            height: 24,
-            computed: {
-                'picture_link': "getPictureLink(author)"
-            },
-            getPictureLink: function (author) {
-                if (!author || !author.picture_link) {
-                    // Anonymous picture
-                    return 'images/grey.png';
+        (function () {
+
+            // A way to put this somewhere else?
+            var srcURL = new window.URL(document.currentScript.baseURI);
+            var baseURL = srcURL.origin + srcURL.pathname.substr(0, srcURL.pathname.lastIndexOf("/") + 1);
+
+            Polymer({
+                showAnon: true,
+                width: 24,
+                height: 24,
+                computed: {
+                    'picture_link': "getPictureLink(author)"
+                },
+                getPictureLink: function (author) {
+                    if (!author || !author.picture_link) {
+                        // Anonymous picture
+                        return baseURL + '../images/grey.png';
+                    }
+                    return author.picture_link;
                 }
-                return author.picture_link;
-            }
-        });
+            });
+        })();
+
     </script>
 </polymer-element>
