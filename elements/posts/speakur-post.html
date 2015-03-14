@@ -25,7 +25,10 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
     extends="speakur-base"
     attributes="firebaseLocation threadId parentId postId previewing previewText previewingEdit level sortOrder replyCount replyCountDeep parentCounts">
     <template>
+
+        <!-- stylesheet for Syntax Highlight feature -->
         <link rel="stylesheet" href="../../../highlightjs/styles/default.css">
+
         <style>
             .post-card-container {
                 margin: 0 0 12px 0;
@@ -71,6 +74,8 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 }
             }
         </style>
+
+        <!-- helper for post voting -->
         <speakur-post-vote
             id="vote"
             uid="{{globals.currentUser.uid}}"
@@ -78,6 +83,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
             parentId="{{parentId}}"
             postId="{{postId}}"
             firebaseLocation="{{firebaseLocation}}"></speakur-post-vote>
+
         <template if="{{!previewing}}">
             <firebase-element
                 id="postDB" data="{{post}}"
@@ -85,8 +91,8 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
             <firebase-element
                 id="postvotesDB" data="{{postVotes}}"
                 location="{{fbLocation(firebaseLocation, 'postvotes', parentId, postId) }}"></firebase-element>
-
         </template>
+
         <template if="{{!previewing || previewText}}">
             <div class="post-and-replies {{indentClass}}">
                 <div layout horizontal class="post-container">
@@ -103,7 +109,6 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 </div>
                 <div flex class="post-card-container">
 
-                    <!--<speakur-card id="card" collapsible="true" curved="true" wideHeader="false" shadowZ="0">-->
                     <speakur-card
                         id="card"
                         collapsible="true"
@@ -147,6 +152,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                             .deleted-post-body {
                                 padding-top: 14px;
                                 padding-bottom: 12px;
+                                font-style: italic;
                             }
 
                             .hdiv {
@@ -157,12 +163,15 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
 
                         <!-- post HEADER -->
                         <div layout horizontal center class="header">
+
                             <template if="{{ previewing && previewingEdit}}">
                                 {{ 'preview_edit_post' | $$(lc) }}
                             </template>
+
                             <template if="{{previewing && ! previewingEdit }}">
                                 {{ 'Preview' | $$(lc) }}
                             </template>
+
                             <template if="{{ !previewing }}">
 
                                 <speakur-author-slug
@@ -172,6 +181,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                                 <div class="netVotesTitleDisplay hdiv">
                                     {{netVotesText}}
                                 </div>
+
                                 <div class="replyInfo hdiv">
                                     <!-- TODO: use i18next pluralization here -->
                                     <template if="{{replyCount == 1}}">
@@ -184,6 +194,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                                         &mdash; {{replyCountDeep}} {{ 'total' | $$(lc) }}
                                     </template>
                                 </div>
+
                                 <div class="post-time hdiv">
                                     <time class="created-time post-time" title="{{post.timestamp | formatTimestamp(lc) }}">
                                         {{globals.updateTick && post.timestamp | formatTimestampFromAgo(lc) }}
@@ -205,20 +216,15 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
 
                         <!-- post BODY -->
                         <div class="body post-body" on-marked-js-highlight="{{hilight}}">
+
                             <marked-element
                                 id="marked"
                                 hidden?="{{ post.deleted || isCollapsed }}"
                                 text="{{previewing ? ( previewText ? previewText : '' ) : post.text}}">
                             </marked-element>
-<!--
-                            <template if="{{ !post.deleted && !isCollapsed }}">
-                                <marked-element
-                                    text="{{previewing ? ( previewText ? previewText : '' ) : post.text}}">
-                                </marked-element>
-                            </template>
--->
+
                             <div class="deleted-post-body" hidden?="{{ !post.deleted }}">
-                                <em>[{{ 'deleted' | $$(lc) }}]</em>
+                                [{{ 'deleted' | $$(lc) }}]
                             </div>
                         </div>
 
@@ -274,6 +280,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
             </div>
         </template>
     </template>
+
     <script src="speakur-post.js"></script>
 
 </polymer-element>
