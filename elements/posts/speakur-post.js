@@ -249,6 +249,7 @@
         computed: {
             'netVotesText': 'getNetVotesText(postVotes, $.vote.votedUp, $.vote.votedDown)',
             'indentWidthForLevel': 'level+1 * indentWidth',
+            'indentWidthLimited': '(level > 2 ) ? 0 : indentWidth',
             'indentClass': '"indent-" + ( ( ( level ) % 3 ) + 1)',
             'replyCount': '$.replySet.postCount',
             'replyCountDeep': '$.replySet.postCountDeep',

@@ -33,11 +33,11 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                     <content select=":not(.footer)"></content>
                 </div>
                 <div class="modal-footer dialog-footer">
-                    <div layout vertical class="flexwrap">
+                    <div layout vertical wrap>
                         <content id="footer" select=".footer"></content>
                     </div>
                     <template if="{{showStandardButtons}}">
-                        <div layout horizontal end-justified class="dialog-std-buttons form-inline flexwrap">
+                        <div layout horizontal end-justified wrap class="dialog-std-buttons form-inline">
                             <template if="{{unsavedChanges}}">
                                 <div self-center class="unsaved-changes">
                                     {{unsavedChangesTitle}}
@@ -162,11 +162,6 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
 
     .speakur-dialog .unsaved-changes {
         font-style: italic;
-    }
-
-    .speakur-dialog /deep/ .flexwrap {
-        flex-wrap: wrap;
-        flex: 1;  /* need this? */
     }
 
 </core-style>

@@ -88,12 +88,6 @@ paper-icon-button /deep/ core-icon[role=img] {
     margin: 2px 2px 0;
 }
 
-/* could use * here but that seems bad */
-:host /deep/ .flexwrap {
-    flex-wrap: wrap;
-    flex: 1;  /* need this? */
-}
-
 :host .admin-mode {
     margin-right: 8px;
     font-weight: bold;
@@ -103,20 +97,32 @@ paper-icon-button /deep/ core-icon[role=img] {
     margin-right: 8px;
 }
 
-:host speakur-toolbar /deep/ .speakur-toggle-link {
+:host .toolbar-border {
+    margin: 2px;
+    border: 2px solid black;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+:host .speakur-toolbar .speakur-toggle-link {
     text-align: center;
 }
-:host speakur-toolbar /deep/ .speakur-toggle-link:hover {
+:host .speakur-toolbar .speakur-toggle-link:hover {
     text-decoration: underline;
 }
 
 :host .speakur-copyright {
     opacity: 0.9;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    text-align: right;
 }
 
 :host .powered-by-link {
     font-weight: bold;
     margin-left: 6px;
+    white-space: nowrap;
 }
 
 :host .powered-by-link A {

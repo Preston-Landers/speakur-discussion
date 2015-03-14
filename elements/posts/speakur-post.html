@@ -65,7 +65,11 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 font-size: 1.15em;
             }
 
-
+            @media only screen and (min-device-width : 800px) {
+                .thread-indent {
+                    margin-left: {{indentWidthLimited}}px;
+                }
+            }
         </style>
         <speakur-post-vote
             id="vote"
@@ -113,10 +117,22 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                                 flex-wrap: wrap;
                             }
 
-                            .edited-time {
+                            .created-time {
+                                margin-right: 3px;
+                            }
+
+                            .edited-time-div {
                                 font-size: 0.95em;
                                 font-style: italic;
-                                margin-left: 14px;
+                                /*margin-left: 14px;*/
+                                margin-left: 0.5em;
+                            }
+
+                            /* Hide the full edited time on small screens */
+                            @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+                                .edited-time {
+                                    display: none;
+                                }
                             }
 
                             .post-time {
@@ -168,44 +184,53 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                                         &mdash; {{replyCountDeep}} {{ 'total' | $$(lc) }}
                                     </template>
                                 </div>
-                                <div class="post-time hdiv" title="{{post.timestamp | formatTimestamp(lc) }}">
-                                    <time>
+                                <div class="post-time hdiv">
+                                    <time class="created-time post-time" title="{{post.timestamp | formatTimestamp(lc) }}">
                                         {{globals.updateTick && post.timestamp | formatTimestampFromAgo(lc) }}
                                     </time>
+                                    <template if="{{ post.lastModified && post.lastModified !== post.timestamp }}">
+                                        &mdash;
+                                        <span class="edited-time-div hdiv"
+                                             title="{{post.lastModified | formatTimestamp(lc) }}">
+                                            {{ 'Edited' | $$(lc) }}
+                                            <time class="edited-time">
+                                                {{globals.updateTick && post.lastModified | formatTimestampFromAgo(lc) }}
+                                            </time>
+                                        </span>
+                                    </template>
+
                                 </div>
-                                <template if="{{ post.lastModified && post.lastModified !== post.timestamp }}">
-                                    &mdash;
-                                    <div class="edited-time hdiv" title="{{post.lastModified | formatTimestamp(lc) }}">
-                                        {{ 'Edited' | $$(lc) }}:
-                                        <time>
-                                            {{globals.updateTick && post.lastModified | formatTimestampFromAgo(lc) }}
-                                        </time>
-                                    </div>
-                                </template>
                             </template>
                         </div>
 
                         <!-- post BODY -->
                         <div class="body post-body" on-marked-js-highlight="{{hilight}}">
+                            <marked-element
+                                id="marked"
+                                hidden?="{{ post.deleted || isCollapsed }}"
+                                text="{{previewing ? ( previewText ? previewText : '' ) : post.text}}">
+                            </marked-element>
+<!--
                             <template if="{{ !post.deleted && !isCollapsed }}">
                                 <marked-element
                                     text="{{previewing ? ( previewText ? previewText : '' ) : post.text}}">
                                 </marked-element>
                             </template>
+-->
                             <div class="deleted-post-body" hidden?="{{ !post.deleted }}">
                                 <em>[{{ 'deleted' | $$(lc) }}]</em>
                             </div>
                         </div>
 
                         <!-- post FOOTER -->
-                        <template if="{{!previewing}}">
-                            <speakur-post-footer
-                                id="postFooter"
-                                class="footer"
-                                postVotes="{{postVotes}}"
-                                voteElem="{{$.vote}}"
-                                post="{{post}}"></speakur-post-footer>
-                        </template>
+                        <speakur-post-footer
+                            id="postFooter"
+                            class="footer"
+                            hidden?="{{ previewing }}"
+                            postVotes="{{postVotes}}"
+                            voteElem="{{$.vote}}"
+                            post="{{post}}">
+                        </speakur-post-footer>
                     </speakur-card>
                 </div>
             </div>
@@ -216,7 +241,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                   -->
 
                 <core-collapse opened id="extraCollapse">
-                    <div _style="margin-left: {{indentWidthForLevel}}px;">
+                    <div class="thread-indent thread-indent-{{level}}">
 
                         <speakur-compose
                             id="editCompose"
