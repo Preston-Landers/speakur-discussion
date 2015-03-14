@@ -127,7 +127,7 @@ https://github.com/Polymer/core-component-page/issues/7
                                 title="{{ 'show_comments' | $$(lc) }}"
                                 on-click="{{toggle}}">
                         </paper-icon-button>
-                        <div class="speakur-header-titlebox speakur-toggle-link" on-click="{{toggle}}" flex>
+                        <div class="speakur-header-titlebox speakur-toggle-link flexwrap" on-click="{{toggle}}" flex>
                             {{ 'View Comments' | $$(lc) }} ({{ $.threadView.replyCountDeep }})
                         </div>
 
@@ -143,7 +143,7 @@ https://github.com/Polymer/core-component-page/issues/7
                                 icon="remove-circle-outline"
                                 on-click="{{toggle}}" class="speakur-toggle-button speakur-close-button">
                         </paper-icon-button>
-                        <div flex class="speakur-header-titlebox">
+                        <div flex class="speakur-header-titlebox flexwrap">
                             {{xtitle}} &mdash; {{ 'replies_count' | $$({count: $.threadView.replyCountDeep}, lc) }}
                         </div>
 
@@ -194,12 +194,10 @@ https://github.com/Polymer/core-component-page/issues/7
                             on-click="{{toggle}}" class="speakur-toggle-button speakur-close-button">
                         </paper-icon-button>
 
-                        <div flex style="margin-left: 8px;">
+                        <div flex class="powered-by-link">
                             <!--Questionable where we want to put this, if anywhere.-->
                             <!--<content></content>-->
-                            <a
-                                class="powered-by-link"
-                                target="_blank"
+                            <a target="_blank"
                                 href="{{speakurSoftwareLink}}">
                                 {{ 'powered_by' | $$(lc) }}
                             </a>

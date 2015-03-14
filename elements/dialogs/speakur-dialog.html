@@ -33,11 +33,11 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                     <content select=":not(.footer)"></content>
                 </div>
                 <div class="modal-footer dialog-footer">
-                    <div layout vertical>
+                    <div layout vertical class="flexwrap">
                         <content id="footer" select=".footer"></content>
                     </div>
                     <template if="{{showStandardButtons}}">
-                        <div layout horizontal end-justified class="dialog-std-buttons form-inline">
+                        <div layout horizontal end-justified class="dialog-std-buttons form-inline flexwrap">
                             <template if="{{unsavedChanges}}">
                                 <div self-center class="unsaved-changes">
                                     {{unsavedChangesTitle}}
@@ -123,8 +123,15 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
 -->
 <core-style id="speakur-dialog">
 
-    .speakur-dialog .dialog-content {
-        min-width: 500px;
+
+    /* Smartphones (portrait and landscape) ----------- */
+    @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    }
+
+    @media only screen and (min-device-width : 800px) {
+        .speakur-dialog .dialog-content {
+            min-width: 500px;
+        }
     }
 
     .speakur-dialog .dialog-header {
@@ -149,12 +156,17 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
         color: white;
     }
 
-    .speakur-dialog .dialog-std-buttons {
+    .speakur-dialog .dialog-std-buttons > * {
         margin-top: 12px;
     }
 
     .speakur-dialog .unsaved-changes {
         font-style: italic;
+    }
+
+    .speakur-dialog /deep/ .flexwrap {
+        flex-wrap: wrap;
+        flex: 1;  /* need this? */
     }
 
 </core-style>

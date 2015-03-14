@@ -88,6 +88,12 @@ paper-icon-button /deep/ core-icon[role=img] {
     margin: 2px 2px 0;
 }
 
+/* could use * here but that seems bad */
+:host /deep/ .flexwrap {
+    flex-wrap: wrap;
+    flex: 1;  /* need this? */
+}
+
 :host .admin-mode {
     margin-right: 8px;
     font-weight: bold;
@@ -110,9 +116,17 @@ paper-icon-button /deep/ core-icon[role=img] {
 
 :host .powered-by-link {
     font-weight: bold;
+    margin-left: 6px;
+}
+
+:host .powered-by-link A {
+    color: inherit;
     text-decoration: none;
-    margin-left: 4px;
     opacity: 0.9;
+}
+
+:host .powered-by-link A:visited {
+    color: inherit;
 }
 
 :host .powered-by-link:visited {

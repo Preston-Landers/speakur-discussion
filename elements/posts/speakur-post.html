@@ -43,6 +43,11 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 padding-bottom: 4px;
             }
 
+            speakur-card /deep/ .card-footer {
+                padding-top: 0;
+                padding-bottom: 2px;
+            }
+
             .post-author-img {
                 padding: 0;
                 margin: 0;
@@ -104,6 +109,9 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                         level="{{level}}">
 
                         <style>
+                            .header {
+                                flex-wrap: wrap;
+                            }
 
                             .edited-time {
                                 font-size: 0.95em;
@@ -149,6 +157,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                                     {{netVotesText}}
                                 </div>
                                 <div class="replyInfo hdiv">
+                                    <!-- TODO: use i18next pluralization here -->
                                     <template if="{{replyCount == 1}}">
                                         1 {{ 'reply' | $$(lc) }}
                                     </template>
@@ -183,11 +192,9 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                                     text="{{previewing ? ( previewText ? previewText : '' ) : post.text}}">
                                 </marked-element>
                             </template>
-                            <template if="{{ post.deleted}}">
-                                <div class="deleted-post-body">
-                                    <em>[{{ 'deleted' | $$(lc) }}]</em>
-                                </div>
-                            </template>
+                            <div class="deleted-post-body" hidden?="{{ !post.deleted }}">
+                                <em>[{{ 'deleted' | $$(lc) }}]</em>
+                            </div>
                         </div>
 
                         <!-- post FOOTER -->

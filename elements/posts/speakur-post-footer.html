@@ -17,8 +17,13 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
     attributes="post postVotes voteElem">
     <template>
         <style>
+            .speakur-post-toolbar {
+                flex-wrap: wrap;
+            }
+
             .speakur-post-toolbar > div {
-                margin-right: 2.5em;
+                margin-right: 2.2em;
+                margin-bottom: 2px;
             }
 
             .speakur-post-toolbar > div:hover {
@@ -28,10 +33,18 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
 
             .speakur-post-toolbar > .report-post-button {
                 margin-right: 0;
-                margin-left: 30px;
+                /*margin-left: 30px;*/
                 /*font-size: 85%;*/
                 opacity: 0.7;
             }
+
+            @media only screen and (min-device-width : 800px) {
+                .speakur-post-toolbar > .report-post-button {
+                    margin-right: 0;
+                    margin-left: 34px;
+                }
+            }
+
 
             .vote-block {
                 margin-right: 8px;

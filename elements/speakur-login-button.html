@@ -26,16 +26,12 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                     color: dimgray;
                     font-size: 0.9em;
                     padding: 5px;
-                    text-align: center;
-                    display: inline;
                 }
 
                 .provider {
                     font-size: 0.8em;
                     padding: 5px;
                     color: darkslategray;
-                    text-align: center;
-                    display: inline;
                     font-style: italic;
                 }
 
@@ -43,6 +39,11 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                     margin-right: 8px;
                 }
         </core-style>
+        <style>
+            .speakur-paper-dropdown {
+                min-width: 200px;
+            }
+        </style>
 
         <!-- duplicating the whole structure is the only way it seems to accommodate dynamic size changes due to login/logout status? -->
         <paper-menu-button hidden?="{{ !statusKnown || !user }}">
@@ -60,8 +61,10 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 <core-menu class="menu" id="loggedInMenu" excludedLocalNames="div">
 
                     <core-item>
-                        <div class="username">{{globals.profile.username}}</div>
-                        <div class="provider">{{ describeProvider(user.provider) }}</div>
+                        <div layout horizontal class="flexwrap">
+                            <div class="username">{{globals.profile.username}}</div>
+                            <div class="provider">{{ describeProvider(user.provider) }}</div>
+                        </div>
                     </core-item>
 
                     <paper-item

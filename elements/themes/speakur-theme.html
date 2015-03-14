@@ -162,6 +162,12 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
             font-size: {{ fontSize }};
         }
 
+        html /deep/ paper-dropdown.speakur-paper-dropdown /deep/ .flexwrap,
+        html /deep/ paper-dialog.speakur-dialog /deep/ .flexwrap {
+            flex-wrap: wrap;
+            flex: 1;  /* need this? */
+        }
+
         html /deep/ #speakur-toast {
             background-color: {{ accent }};
             color: {{ accentText }};
