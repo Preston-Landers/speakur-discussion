@@ -36,11 +36,11 @@
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^2.2.4"
   },
-  "_release": "481c3b9322",
+  "_release": "135151d8ed",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "481c3b9322728a7a9fb2921d0a1554aefc1063d0"
+    "commit": "135151d8ed6670f8419bff4a7a838e67ea90353d"
   },
   "_source": "git://github.com/Preston-Landers/speakur-discussion.git",
   "_target": "master",
