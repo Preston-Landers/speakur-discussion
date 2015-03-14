@@ -27,6 +27,10 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
 
 //            window.i18nResources = {};
 
+            // getAsync:false has to be set when vulcanizing because things load so fast that polymer wants to
+            // translate strings before initialization has finished this produces blank strings that never get 'fixed'
+            // because the dependent values don't change
+
             i18n.init({
 /*
                 resStore: i18nResources,
@@ -35,6 +39,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 fallbackLng: 'en',
                 ns: 'speakur',
                 load: 'current',
+                getAsync: false,  // required when vulcanizing, produces warning in console
                 resGetPath: baseURL + 'locales/__ns__-__lng__.json'
             });
 

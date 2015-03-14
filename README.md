@@ -1,10 +1,11 @@
 speakur-discussion
 ==================
 
-This custom element (web component) provides a real-time discussion thread for any web page / article / resource.
+This custom HTML element (web component) provides a real-time discussion thread for any web page, article or other
+resource.
 
-The only server required is a free Firebase.com account to host the data.  All the comments and other data is stored on
-your Firebase account under your control.
+The only server that is required is a free Firebase.com account to host the data.  All the comments and other data is
+stored on your Firebase account under your control.
 
 A free Firebase account has resource limits but these limits should be adequate for a typical blog or low traffic site.
 If you wish to use this on a high traffic site you may need to pay Firebase.
@@ -24,7 +25,12 @@ https://preston-landers.github.io/speakur-discussion/components/speakur-discussi
 
 https://Preston-Landers.github.io/speakur-discussion/
 
-More demo threads coming.
+* Speakur can be loaded remotely and dropped on any page with minimum hassle. Here's a jsbin that demonstrates:
+
+http://jsbin.com/jubabubazu/8/edit
+
+Note that, as shown, the jsbin imports both Speaker and the Polymer framework as a single 1 MB (360 KB compressed) 
+vulcanized file.
 
 ## What does this software do?
 
@@ -53,12 +59,13 @@ The software is delivered as a Web Component custom element to be included in yo
 
 * Languages and themes selections update instantly
 
+* Given the experimental nature of Polymer and Web Components, support for different browsers may vary. 
+
 ## Quickstart for non-self-hosting
 
 I recommend setting up your own Firebase as described below whether or not you host the Speakur HTML files yourself.
 
-If you use the author's Firebase you will have no control over the data, so you should only do that for testing purposes. 
-Also, loading the 'raw' (non-concatenated) components will cause slower page loading times. 
+If you use my Firebase you will have no control over the data or traffic limits, so you should only do that for testing purposes. 
 
 That said, you can quickly add Speakur to almost any web page with a few simple steps:
 
@@ -70,18 +77,17 @@ That said, you can quickly add Speakur to almost any web page with a few simple 
     </script>
 ```
 
-* Then you can import the `<speakur-discussion>` custom element:
+* Then you import the `<speakur-discussion>` custom element:
 
 ```
     <link rel="import" 
         href="//preston-landers.github.io/speakur-discussion/components/speakur-discussion/speakur-discussion.html">
 ```
 
-* Now you can place the element somewhere on the page that you want the comment box
-to appear. The thread will be automatically set to the containing page location.  If you want
-to use a different unique ID for the thread, simply set the `href` attribute another one. 
-Keep in mind that if you're using the default Firebase then someone may already have 'claimed' that 
-`href` / link / ID.
+* Now you can place the element somewhere on the page that you want the comment box to appear. Each thread has a unique ID
+derived from the containing page location by default.  If you want to use a different unique ID for the thread, simply
+set the `href` attribute another value.  Keep in mind that if you're using the default Firebase then someone may already
+have 'claimed' that  `href` / link / ID.
 
 ```
     <speakur-discussion
@@ -92,7 +98,7 @@ Keep in mind that if you're using the default Firebase then someone may already 
 
 If you have your own Firebase set up (and you should) you can give it as `firebaseLocation=`
 
-* You now have a comment section!
+* Load your page and check out the results.
 
 ## Requirements for Self-Hosting
 
@@ -238,6 +244,8 @@ TODO: explain how to set these...
   you must register an 'application' with Google and/or Facebook and get an API key, and then add that to your Firebase account.
 
   I would like to support a self-contained user registration system which uses Firebase Simple Auth.
+  
+  It should also allow the page owner to select which auth systems will be used, and support Twitter and GitHub identities.
 
 * Page fails to load on Firefox with Adblock
 
