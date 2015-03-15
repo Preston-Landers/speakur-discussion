@@ -75,7 +75,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
             </speakur-compose>
 
             <header
-                layout horizontal center
+                layout horizontal center wrap
                 hidden?="{{ ! thread }}"
                 id="header" class="thread-header">
 
@@ -90,7 +90,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 <div style="max-width: 35em;" class="thread-title">
                     {{thread.title}}
                 </div>
-                <div class="thread-link">
+                <div class="thread-link" title="{{ 'open_new_window' | $$(lc) }}">
                     <small>
                         <a target="_blank" href="{{thread.href}}">/{{ 'new_window' | $$(lc) }}/</a>
                     </small>

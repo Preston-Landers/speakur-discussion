@@ -36,6 +36,13 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 this.toast(message);
             },
 
+            // Maybe unused - if so, delete
+            toastTime: function(ttime) {
+                var msg = PolymerExpressions.prototype.formatTimestamp(ttime) +
+                    ' ' + PolymerExpressions.prototype.formatTimestamp(ttime);
+                this.toast(msg);
+            },
+
             // Important! If you extend this element, as most speakur elements do, and the child element
             // has computed properties, you must COPY these base properties over b/c they won't be merged!!
             // https://github.com/Polymer/polymer/issues/933

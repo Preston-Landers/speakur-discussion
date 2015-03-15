@@ -120,57 +120,60 @@ https://github.com/Polymer/core-component-page/issues/7
 
             <!-- structural elements -->
             <div vertical layout class="speakur-layout">
-                <speakur-toolbar class="speakur-header-bar {{ closed ? 'speakur-header-bar-closed' : '' }}">
-                    <template if="{{ closed }}">
-                        <paper-icon-button
+                <div class="toolbar-border curved-small speakur-header-bar {{ closed ? 'speakur-header-bar-closed' : '' }}">
+                    <div horizontal center layout wrap class="speakur-toolbar speakur-toolbar-header">
+
+                        <template if="{{ closed }}">
+                            <paper-icon-button
                                 icon="speaker-notes"
                                 title="{{ 'show_comments' | $$(lc) }}"
                                 on-click="{{toggle}}">
-                        </paper-icon-button>
-                        <div class="speakur-header-titlebox speakur-toggle-link" on-click="{{toggle}}" flex>
-                            {{ 'View Comments' | $$(lc) }} ({{ $.threadView.replyCountDeep }})
-                        </div>
+                            </paper-icon-button>
+                            <div class="speakur-header-titlebox speakur-toggle-link" on-click="{{toggle}}"
+                                 flex>
+                                {{ 'View Comments' | $$(lc) }} ({{ $.threadView.replyCountDeep }})
+                            </div>
 
-                        <speakur-login-button
-                            style="margin-right: 6px;"
-                            user="{{user}}" statusKnown="{{statusKnown}}">
+                            <speakur-login-button
+                                style="margin-right: 6px;"
+                                user="{{user}}" statusKnown="{{statusKnown}}">
 
-                        </speakur-login-button>
-                    </template>
-                    <template if="{{ !closed }}">
-                        <paper-icon-button
+                            </speakur-login-button>
+                        </template>
+                        <template if="{{ !closed }}">
+                            <paper-icon-button
                                 title="{{ 'Hide' | $$(lc) }}"
                                 icon="remove-circle-outline"
                                 on-click="{{toggle}}" class="speakur-toggle-button speakur-close-button">
-                        </paper-icon-button>
-                        <div flex class="speakur-header-titlebox">
-                            {{xtitle}} &mdash; {{ 'replies_count' | $$({count: $.threadView.replyCountDeep}, lc) }}
-                        </div>
+                            </paper-icon-button>
+                            <div flex class="speakur-header-titlebox">
+                                {{xtitle}} &mdash; {{ 'replies_count' | $$({count: $.threadView.replyCountDeep}, lc) }}
+                            </div>
 
-                        <div class="admin-mode" hidden?="{{!statusKnown || !globals.isAdmin}}">
-                            {{ 'Admin Mode' | $$(lc) }}
-                        </div>
+                            <div class="admin-mode" hidden?="{{!statusKnown || !globals.isAdmin}}">
+                                {{ 'Admin Mode' | $$(lc) }}
+                            </div>
 
-<!--
-                        <paper-icon-button id="searchbutton" class="toolbar-icon"
-                                           on-click="{{search}}"
-                                           icon="search"></paper-icon-button>
--->
+                            <!--
+                            <paper-icon-button id="searchbutton" class="toolbar-icon"
+                                               on-click="{{search}}"
+                                               icon="search"></paper-icon-button>
+                            -->
 
-                        <speakur-login-button
-                            user="{{user}}"
-                            statusKnown="{{statusKnown}}">
-                        </speakur-login-button>
+                            <speakur-login-button
+                                user="{{user}}"
+                                statusKnown="{{statusKnown}}">
+                            </speakur-login-button>
 
-<!--
-                        <paper-icon-button id="menubutton" class="toolbar-icon"
-                                           on-click="{{menu}}"
-                                           icon="menu"></paper-icon-button>
--->
+                            <!--
+                            <paper-icon-button id="menubutton" class="toolbar-icon"
+                                               on-click="{{menu}}"
+                                               icon="menu"></paper-icon-button>
+                            -->
 
-                    </template>
-
-                </speakur-toolbar>
+                        </template>
+                    </div>
+                </div>
 
                 <core-collapse id="mainCollapse">
 
@@ -186,37 +189,39 @@ https://github.com/Polymer/core-component-page/issues/7
                         </speakur-thread-view>
                     </div>
 
-                    <speakur-toolbar class="speakur-footer-bar">
+                    <div class="toolbar-border curved-small">
 
-                        <paper-icon-button
-                            title="{{ 'Hide' | $$(lc) }}"
-                            icon="remove-circle-outline"
-                            on-click="{{toggle}}" class="speakur-toggle-button speakur-close-button">
-                        </paper-icon-button>
+                        <div horizontal center layout wrap class="speakur-toolbar speakur-toolbar-footer">
+                            <paper-icon-button
+                                title="{{ 'Hide' | $$(lc) }}"
+                                icon="remove-circle-outline"
+                                on-click="{{toggle}}" class="speakur-toggle-button speakur-close-button">
+                            </paper-icon-button>
 
-                        <div flex style="margin-left: 8px;">
-                            <!--Questionable where we want to put this, if anywhere.-->
-                            <!--<content></content>-->
-                            <a
-                                class="powered-by-link"
-                                target="_blank"
-                                href="{{speakurSoftwareLink}}">
-                                {{ 'powered_by' | $$(lc) }}
-                            </a>
+                            <div class="powered-by-link">
+                                <!--Questionable where we want to put this, if anywhere.-->
+                                <!--<content></content>-->
+                                <a target="_blank"
+                                    href="{{speakurSoftwareLink}}">
+                                    {{ 'powered_by' | $$(lc) }}
+                                </a>
+
+                            </div>
+                            <div flex class="speakur-copyright">
+                                <small>
+                                    {{ 'copyright_stmt' | $$(lc) }}
+                                </small>
+                            </div>
+                            <paper-icon-button
+                                    id="reportbutton"
+                                    on-click="{{reportProblem}}"
+                                    title="{{ 'report_a_problem' | $$(lc) }}"
+                                    icon="report-problem">
+                            </paper-icon-button>
 
                         </div>
-                        <div class="speakur-copyright">
-                            <small>
-                                {{ 'copyright_stmt' | $$(lc) }}
-                            </small>
-                        </div>
-                        <paper-icon-button
-                                id="reportbutton"
-                                on-click="{{reportProblem}}"
-                                title="{{ 'report_a_problem' | $$(lc) }}"
-                                icon="report-problem">
-                        </paper-icon-button>
-                    </speakur-toolbar>
+
+                    </div>
                 </core-collapse>
             </div>
 

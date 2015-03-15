@@ -23,12 +23,12 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
         <core-style ref="bootstrap-form"></core-style>
 
         <style>
-            .tool-btn {
-                margin-left: 12px;
+            .compose-bar > * {
+                margin-top: 14px;
+                margin-left: 0.75em;
             }
 
             .terms-link {
-                margin-left: 16px;
                 opacity: 0.85;
             }
 
@@ -40,6 +40,13 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 margin-right: 6px;
                 font-size: 90%;
                 font-weight: bold;
+            }
+            .posting-as-label {
+                white-space: nowrap;
+                margin-right: 4px;
+            }
+            .posting-as speakur-author-slug {
+                display: inline;
             }
 
             .preview-hr {
@@ -56,6 +63,18 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
             .edit-help-link:hover,
             .terms-link:hover {
                 text-decoration: underline;
+            }
+
+            @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+                .flex-small-screen {
+                    flex: 1 0 auto;
+                }
+            }
+
+            @media only screen and (min-device-width : 800px) {
+                .flex-large-screen {
+                    flex: 1 0 auto;
+                }
             }
         </style>
         <!-- TODO: on-error doesn't seem to work! -->
@@ -82,7 +101,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
 
         <form>
             <div class="body">
-                <div class="form-group">
+                <div class="">  <!--form-group-->
                     <label class="sr-only" for="commentText">
                         {{ 'leave_comment' | $$(lc) }}
                     </label>
@@ -96,7 +115,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
             </div>
             <div class="footer">
                 <template if="{{newText.length}}">
-                    <div horizontal layout center>
+                    <div horizontal layout center wrap class="compose-bar">
                         <div class="tool-btn edit-help-link" on-click="{{editingHelp}}">
                             {{ 'Editing Help' | $$(lc) }}
                         </div>
@@ -114,13 +133,18 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                             </core-tooltip>
                         </div>
 
-                        <div flex></div>
-                        <div horizontal layout end-justified center class="posting-as">
-                            <span style="margin-right: 4px;">
+                        <div class="flex-large-screen"></div>
+
+                        <div class="posting-as">
+                            <span class="posting-as-label">
                                 {{ 'posting_as' | $$(lc) }}
                             </span>
                             <speakur-author-slug author="{{globals.profile}}"></speakur-author-slug>
                         </div>
+
+                        <!-- flex space before buttons on small screens only --->
+                        <div class="flex-small-screen"></div>
+
                         <div
                             on-click="{{resetEditText}}"
                             title="{{ 'undo_changes_title' | $$(lc) }}"

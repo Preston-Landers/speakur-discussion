@@ -224,6 +224,9 @@
 
             this.globals.allowAnonymous = this.allowAnonymous;
 
+            // A few layout changes depend on this flag for small screen (e.g. phone) devices
+            this.globals.smallScreen = (window.innerWidth <= 800);
+
             // Start the 'global tick' which is updated every X seconds
             // to be used in expressions like globals.updateTick to give them an 'expiration time'
             this.fire('global-tick');

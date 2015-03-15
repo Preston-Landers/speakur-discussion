@@ -28,19 +28,30 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 /*font-style: italic;*/
                 opacity: 0.85;
             }
+
+            .username {
+                white-space: nowrap;
+            }
         </style>
-        <div layout horizontal center>
-            <template if="{{showPicture}}">
+
+        <!-- dont think I use this feature -->
+        <template if="{{ showPicture }}">
+            <div layout horizontal center>
                 <speakur-author-img
                     author="{{author}}"
                     width="{{imgWidth}}"
                     height="{{imgHeight}}">
                 </speakur-author-img>
-            </template>
-            <span class="username {{ {anon: is_anon, deleted: is_del } | tokenList }}">
-                {{ showUsername(author, lc) }}
-            </span>
-        </div>
+                <span class="username {{ {anon: is_anon, deleted: is_del } | tokenList }}">
+                    {{ showUsername(author, lc) }}
+                </span>
+            </div>
+        </template>
+        <span
+            hidden?="{{ showPicture }}"
+            class="username {{ {anon: is_anon, deleted: is_del } | tokenList }}">
+            {{ showUsername(author, lc) }}
+        </span>
 
     </template>
     <script>

@@ -18,7 +18,8 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
     <template>
         <style>
             .speakur-post-toolbar > div {
-                margin-right: 2.5em;
+                margin-right: 1em;
+                margin-bottom: 3px;
             }
 
             .speakur-post-toolbar > div:hover {
@@ -28,10 +29,24 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
 
             .speakur-post-toolbar > .report-post-button {
                 margin-right: 0;
-                margin-left: 30px;
+                /*margin-left: 30px;*/
                 /*font-size: 85%;*/
                 opacity: 0.7;
             }
+
+            @media only screen and (min-device-width : 800px) {
+                .speakur-post-toolbar > .report-post-button {
+                    margin-right: 0;
+                    margin-left: 34px;
+                }
+
+                .speakur-post-toolbar > div {
+                    margin-right: 2.2em;
+                    margin-bottom: 2px;
+                }
+
+            }
+
 
             .vote-block {
                 margin-right: 8px;
@@ -85,7 +100,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 height: 14px;
             }
         </style>
-        <div horizontal center layout class="speakur-post-toolbar" hidden?="{{ post.deleted }}">
+        <div horizontal center layout wrap class="speakur-post-toolbar" hidden?="{{ post.deleted }}">
             <div
                 title="{{ 'vote_up_title' | $$(lc) }}"
                 on-click="{{voteUp}}"

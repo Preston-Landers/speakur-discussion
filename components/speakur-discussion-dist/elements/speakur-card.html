@@ -50,26 +50,23 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
         <div class="card-container">
             <!--<paper-shadow class="shadow" z="{{shadowZ}}">-->
                 <article vertical layout>
-                    <template if="{{showheader}}">
-                        <!--remove self-start to have header expand to entire...-->
-                        <header
-                            self-start?="{{ !wideHeader }}"
-                            class="card card-header {{headerClass(level)}} {{ {'curved-header': curved} | tokenList }}"
-                            on-click="{{toggleCard}}">
-                            <content id="header" select=".header"></content>
-                        </header>
-                    </template>
+                    <!--remove self-start to have header expand to entire...-->
+                    <header
+                        self-start?="{{ !wideHeader }}"
+                        hidden?="{{ !showheader }}"
+                        class="card card-header {{headerClass(level)}} {{ {'curved-header': curved} | tokenList }}"
+                        on-click="{{toggleCard}}">
+                        <content id="header" select=".header"></content>
+                    </header>
                     <core-collapse opened id="bodycollapse">
                         <div class="card card-body">
                             <content select=":not(.footer)"></content>
                         </div>
-                        <template if="{{showfooter}}">
-                            <footer>
-                                <div class="card card-footer">
-                                    <content id="footer" select=".footer"></content>
-                                </div>
-                            </footer>
-                        </template>
+                        <footer hidden?="{{ !showfooter }}">
+                            <div class="card card-footer">
+                                <content id="footer" select=".footer"></content>
+                            </div>
+                        </footer>
                     </core-collapse>
                 </article>
             <!--</paper-shadow>-->

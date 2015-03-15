@@ -33,7 +33,6 @@ you hit save like the rest of the profile.  Or at least make cancel undo it.
             <style>
                 .flabel {
                     font-weight: bold;
-                    margin-left: 6em;
                 }
             </style>
 
@@ -46,11 +45,11 @@ you hit save like the rest of the profile.  Or at least make cancel undo it.
 
                 <form class="profile-form" id="profile-form">
 
-                    <div class="form-group" layout center horizontal="">
-                        <div class="flabel" flex>
+                    <div class="form-group" layout center wrap horizontal around-justified>
+                        <div class="flabel">
                             {{ 'language' | $$(lc) }}
                         </div>
-                        <div flex>
+                        <div>
                             <speakur-lang-select
                                 locale="{{ lc }}"
                                 id="languageInput" >
@@ -58,11 +57,11 @@ you hit save like the rest of the profile.  Or at least make cancel undo it.
                         </div>
                     </div>
 
-                    <div class="form-group" layout center horizontal="">
-                        <div class="flabel" flex>
+                    <div class="form-group" layout center wrap horizontal around-justified>
+                        <div class="flabel">
                             {{ 'Theme' | $$(lc) }}
                         </div>
-                        <div flex>
+                        <div>
                             <speakur-theme-select
                                 id="themeInput" >
                             </speakur-theme-select>
