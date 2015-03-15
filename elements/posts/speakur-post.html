@@ -32,6 +32,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
         <style>
             .post-card-container {
                 margin: 0 0 12px 0;
+                position: relative;
             }
 
             /* give less padding to the body of the card within. maybe just change the card itself */
@@ -56,6 +57,11 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 margin: 0;
             }
 
+            .post-author-img-smallScreen {
+                position: absolute;
+                right: 4px;
+                top: 3px;
+            }
 
             speakur-author-slug {
                 margin-left: 4px;
@@ -97,7 +103,9 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
             <div class="post-and-replies {{indentClass}}">
                 <div layout horizontal class="post-container">
 
-                <div class="author-img-div" _style="min-width: {{indentWidth}}px;">
+                <div class="author-img-div"
+                     hidden?="{{ globals.smallScreen }}"
+                     _style="min-width: {{indentWidth}}px;">
                     <core-collapse opened id="imgCollapse">
                         <div class="post-author-img">
                             <speakur-author-img
@@ -108,6 +116,13 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                     </core-collapse>
                 </div>
                 <div flex class="post-card-container">
+                    <div class="post-author-img post-author-img-smallScreen" hidden?="{{ !globals.smallScreen }}">
+                        <speakur-author-img
+                            width="36" height="36"
+                            author="{{previewing ? globals.profile : post.author}}">
+                        </speakur-author-img>
+                    </div>
+
 
                     <speakur-card
                         id="card"
@@ -120,6 +135,12 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                         <style>
                             .header {
                                 flex-wrap: wrap;
+                                margin-right: 1em;  /* allow for the image being there */
+                            }
+                            @media only screen and (min-device-width : 800px) {
+                                .header {
+                                    margin-right: 0;
+                                }
                             }
 
                             .created-time {
@@ -212,7 +233,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
 
                                 </div>
                             </template>
-                        </div>
+                        </div>  <!-- end HEADER -->
 
                         <!-- post BODY -->
                         <div class="body post-body" on-marked-js-highlight="{{hilight}}">
@@ -226,7 +247,7 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                             <div class="deleted-post-body" hidden?="{{ !post.deleted }}">
                                 [{{ 'deleted' | $$(lc) }}]
                             </div>
-                        </div>
+                        </div>  <!-- end BODY -->
 
                         <!-- post FOOTER -->
                         <speakur-post-footer
