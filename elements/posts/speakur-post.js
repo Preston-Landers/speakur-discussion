@@ -204,6 +204,7 @@
             // this.log("post collapsed", this.post, details, sender);
             this.isCollapsed = !this.isCollapsed;
             this.$.imgCollapse.toggle();
+            this.$.imgMobileCollapse.toggle();
             this.$.extraCollapse.toggle();
             e.stopPropagation();
         },

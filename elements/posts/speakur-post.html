@@ -117,10 +117,12 @@ The complete set of contributors may be found at http://Preston-Landers.github.i
                 </div>
                 <div flex class="post-card-container">
                     <div class="post-author-img post-author-img-smallScreen" hidden?="{{ !globals.smallScreen }}">
-                        <speakur-author-img
-                            width="36" height="36"
-                            author="{{previewing ? globals.profile : post.author}}">
-                        </speakur-author-img>
+                        <core-collapse opened id="imgMobileCollapse">
+                            <speakur-author-img
+                                width="36" height="36"
+                                author="{{previewing ? globals.profile : post.author}}">
+                            </speakur-author-img>
+                        </core-collapse>
                     </div>
 
 
